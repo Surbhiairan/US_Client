@@ -47,3 +47,28 @@ POST -------------http://localhost:5000/api/user ----------- Register
             "changedRows": 0
         }
 
+
+POST ----------------------http://localhost:5000/api/userprofile ----------- Create Profile
+req -- {
+	    "user_id" : "1",
+		"profile_img" : ",
+		"bio" : "",
+	     "f_link" : "",
+	    "i_link" : "",
+	    "t_link": "",
+	    "y_link" : ""
+}
+
+res --- 
+    {
+        "id": 20,
+        "profileImg": "https://s3.amazonaws.com/postcurve/1552485323044.png",
+        "bio": null,
+        "fLink": null,
+        "tLink": null,
+        "yLink": null,
+        "createDate": "2019-03-13 19:25:23",
+        "updateDate": null,
+        "createdBy": "Test User",
+        "updatedBy": null
+    }

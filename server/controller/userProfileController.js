@@ -10,6 +10,16 @@ class UserProfileController{
                         res.send(err);
                 })
         }
+
+        static updateProfile(req,res){
+                let profile = req.body;
+                UserProfileService.updateProfile(profile).then( data =>{
+                        res.send(data);
+                }).catch(err =>{
+                        res.status(500);
+                        res.send(err);
+                })
+        }
 }
 
 module.exports = UserProfileController;

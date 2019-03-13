@@ -1,0 +1,5 @@
+export const feedConstant = {
+    FEEDS_LOADING: 'FEEDS_LOADING',
+    FEEDS_SUCCESS: 'FEEDS_SUCCESS',
+    FEEDS_FAILURE: 'FEEDS_FAILURE'
+}

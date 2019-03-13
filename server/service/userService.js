@@ -1,0 +1,134 @@
+const DB = require('../util/db');
+const bcrypt = require('bcrypt');
+const salt = 10;
+const User = require("../model/user");
+const config = require('../config/env');
+const jwt = require('jsonwebtoken');
+
+
+class userService {
+
+    static getJWTToken(payload) {
+        return jwt.sign(JSON.stringify(payload), config.secret);
+    }
+
+    static addUser(user) {
+        user['password'] = bcrypt.hashSync(user.password, salt);
+        user = DB.addAttributesForNew(user);
+
+        return new Promise((resolve, reject) => {
+            var connection;
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query(
+                    `INSERT INTO User SET ?`, user, (err, data) => {
+                        if (err) {
+                            DB.rollbackTransaction(connection);
+                            DB.release(connection)
+                            reject(err);
+                        } else if (data) {
+                            DB.commitTransaction(connection);
+                            DB.release(connection)
+                            resolve(data);
+                        }
+                    });
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+
+    static authUser(user) {
+        var email = user.email;
+        var password = user.password;
+        return new Promise((resolve, reject) => {
+            var connection;
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query(
+                    `select *  from user where email = ?`, email, (err, data) => {
+                        DB.release(connection)
+                        if (err) {
+                            reject(err);
+                        } else if (data && data.length > 0) {
+                            let hasPass = data[0].password;
+                            let user = new User(data[0]);
+                            let cs = bcrypt.compareSync(password, hasPass);
+                            if (cs) {
+                                if (!user.isActive) {
+                                    reject({ "msg": "USER_INACTIVE" })
+                                } else {
+                                    user['token'] = userService.getJWTToken(user);
+                                    resolve(user);
+                                }
+                            } else {
+                                reject({ "msg": "INVALID_PASSWORD" })
+                            }
+                        } else if (data.length == 0) {
+                            reject({ "msg": "INVALID_EMAIL" });
+                        }
+                    });
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+
+    static resetPass(user) {
+
+        var email = user.email;
+        var password = bcrypt.hashSync(user.password, salt);
+        return new Promise((resolve, reject) => {
+            var connection;
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query(
+                    `update user set password =? where email = ?`, [password, email], (err, data) => {
+                        if (err) {
+                            DB.commitTransaction(connection);
+                            DB.release(connection)
+                            reject(err);
+                        } else {
+                            DB.rollbackTransaction(connection);
+                            DB.release(connection)
+                            resolve(data);
+                        }
+                    });
+            });
+        });
+    }
+
+    static activateUser(userId) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then( conn =>{
+                connection = conn;
+                return DB.beginTransaction(connection);
+            })
+            .then(() => {
+                    connection.query('update user set is_active =? where id = ?', [1, userId], (err, data) => {
+
+                        if (err) {
+                            reject(err);
+                        } else {
+                            DB.commitTransaction(connection);
+                            connection.query('select * from user where id = ?', [userId], (err, data) => {
+                                DB.release(connection);
+                                if (err) { 
+                                    reject(err) }
+                                else {
+                                    let user = new User(data[0]);
+                                    resolve(user);
+                                }
+                            });
+                        }
+                    });
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        });
+    }
+}
+
+module.exports = userService;

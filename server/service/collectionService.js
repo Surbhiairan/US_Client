@@ -4,14 +4,22 @@ const Collection = require('../model/collection');
 class CollectionService{
 
     static getCollectionByID(id){
-        var connection;
         return new Promise((resolve,reject) =>{
-            connection.query(`select * from collection where id = ? `,[id],(err,data) =>{
-                if( err ){ reject(err) }
-                else{
-                    let collection = new Collection(data[0]);
-                    resolve(collection);
-                }
+            var connection;
+            DB.getConnection().then(conn => {
+                connection = conn;
+                return connection
+
+            })
+            .then( connection => {
+                connection.query(`select * from collection where id = ? `,[id],(err,data) =>{
+                    DB.release(connection);
+                    if( err ){ reject(err) }
+                    else{
+                        let collection = new Collection(data[0]);
+                        resolve(collection);
+                    }
+                })
             })
             .catch( err => {
                 reject(err);
@@ -42,9 +50,11 @@ class CollectionService{
                         DB.release(connection);
                         reject(err);
                     }else{
-                        DB.getCollectionByID( data.insertId).then( collection => {
-                            resolve(collection);
-                        })
+                        DB.commitTransaction(connection).then(() =>{
+                            CollectionService.getCollectionByID( data.insertId).then( collection => {
+                                resolve(collection);
+                            })
+                        });                        
                     }
                 })
             })
@@ -52,6 +62,34 @@ class CollectionService{
                 reject(err);
             })
         })
+    }
+
+    static getUsersCollection(userId){
+        console.log("userId...........",userId)
+        var connection;
+        return new Promise( (resolve,reject) =>{
+            DB.getConnection().then( conn => {
+                connection = conn;
+                connection.query('select * from collection where user_id = ?',[userId],(err,data) => {
+                    DB.release(connection);
+                    if(err){
+                        reject(err);
+                    }else{
+                        console.log(data)
+                        resolve(CollectionService.mapToCollection(data));
+                    }
+                })
+            }).catch(err => {
+                reject(err);
+            })
+        });
+    }
+
+    static mapToCollection(collections){
+        let result = collections.map( collection => {
+            return new Collection(collection)
+        });
+        return result;
     }
 }
 

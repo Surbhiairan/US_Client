@@ -5,6 +5,8 @@ class User{
         this.email = obj && obj.email ? obj.email : null;
         this.role = obj && obj.role ? obj.role : null;
         this.isActive = obj && obj.is_active ? (obj.is_active == 1) ? true : false : false;
+        this.isProfile = obj && obj.is_profile ? (obj.is_profile == 1) ? true : false : false;
+        
     }
 }
 

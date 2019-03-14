@@ -29,8 +29,10 @@ class UserProfileService {
                                     reject(err);
                                 } else if (data) {
                                     insertedId = data.insertId;
-                                    DB.commitTransaction(connection).then(() => {
-                                        r();
+                                    UserProfileService.updateUserForProfile(profile.user_id).then(data => {
+                                        DB.commitTransaction(connection).then(() => {
+                                            r();
+                                        })
                                     })
                                 }
                             });
@@ -52,6 +54,23 @@ class UserProfileService {
         })
     }
 
+    static updateUserForProfile(userId) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            connection = DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query('update user set is_profile = ? where id = ? ', [1, userId], (err, res) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(res);
+                    }
+                })
+            }).catch(err => {
+                reject(err);
+            })
+        })
+    }
     static updateProfile(profile) {
 
         var connection;
@@ -113,26 +132,26 @@ class UserProfileService {
         });
     }
 
-    static getProfile(userId){
-        return new Promise( (resolve,reject) =>{
+    static getProfile(userId) {
+        return new Promise((resolve, reject) => {
             var connection;
-            DB.getConnection( conn =>{
+            DB.getConnection(conn => {
                 connection = conn;
                 return connection;
             })
-            .then( connection =>{
-                connection.query('select * from user_profile where user_id =? ', [userId] , (err,data) =>{
-                    if(err){ 
-                        reject(err);
-                    }else{
-                        let userProfile = new UserProfile( data[0] );
-                        resolve(userProfile);
-                    }
+                .then(connection => {
+                    connection.query('select * from user_profile where user_id =? ', [userId], (err, data) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            let userProfile = new UserProfile(data[0]);
+                            resolve(userProfile);
+                        }
+                    });
+                })
+                .catch(err => {
+                    reject(err);
                 });
-            })  
-            .catch(err =>{
-                reject(err);
-            });
         })
     }
 

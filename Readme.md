@@ -80,3 +80,36 @@ GET http://localhost:5000/api/userprofile/:userID
 
 
 create a new collection ; 
+
+
+
+
+
+GET collection for User 
+
+GET  - http://localhost:5000/api/user/1/collections
+Response 
+[
+    {
+        "id": 5,
+        "userId": 1,
+        "collectionTitle": "test Collection",
+        "collectionText": "Description ",
+        "collectionImage": "https://s3.amazonaws.com/postcurve/1552548566902.png",
+        "createDate": "2019-03-14 12:59:28",
+        "updateDate": null,
+        "createdBy": "Test User",
+        "updatedBy": null
+    },
+    {
+        "id": 6,
+        "userId": 1,
+        "collectionTitle": "test Collection",
+        "collectionText": "Description ",
+        "collectionImage": "https://s3.amazonaws.com/postcurve/1552550712412.png",
+        "createDate": "2019-03-14 13:35:14",
+        "updateDate": null,
+        "createdBy": "Test User",
+        "updatedBy": null
+    }
+]

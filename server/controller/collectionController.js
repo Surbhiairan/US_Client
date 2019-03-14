@@ -11,6 +11,18 @@ class CollectionController{
             res.send(err)
         })
     }
+
+
+    static getUsersCollection(req,res){
+        console.log("1....................")
+        let userId = req.params['userId'];
+        collectionService.getUsersCollection(userId).then( collections => {
+            res.send(collections);
+        }).catch( err => {
+            res.status(501);
+            res.send(err);
+        })
+    }
 }
 
 module.exports = CollectionController;

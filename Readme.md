@@ -72,3 +72,11 @@ res ---
         "createdBy": "Test User",
         "updatedBy": null
     }
+
+
+get Profile by user ID : 
+
+GET http://localhost:5000/api/userprofile/:userID
+
+
+create a new collection ; 

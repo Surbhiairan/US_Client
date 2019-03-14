@@ -10,6 +10,6 @@ router.get('/ping', (req, res) =>
 
 router.use('/user', userRoutes);
 router.use('/userprofile', userProfileRoutes);
-router.use('/collections',collectionRoutes);
+router.use('/collection',collectionRoutes);
 
 module.exports = router;

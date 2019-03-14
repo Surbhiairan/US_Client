@@ -9,7 +9,7 @@ userRouter.post('/', userController.addUser)
 userRouter.post('/authenticate', userController.authUser)
 userRouter.post('/resetPassword', userController.resetPass)
 userRouter.post('/:userId/activateUser', userController.activateUser)
-userRouter.get('/:userId/collections', Auth.isAuthenticated, collectionController.getUsersCollection)
+userRouter.get('/:userId/collection', Auth.isAuthenticated, collectionController.getUsersCollection)
 
 
 

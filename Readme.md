@@ -117,7 +117,7 @@ Response
 
 
 Update a collection  -- 
-PATCH -- http://localhost:5000/api/collection/collectionId 
+PATCH -- http://localhost:5000/api/collections/collectionId 
 
 Req  - 
 {
@@ -140,3 +140,7 @@ Res --
     "createdBy": "Test User",
     "updatedBy": "Test User"
 }
+
+Get all  collections --- 
+
+GET -- http://localhost:5000/api/collections

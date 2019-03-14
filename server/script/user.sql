@@ -29,4 +29,20 @@ set @query = IF(
 prepare stmt from @query;
 EXECUTE stmt;
 
+SELECT count(*)
+INTO @exist_column
+FROM information_schema.columns
+WHERE COLUMN_NAME = 'email'
+      AND TABLE_NAME = 'user'
+      AND TABLE_SCHEMA = Database();
+
+set @query = IF(
+    @exist_column < 1, -- column does not exist
+    'ALTER TABLE user ADD UNIQUE (email);', -- insert column first
+    'select \'Column Exists\' status' -- else just do meaningless select
+);
+prepare stmt from @query;
+EXECUTE stmt;
+
+
 

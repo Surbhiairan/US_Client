@@ -82,7 +82,6 @@ class UserProfileService {
                 return DB.beginTransaction(connection);
             })
                 .then(() => {
-                    console.log("ID.... ", profile.id)
                     return new Promise((resolve, reject) => {
                         connection.query('select * from user_profile where id = ? ', [profile.id], (err, data) => {
                             if (err) { reject(err) }
@@ -108,7 +107,6 @@ class UserProfileService {
                         profile.t_link, profile.y_link, userProfile.createDate, userProfile.update_date,
                         userProfile.createdBy, userProfile.updated_by, profile.id], (err, data) => {
                             if (err) {
-                                console.log(err)
                                 DB.rollbackTransaction(connection);
                                 reject(err);
                             }
@@ -126,7 +124,6 @@ class UserProfileService {
                             }
                         });
                 }).catch(err => {
-                    console.log(err)
                     reject(err);
                 });
         });

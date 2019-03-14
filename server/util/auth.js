@@ -1,4 +1,6 @@
 const config = require('../config/env');
+const jwt = require('jsonwebtoken');
+
 class Auth {
 
     static getToken(req) {
@@ -12,6 +14,7 @@ class Auth {
         var token = Auth.getToken(req);
         if (token && token !== null) {
             jwt.verify(token, config.secret, function (err, decodedToken) {
+                req.body['loggedInUser'] = decodedToken;
                 if (err) {
                     //res.sendStatus(401); -- To Change
                     next();

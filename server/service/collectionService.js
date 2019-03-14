@@ -65,7 +65,6 @@ class CollectionService{
     }
 
     static getUsersCollection(userId){
-        console.log("userId...........",userId)
         var connection;
         return new Promise( (resolve,reject) =>{
             DB.getConnection().then( conn => {
@@ -75,7 +74,6 @@ class CollectionService{
                     if(err){
                         reject(err);
                     }else{
-                        console.log(data)
                         resolve(CollectionService.mapToCollection(data));
                     }
                 })
@@ -91,6 +89,85 @@ class CollectionService{
         });
         return result;
     }
+
+   
+    static editCollection(collectionId,coll) {
+        var connection;
+        var collection;
+        return new Promise((resolve, reject) => {
+
+            DB.getConnection().then(conn => {
+                connection = conn;
+                return DB.beginTransaction(connection);
+            })
+                .then(() => {
+                    
+                    return new Promise((resolve, reject) => {
+                        connection.query('select * from collection where id = ? ', [collectionId], (err, data) => {
+                            if (err) { reject(err) }
+                            else {
+                                collection = new Collection(data[0]);
+                                if (coll.collection_image) {
+                                    AWS.updateProfile(coll.collection_image, collection.collectionImage).then(url => {
+                                        resolve(url);
+                                    })
+                                } else {
+                                    resolve(collection.collectionImage);
+                                }
+                            }
+                        });
+                    });
+                })
+                .then((imageURL) => {
+                    collection = DB.addAttributesForEdit(collection);                    
+                    connection.query(`update collection set collection_title =? ,collection_text = ? ,collection_image = ? ,create_date=?,update_date=?,created_by=?,updated_by=? where id=?`,
+                        [ coll.collection_title,coll.collection_text, imageURL, collection.createDate, collection.update_date,
+                            collection.createdBy, collection.updated_by, collectionId], (err, data) => {
+                            if (err) {
+                                DB.rollbackTransaction(connection);
+                                DB.release(connection);
+                                reject(err);
+                            }
+                            else {
+                                DB.commitTransaction(connection);
+                                connection.query('select * from collection where id = ? ', [collectionId], (err, data) => {
+                                    DB.release(connection);
+                                    if (err) {
+                                        reject(err)
+                                    }
+                                    else {
+                                        resolve(new Collection(data[0]));
+                                    }
+                                });
+                            }
+                        });
+                }).catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+
+    static getAllCollection(){
+        var connection;
+        return new Promise( (resolve,reject) =>{
+            DB.getConnection().then( conn => {
+                connection = conn;
+                connection.query('select * from collection',[],(err,data) => {
+                    DB.release(connection);
+                    if(err){
+                        reject(err);
+                    }else{
+                        resolve(CollectionService.mapToCollection(data));
+                    }
+                })
+            }).catch(err => {
+                reject(err);
+            })
+        });
+    }
+
+
 }
 
 module.exports = CollectionService;

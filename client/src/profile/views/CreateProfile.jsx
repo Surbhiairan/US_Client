@@ -61,15 +61,14 @@ class CreateProfile extends React.Component {
 
     handleCreateProfile = (e) => {
         e.preventDefault();
-        let user = JSON.parse(localStorage.getItem('user'));
+        //let user = JSON.parse(localStorage.getItem('user'));
         let values = {
-            "name": user.data.name,
-            "profile_image_url": user.data.profile_image_url,
-            "about_you":this.state.description,
-            "facebook_link":this.state.facebook,
-            "instagram_link": this.state.instagram,
-            "twitter_link": this.state.twitter,
-            "youtube_link": this.state.youTube,
+            "profile_img": this.state.imagePreviewUrl,
+            "bio": this.state.description,
+            "f_link": this.state.facebook,
+            "i_link": this.state.instagram,
+            "t_link": this.state.twitter,
+            "y_link": this.state.youTube,
         }
         this.props.createProfile(values, this.props.history);
     }

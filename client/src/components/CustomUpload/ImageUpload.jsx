@@ -5,14 +5,13 @@ import PropTypes from "prop-types";
 // core components
 import {Button} from '@material-ui/core'
 import defaultImage from "../../assets/img/default-image.png";
-//import defaultAvatar from "assets/img/placeholder.jpg";
 
 class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       file: null,
-      imagePreviewUrl: defaultImage
+      imagePreviewUrl: this.props.imagePreviewUrl || defaultImage
     };
     this.handleImageChange = this.handleImageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,9 +53,9 @@ class ImageUpload extends React.Component {
     } = this.props;
     return (
       <div className="fileinput text-center">
-        <input type="file" onChange={this.handleImageChange} ref="fileInput" />
+        <input type="file" onChange={ e => this.props.handleImageChange(e)} ref="fileInput" />
         <div className={"thumbnail" + (avatar ? " img-circle" : "")}>
-          <img src={this.state.imagePreviewUrl} alt="..." width="100%"/>
+          <img src={this.props.imagePreviewUrl} alt="..." width="100%"/>
         </div>
         <div>
           {this.state.file === null ? (
@@ -69,10 +68,7 @@ class ImageUpload extends React.Component {
                 Change
               </Button>
               {avatar ? <br /> : null}
-              <Button
-                
-                onClick={() => this.handleRemove()}
-              >
+              <Button onClick={() => this.handleRemove()}>
                 <i className="fas fa-times" /> Remove
               </Button>
             </span>

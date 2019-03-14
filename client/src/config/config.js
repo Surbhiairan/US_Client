@@ -1,15 +1,15 @@
-export const API_ROOT = 'http://18.223.218.199:9000/api/v1.0/';
+export const API_ROOT = 'http://localhost:5000/api/';
 
 export const URI = {
-    REGISTRATION: 'core/register/',
-    LOGIN: 'core/login/',
+    REGISTRATION: 'user',
+    LOGIN: 'user/authenticate',
     F_LOGIN: 'core/flogin/',
     G_LOGIN: 'core/glogin/',
-    PROFILE: 'core/profile/',
+    PROFILE: 'userprofile',
     LOGOUT: 'core/logout/',
     USER_PROFILE: 'core/{0}/profile/',
     USER_COLLECTION: 'collection/?user_id={0}',
-    COLLECTION: 'collection/',
+    COLLECTION: 'collection',
     GET_FEEDS: 'https://5c722f0dba65bb0014ebefb0.mockapi.io/getFeeds',
     POST: 'post/',
     COLLECTION_DETAIL: 'collection/{0}',

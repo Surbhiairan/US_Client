@@ -30,7 +30,7 @@ const styles = theme => ({
 });
 
 const RegistrationSchema = Yup.object().shape({
-    name: Yup.string()
+    first_name: Yup.string()
         .required("This field is required"),
     email: Yup.string()
         .email("Please enter correct email format")
@@ -51,10 +51,10 @@ class Registration extends React.Component {
         return (
             <Formik
                 initialValues={{
-                    name: '',
+                    first_name: '',
                     email: '',
                     password: '',
-                    tnc: true
+                   // tnc: true
                 }}
                 onSubmit={(values) => this.handleSubmit(values)}
                 validationSchema={RegistrationSchema}
@@ -65,17 +65,17 @@ class Registration extends React.Component {
                         </h2>
                         <GridItem xs={12} className={classes.gridItem}>
                             <TextField
-                                id="name"
+                                id="first_name"
                                 label="Name"
                                 className={classes.textField}
                                 type="text"
-                                name="name"
+                                name="first_name"
                                 margin="normal"
                                 variant="outlined"
                                 onChange={handleChange}
                             />
-                            {errors.name && touched.name ? (
-                                <div style={{ color: "red" }}>{errors.name}</div>
+                            {errors.first_name && touched.first_name ? (
+                                <div style={{ color: "red" }}>{errors.first_name}</div>
                             ) : null}
                         </GridItem>
                         <GridItem xs={12} className={classes.gridItem}>

@@ -3,14 +3,15 @@ import { API_ROOT, URI } from '../config/config';
 
 export const createProfile = (values, history) => {
     let token = JSON.parse(localStorage.getItem('user')).token;
+    console.log("values------", values)
     return (dispatch) => {
         if(token!=null){
         dispatch({ type: profile.CREATE_PROFILE_LOADING })
         fetch(API_ROOT + URI.PROFILE, {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':'JWT '+token
+                'token': token
             },
             body: JSON.stringify(values)
         })

@@ -13,7 +13,7 @@ export const register = (values, history) => {
         })
         .then(res => res.json())
         .then(data => {
-            if(data.data) {
+            if(data.insertId) {
                 dispatch({
                     type: auth.REGISTRATION_SUCCESS,
                     payload: data
@@ -24,7 +24,7 @@ export const register = (values, history) => {
                     type: auth.REGISTRATION_FAILURE,
                     payload: data.message
                 })
-                alert(data.message)
+                alert("server error")
             }
             
         })
@@ -49,13 +49,13 @@ export const login = (values, history) => {
         })
         .then(res => res.json())
         .then(data => {
-            if(data.data) {
+            if(data.id) {
                 dispatch({
                     type: auth.LOGIN_SUCCESS,
                     payload: data
                 })
                 localStorage.setItem('user',JSON.stringify(data))
-                if(data.data.is_profile_created){
+                if(data.isProfile === true){
                     history.push('/feeds');
                 }
                 else history.push('/profile');

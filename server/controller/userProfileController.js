@@ -20,6 +20,17 @@ class UserProfileController{
                         res.send(err);
                 })
         }
+
+        static getProfile(req,res){
+                let userId = req.params['userId'];
+                UserProfileService.getProfile(userId).then( data =>{
+                        res.send(data);
+                }).catch( err =>{
+                        res.status(500);
+                        res.send(err);
+                })
+
+        }
 }
 
 module.exports = UserProfileController;

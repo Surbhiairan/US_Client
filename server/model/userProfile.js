@@ -6,6 +6,7 @@ class UserProfile{
         this.profileImg = obj && obj.profile_img ? obj.profile_img : null;
         this.bio = obj && obj.bio ? obj.bio : null;
         this.fLink = obj && obj.f_link ? obj.f_link : null;
+        this.iLink = obj && obj.i_link ? obj.i_link : null;
         this.tLink = obj && obj.t_link ? obj.t_link : null;
         this.yLink = obj && obj.y_link ? obj.y_link : null;
         this.createDate = obj && obj.create_date ? obj.create_date : null;

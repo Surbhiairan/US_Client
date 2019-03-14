@@ -16,8 +16,11 @@ class CollectionService{
                     DB.release(connection);
                     if( err ){ reject(err) }
                     else{
-                        let collection = new Collection(data[0]);
-                        resolve(collection);
+                        let collection = {}
+                        if(data && data.length > 0 ){
+                           collection  = new Collection(data[0]);                            
+                        }
+                        resolve(collection);                        
                     }
                 })
             })

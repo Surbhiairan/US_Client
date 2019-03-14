@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `collection_id`  int(11) NOT NULL,
-  `post_type` varchar(1025)  NULL, 
+  `post_type` tinyInt(1)  NULL, 
   `post_title` varchar(1024)  NULL,
   `post_text` Text  NULL,
   `post_tags` varchar(1024)  NULL, 

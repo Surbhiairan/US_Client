@@ -4,6 +4,8 @@ const Auth = require('../util/auth');
 const CollectionController = require('../controller/collectionController');
 
 collectionRouter.get('/', Auth.isAuthenticated ,CollectionController.getAllcollection)
+collectionRouter.get('/:collectionId', Auth.isAuthenticated ,CollectionController.getAllcollectionById)
+
 collectionRouter.post('/', Auth.isAuthenticated ,CollectionController.addCollection)
 collectionRouter.patch('/:collectionId', Auth.isAuthenticated ,CollectionController.editCollection)
 

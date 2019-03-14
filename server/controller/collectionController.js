@@ -34,6 +34,19 @@ class CollectionController{
         })
     }
 
+    
+    static getAllcollectionById(req,res){
+        let id = req.params['collectionId']
+        collectionService.getCollectionByID(id).then( (collection ) =>{
+            res.send(collection);
+        })
+        .catch(err => {
+            res.status(500);
+            res.send(err);
+        }) 
+    }
+
+
     static getAllcollection(req,res){        
             collectionService.getAllCollection().then( (collections) =>{
                 res.send(collections);

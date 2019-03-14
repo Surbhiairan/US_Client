@@ -1,4 +1,6 @@
 const config = require('../config/env');
+const jwt = require('jsonwebtoken');
+
 class Auth {
 
     static getToken(req) {

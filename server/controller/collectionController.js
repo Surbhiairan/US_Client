@@ -34,6 +34,15 @@ class CollectionController{
         })
     }
 
+    static getAllcollection(req,res){        
+            collectionService.getAllCollection().then( (collections) =>{
+                res.send(collections);
+            })
+            .catch(err => {
+                res.status(501);
+                res.send(err);
+            })    
+    }
     
 }
 

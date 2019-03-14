@@ -50,7 +50,7 @@ export const newCollection = (values, history) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':'JWT '+token
+                'token': token
             },
             body: JSON.stringify(values)
         })

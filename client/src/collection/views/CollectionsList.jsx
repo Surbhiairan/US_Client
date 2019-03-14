@@ -34,10 +34,10 @@ class CollectionsList extends React.Component {
 
             return (
                 <Grid container direction={"row"} justify="center">
-                {collections.map(d => {
+                {collections.map(collection => {
                   return (
                     <GridItem >
-                      <Link to={`/collection/${d.id}`}>
+                      <Link to={`/collection/${collection.id}`}>
                          <Card className={classes.card}>
                             <CardActionArea>
                             <CardMedia
@@ -45,18 +45,18 @@ class CollectionsList extends React.Component {
                               alt="Contemplative Reptile"
                               className={classes.media}
                               height="140"
-                              image={d.header_image_url}
+                              image={collection.collectionImage}
                               title="Contemplative Reptile"
                             />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    {d.title}
+                                    {collection.collectionTitle}
                                 </Typography>
                                 <Typography component="p">
-                                    {d.content}
+                                    {collection.collectionText}
                                 </Typography>
                                 <Typography component="p">
-                                    {d.no_of_followers} people follow this collection
+                                    {collection.no_of_followers} people follow this collection
                                 </Typography>
                             </CardContent>
                           </CardActionArea>

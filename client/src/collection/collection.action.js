@@ -12,7 +12,7 @@ export const fetchMyCollections = (history) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':'JWT '+token
+                'token': token
             },
         })
         .then(res => res.json())

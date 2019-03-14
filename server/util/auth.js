@@ -16,15 +16,15 @@ class Auth {
             jwt.verify(token, config.secret, function (err, decodedToken) {
                 req.body['loggedInUser'] = decodedToken;
                 if (err) {
-                    //res.sendStatus(401); -- To Change
-                    next();
+                    res.sendStatus(401); 
+                    //next();
                 } else {
                     next();
                 }
             });
         } else {
-           // res.sendStatus(401); -- To change
-           next();
+            res.sendStatus(401); 
+          // next();
         }
     };
 

@@ -3,10 +3,10 @@ const app = express();
 const path = require('path');
 const port = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 
 const apiRoutes = require('./server/routes');
-
+app.use(cors());
 app.use(bodyParser.json({'limit' : '100mb'}));
 app.use('/api',apiRoutes);
 

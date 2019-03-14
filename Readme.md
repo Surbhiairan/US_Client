@@ -171,3 +171,22 @@ GET http://localhost:5000/api/post/:postID
 Find all POST for a collection 
 GET 
 http://localhost:5000/api/collection/:collectionID/post
+
+Update Post ---- 
+Patch http://localhost:5000/api/post/8
+
+req - 
+{
+    "post_type": 1,
+    "post_title": "Test Post",
+    "post_img" : "..........."
+    "post_text": "post Description ",
+    "post_tags": "test,post,first tag",
+    "post_video_url": "null",
+    "post_link_url": "null",
+    "createDate": "2019-03-14 19:30:52",
+    "updateDate": null,
+    "createdBy": "Test User",
+    "updatedBy": null
+}
+Res --

@@ -18,7 +18,7 @@ class CollectionController{
         collectionService.getUsersCollection(userId).then( collections => {
             res.send(collections);
         }).catch( err => {
-            res.status(501);
+            res.status(500);
             res.send(err);
         })
     }
@@ -29,7 +29,7 @@ class CollectionController{
         collectionService.editCollection(collectionId,collection).then( collections => {
             res.send(collections);
         }).catch( err => {
-            res.status(501);
+            res.status(500);
             res.send(err);
         })
     }
@@ -52,7 +52,7 @@ class CollectionController{
                 res.send(collections);
             })
             .catch(err => {
-                res.status(501);
+                res.status(500);
                 res.send(err);
             })    
     }

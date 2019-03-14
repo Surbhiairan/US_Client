@@ -8,7 +8,7 @@ class PostController{
         })
         .catch( err =>{
             console.log(err)
-            res.status(501);
+            res.status(500);
             res.send(err);
         })
     }
@@ -20,7 +20,7 @@ class PostController{
         })
         .catch( err =>{
             console.log(err)
-            res.status(501);
+            res.status(500);
             res.send(err);
         })
     }
@@ -32,7 +32,20 @@ class PostController{
         })
         .catch( err =>{
             console.log(err)
-            res.status(501);
+            res.status(500);
+            res.send(err);
+        })
+    }
+
+    static editPost(req,res){
+        let postId = req.params['postId'];
+        let post  = req.body;
+        PostService.editPost(postId,post).then( post =>{
+            res.send(post);
+        })
+        .catch( err =>{
+            console.log(err)
+            res.status(500);
             res.send(err);
         })
     }

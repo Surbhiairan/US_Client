@@ -65,7 +65,6 @@ class CollectionService{
     }
 
     static getUsersCollection(userId){
-        console.log("userId...........",userId)
         var connection;
         return new Promise( (resolve,reject) =>{
             DB.getConnection().then( conn => {
@@ -75,7 +74,6 @@ class CollectionService{
                     if(err){
                         reject(err);
                     }else{
-                        console.log(data)
                         resolve(CollectionService.mapToCollection(data));
                     }
                 })
@@ -126,7 +124,6 @@ class CollectionService{
                         [ coll.collection_title,coll.collection_text, imageURL, collection.createDate, collection.update_date,
                             collection.createdBy, collection.updated_by, collectionId], (err, data) => {
                             if (err) {
-                                console.log(err)
                                 DB.rollbackTransaction(connection);
                                 DB.release(connection);
                                 reject(err);
@@ -145,7 +142,6 @@ class CollectionService{
                             }
                         });
                 }).catch(err => {
-                    console.log(err)
                     reject(err);
                 });
         });

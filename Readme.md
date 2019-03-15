@@ -256,3 +256,5 @@ Req -
     }
 Response - List of Fav Posts
 
+Search API 
+http://localhost:5000/api/search?key="key"

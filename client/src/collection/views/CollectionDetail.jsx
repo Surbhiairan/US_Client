@@ -48,7 +48,7 @@ class CollectionDetail extends React.Component {
 
             posts,
             postsLoading,
-            postsError,
+           // postsError,
 
         } = this.props;
 

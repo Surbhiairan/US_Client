@@ -11,10 +11,10 @@ export const URI = {
     USER_COLLECTION: 'collection/?user_id={0}',
     COLLECTION: 'collection',
     GET_FEEDS: 'https://5c722f0dba65bb0014ebefb0.mockapi.io/getFeeds',
-    POST: 'post/',
+    POST: 'post',
     COLLECTION_DETAIL: 'collection/{0}',
     EDIT_COLLECTION: 'collection/{0}',
     DELETE_COLLECTION: 'collection/{0}',
-    GET_COLLECTION_POSTS: 'collection/{0}/posts/',
+    GET_COLLECTION_POSTS: 'collection/{0}/post',
     FOLLOW_USER: 'core/follower/',
 }

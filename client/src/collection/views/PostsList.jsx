@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 // import GridItem from '../../components/Grid/GridItem';
 import { Grid } from '@material-ui/core';
 import VideoComponent from '../../post/components/VideoPost.component';
+import ImageComponent from '../../post/components/ImagePost.component';
 
 const styles = theme => ({
     button: {
@@ -33,12 +34,22 @@ class PostsList extends React.Component {
             posts
         } = this.props;
 
+
         if(posts.length>0){
             return (
                 <Grid container direction={"row"} justify="center">
                 {posts.map(d => {
                   return (
-                    d.post_type === 1 ? <VideoComponent post={d} postLink={d.link}></VideoComponent> : null
+                    d.postType === 2 
+                      ? 
+                      <VideoComponent post={d} postLink={d.postVideoUrl}></VideoComponent> 
+                      : 
+                    (d.postType === 1 
+                      ?
+                      <ImageComponent post={d}></ImageComponent>
+                      :
+                      null
+                      )
                   )
                   
                   // return (

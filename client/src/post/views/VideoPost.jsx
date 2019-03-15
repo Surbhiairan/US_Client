@@ -29,9 +29,9 @@ const styles = theme => ({
 });
 
 const VideoPostSchema = Yup.object().shape({
-    link: Yup.string()
+    post_video_url: Yup.string()
             .required("Please provide link"),
-    collection: Yup.string()
+    collection_id: Yup.string()
                     .required("Please select a collection")
 })
 
@@ -53,12 +53,12 @@ class VideoPost extends React.Component {
         return (
             <Formik
                 initialValues={{
-                    title: '',
-                    link: '',
-                    content: '',
-                    tags: '',
-                    post_type: 1,
-                    collection: ''
+                    post_title: '',
+                    post_video_url: '',
+                    post_text: '',
+                    post_tags: '',
+                    post_type: 2,
+                    collection_id: ''
                 }}
                 onSubmit={(values) => this.onSubmit(values) }
                 validationSchema={VideoPostSchema}
@@ -75,15 +75,15 @@ class VideoPost extends React.Component {
                             </GridItem>
                             <GridItem xs={12} className={classes.gridItem}>
                                 <TextField
-                                    id="title"
+                                    id="post_title"
                                     label="Title"
                                     className={classes.textField}
                                     type="text"
-                                    name="title"
+                                    name="post_title"
                                     margin="normal"
                                     variant="outlined"
                                     onChange={handleChange}
-                                    value={values.title}
+                                    value={values.post_title}
                                 />
                                 
                             </GridItem>
@@ -94,18 +94,18 @@ class VideoPost extends React.Component {
                         </Typography>
                             <GridItem xs={12} className={classes.gridItem}>
                                 <TextField
-                                    id="link"
+                                    id="post_video_url"
                                     label="Video URL"
                                     className={classes.textField}
                                     type="text"
-                                    name="link"
+                                    name="post_video_url"
                                     margin="normal"
                                     variant="outlined"
                                     onChange={handleChange}
-                                    value={values.link}
+                                    value={values.post_video_url}
                                 />
-                                {errors.link && touched.link ? (
-                                <div style={{ color: "red"}}>{errors.link}</div>
+                                {errors.post_video_url && touched.post_video_url ? (
+                                <div style={{ color: "red"}}>{errors.post_video_url}</div>
                             ): null}
                             </GridItem>
                         </GridContainer>
@@ -115,17 +115,17 @@ class VideoPost extends React.Component {
                         </Typography>
                             <GridItem xs={12} className={classes.gridItem}>
                                 <TextField
-                                    id="content"
+                                    id="post_text"
                                     label="Post Content"
                                     className={classes.textField}
                                     type="text"
-                                    name="content"
+                                    name="post_text"
                                     margin="normal"
                                     variant="outlined"
                                     multiline
                                     rows={8}
                                     onChange={handleChange}
-                                    value={values.content}
+                                    value={values.post_text}
                                 >
                                 </TextField>
                             </GridItem>
@@ -136,15 +136,15 @@ class VideoPost extends React.Component {
                         </Typography>
                             <GridItem xs={12} className={classes.gridItem}>
                                 <TextField
-                                    id="tags"
+                                    id="post_tags"
                                     label="Tags"
                                     className={classes.textField}
                                     type="text"
-                                    name="tags"
+                                    name="post_tags"
                                     margin="normal"
                                     variant="outlined"
                                     onChange={handleChange}
-                                    value={values.tags}
+                                    value={values.post_tags}
                                 >
                                 </TextField>
                             </GridItem>
@@ -156,27 +156,27 @@ class VideoPost extends React.Component {
                             <GridItem xs={12} className={classes.gridItem}>
                                 <Select
                                     label="collection"
-                                    value={values.collection}
+                                    value={values.collection_id}
                                     onChange={handleChange}
                                     input={
                                         <OutlinedInput
                                             label="collection"
                                             labelWidth={50}
-                                            name="collection"
-                                            id="collection"
+                                            name="collection_id"
+                                            id="collection_id"
                                             style={{ width: '50%' }}
                                         />
                                     }
                                 >
                                     {myCollection.map((collection, index) => (
                                         <MenuItem value={collection.id} key={index}>
-                                            {collection.title}
+                                            {collection.collectionTitle}
                                         </MenuItem>
                                     ))}
 
                                 </Select>
-                                {errors.collection && touched.collection ? (
-                                <div style={{ color: "red"}}>{errors.collection}</div>
+                                {errors.collection_id && touched.collection_id ? (
+                                <div style={{ color: "red"}}>{errors.collection_id}</div>
                             ): null}
                             </GridItem>
                         </GridContainer>

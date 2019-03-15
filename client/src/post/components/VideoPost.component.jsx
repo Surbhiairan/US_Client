@@ -33,10 +33,10 @@ class VideoComponent extends React.Component {
                     <Card >
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                            {post.title}
+                            {post.postTitle}
                         </Typography>
                         <Typography component="p">
-                            {post.content}
+                            {post.postText}
                         </Typography>
                         <Typography component="p">
                             {post.no_of_comments} comments

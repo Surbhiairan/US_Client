@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import ImageUpload from '../../components/CustomUpload/ImageUpload';
+import defaultImage from "../../assets/img/default-image.png";
 
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
@@ -29,99 +31,109 @@ const styles = theme => ({
 });
 
 const ImagePostSchema = Yup.object().shape({
-    link: Yup.string()
-            .required("Please provide link"),
-    collection: Yup.string()
+    
+    collection_id: Yup.string()
                     .required("Please select a collection")
 })
 
 
 class ImagePost extends React.Component {
 
+    state = {
+        file:null,
+        imagePreviewUrl: defaultImage
+    }
+
     componentDidMount() {
         this.props.fetchMyCollections(this.props.history)
     }
+
+    handleImageChange = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+          this.setState({
+            file: file,
+            imagePreviewUrl: reader.result
+          });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    onSubmit = (values) => {
+        values.post_img = this.state.imagePreviewUrl;
+        this.props.createPost(values, this.props.history)
+    }
+
+
     render() {
         const { classes, myCollection, myCollectionLoading } = this.props;
         if (myCollectionLoading) {
             return null;
         }
         return (
+            <Grid>
+                <Typography align="center" variant="h5">
+                            Image Post
+                        </Typography>
+                <ImageUpload
+                    handleImageChange = {this.handleImageChange}
+                    imagePreviewUrl= {this.state.imagePreviewUrl}
+                />
+            
             <Formik
                 initialValues={{
-                    title: '',
-                    link: '',
-                    content: '',
-                    tags: '',
+                    post_title: '',
+                    post_text: '',
+                    post_tags: '',
                     post_type: 1,
-                    collection: ''
+                    collection_id: ''
                 }}
                 onSubmit={(values) => this.onSubmit(values) }
                 validationSchema={ImagePostSchema}
                 render={({ values, handleChange, errors, touched, setFieldValue, handleSubmit }) => (
                     <Grid>
-                        <Typography align="center" variant="h5">
-                            Video Post
-                        </Typography>
-                        <GridContainer >
+                        
+                        <GridContainer className={classes.gridContainer}>
                             <GridItem>
                                 <Typography>
                                     Post Title
-                            </Typography>
+                                </Typography>
                             </GridItem>
                             <GridItem xs={12} className={classes.gridItem}>
                                 <TextField
-                                    id="title"
+                                    id="post_title"
                                     label="Title"
                                     className={classes.textField}
                                     type="text"
-                                    name="title"
+                                    name="post_title"
                                     margin="normal"
                                     variant="outlined"
                                     onChange={handleChange}
-                                    value={values.title}
+                                    value={values.post_title}
                                 />
                                 
                             </GridItem>
                         </GridContainer>
-                        <GridContainer className={classes.gridContainer}>
-                            <Typography>
-                                Video URL
-                            </Typography>
-                            <GridItem xs={12} className={classes.gridItem}>
-                                <TextField
-                                    id="link"
-                                    label="Video URL"
-                                    className={classes.textField}
-                                    type="text"
-                                    name="link"
-                                    margin="normal"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    value={values.link}
-                                />
-                                {errors.link && touched.link ? (
-                                <div style={{ color: "red"}}>{errors.link}</div>
-                            ): null}
-                            </GridItem>
-                        </GridContainer>
+                        
                         <GridContainer className={classes.gridContainer}>
                             <Typography>
                                 Post Content
                         </Typography>
                             <GridItem xs={12} className={classes.gridItem}>
                                 <TextField
-                                    id="content"
+                                    id="post_text"
                                     label="Post Content"
                                     className={classes.textField}
                                     type="text"
-                                    name="content"
+                                    name="post_text"
                                     margin="normal"
                                     variant="outlined"
                                     multiline
                                     rows={8}
                                     onChange={handleChange}
-                                    value={values.content}
+                                    value={values.post_text}
                                 >
                                 </TextField>
                             </GridItem>
@@ -132,15 +144,15 @@ class ImagePost extends React.Component {
                         </Typography>
                             <GridItem xs={12} className={classes.gridItem}>
                                 <TextField
-                                    id="tags"
+                                    id="post_tags"
                                     label="Tags"
                                     className={classes.textField}
-                                    type="text"
-                                    name="tags"
+                                    type="post_tags"
+                                    name="post_tags"
                                     margin="normal"
                                     variant="outlined"
                                     onChange={handleChange}
-                                    value={values.tags}
+                                    value={values.post_tags}
                                 >
                                 </TextField>
                             </GridItem>
@@ -152,27 +164,27 @@ class ImagePost extends React.Component {
                             <GridItem xs={12} className={classes.gridItem}>
                                 <Select
                                     label="collection"
-                                    value={values.collection}
+                                    value={values.collection_id}
                                     onChange={handleChange}
                                     input={
                                         <OutlinedInput
                                             label="collection"
                                             labelWidth={50}
-                                            name="collection"
-                                            id="collection"
+                                            name="collection_id"
+                                            id="collection_id"
                                             style={{ width: '50%' }}
                                         />
                                     }
                                 >
                                     {myCollection.map((collection, index) => (
                                         <MenuItem value={collection.id} key={index}>
-                                            {collection.title}
+                                            {collection.collectionTitle}
                                         </MenuItem>
                                     ))}
 
                                 </Select>
-                                {errors.collection && touched.collection ? (
-                                <div style={{ color: "red"}}>{errors.collection}</div>
+                                {errors.collection_id && touched.collection_id ? (
+                                <div style={{ color: "red"}}>{errors.collection_id}</div>
                             ): null}
                             </GridItem>
                         </GridContainer>
@@ -186,6 +198,7 @@ class ImagePost extends React.Component {
 
                 )}
             />
+            </Grid>
         )
     }
 }

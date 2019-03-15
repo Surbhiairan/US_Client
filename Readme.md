@@ -229,4 +229,30 @@ res -
 List of all favorites
 
 
+-------------------------- 
+Fav a post
+POST - http://localhost:5000/api/favPost
+Req - 
+    {
+        "post_id": 9
+    }
+
+Response - List of Fav Posts
+
+Un-Fav a post
+Delete - http://localhost:5000/api/favPost
+Req - 
+    {
+        "post_id": 9
+    }
+Response - List of Fav Posts
+
+
+Get all fav posts of a user
+GET - http://localhost:5000/api/favPost
+Req - 
+    {
+        "post_id": 9
+    }
+Response - List of Fav Posts
 

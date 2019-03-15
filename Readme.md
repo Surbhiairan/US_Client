@@ -171,3 +171,88 @@ GET http://localhost:5000/api/post/:postID
 Find all POST for a collection 
 GET 
 http://localhost:5000/api/collection/:collectionID/post
+
+Update Post ---- 
+Patch http://localhost:5000/api/post/8
+
+req - 
+{
+    "post_type": 1,
+    "post_title": "Test Post",
+    "post_img" : "..........."
+    "post_text": "post Description ",
+    "post_tags": "test,post,first tag",
+    "post_video_url": "null",
+    "post_link_url": "null",
+    "createDate": "2019-03-14 19:30:52",
+    "updateDate": null,
+    "createdBy": "Test User",
+    "updatedBy": null
+}
+Res --
+
+---------------------------------------- 
+Fav a collection : 
+POST  ---- http://localhost:5000/api/favcollection
+req - 
+{
+	"collection_id":5
+}
+
+res - 
+-------------------------------------------
+List of all favorites
+
+Un-Fav a collection : 
+Delete  ---- http://localhost:5000/api/favcollection
+req - 
+{
+	"collection_id":5
+}
+
+res - 
+
+List of all favorites
+----------------------------------------------
+
+List of all favorites
+
+Get user's Favorite collections : 
+GET  ---- http://localhost:5000/api/favcollection
+req - 
+{
+	"collection_id":5
+}
+
+res - 
+
+List of all favorites
+
+
+-------------------------- 
+Fav a post
+POST - http://localhost:5000/api/favPost
+Req - 
+    {
+        "post_id": 9
+    }
+
+Response - List of Fav Posts
+
+Un-Fav a post
+Delete - http://localhost:5000/api/favPost
+Req - 
+    {
+        "post_id": 9
+    }
+Response - List of Fav Posts
+
+
+Get all fav posts of a user
+GET - http://localhost:5000/api/favPost
+Req - 
+    {
+        "post_id": 9
+    }
+Response - List of Fav Posts
+

@@ -6,7 +6,7 @@ class UserProfileController{
                 UserProfileService.addProfile(payload).then( data =>{
                         res.send(data);
                 }).catch(err =>{
-                        res.status(501);
+                        res.status(500);
                         res.send(err);
                 })
         }

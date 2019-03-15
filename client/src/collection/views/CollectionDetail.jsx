@@ -48,7 +48,7 @@ class CollectionDetail extends React.Component {
 
             posts,
             postsLoading,
-            postsError,
+           // postsError,
 
         } = this.props;
 
@@ -64,12 +64,12 @@ class CollectionDetail extends React.Component {
                     <img 
                     alt=''
                     style={{width: "100%",height: "200px",}} 
-                    src = {collectionDetail.header_image_url}/>
+                    src = {collectionDetail.collectionImage}/>
                   </Grid>
 
                   <Grid item xs={3}>
-                    <h2>{collectionDetail.title}</h2> 
-                    <p>{collectionDetail.content}</p>
+                    <h2>{collectionDetail.collectionTitle}</h2> 
+                    <p>{collectionDetail.collectionText}</p>
                   </Grid>
                   <Grid item xs={6}>
                         <Link to={`/createPost`}>

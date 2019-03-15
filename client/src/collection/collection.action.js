@@ -85,7 +85,7 @@ export const editCollection = (values, history) => {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':'JWT '+token
+                'token': token
             },
             body: JSON.stringify(values)
         })
@@ -157,7 +157,7 @@ export const getCollectionDetail = (id, history) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':'JWT '+token
+                'token': token
             },
         })
         .then(res => res.json())

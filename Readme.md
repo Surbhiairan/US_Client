@@ -190,3 +190,43 @@ req -
     "updatedBy": null
 }
 Res --
+
+---------------------------------------- 
+Fav a collection : 
+POST  ---- http://localhost:5000/api/favcollection
+req - 
+{
+	"collection_id":5
+}
+
+res - 
+-------------------------------------------
+List of all favorites
+
+Un-Fav a collection : 
+Delete  ---- http://localhost:5000/api/favcollection
+req - 
+{
+	"collection_id":5
+}
+
+res - 
+
+List of all favorites
+----------------------------------------------
+
+List of all favorites
+
+Get user's Favorite collections : 
+GET  ---- http://localhost:5000/api/favcollection
+req - 
+{
+	"collection_id":5
+}
+
+res - 
+
+List of all favorites
+
+
+

@@ -101,11 +101,11 @@ class userService {
     static activateUser(userId) {
         var connection;
         return new Promise((resolve, reject) => {
-            DB.getConnection().then( conn =>{
+            DB.getConnection().then(conn => {
                 connection = conn;
                 return DB.beginTransaction(connection);
             })
-            .then(() => {
+                .then(() => {
                     connection.query('update user set is_active =? where id = ?', [1, userId], (err, data) => {
 
                         if (err) {
@@ -114,8 +114,9 @@ class userService {
                             DB.commitTransaction(connection);
                             connection.query('select * from user where id = ?', [userId], (err, data) => {
                                 DB.release(connection);
-                                if (err) { 
-                                    reject(err) }
+                                if (err) {
+                                    reject(err)
+                                }
                                 else {
                                     let user = new User(data[0]);
                                     resolve(user);
@@ -127,6 +128,36 @@ class userService {
                 .catch(err => {
                     reject(err);
                 })
+        });
+    }
+
+    static mapToUser(data) {
+        let users;
+        users = data.map(item => {
+            return new User(item);
+        });
+        return users;
+    }
+
+    static search(key) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then(conn => {               
+                var qr = `select * from user where first_name like "%`+key.replace(/['"]+/g, '')+`%"`;
+                console.log("qr...",qr);
+                connection = conn;
+                connection.query(qr, [],(err, data) => {
+                    DB.release(connection);
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(userService.mapToUser(data));
+                    }
+                });
+            })
+                .catch(err => {
+                    reject(err);
+                });
         });
     }
 }

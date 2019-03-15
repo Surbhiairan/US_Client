@@ -155,6 +155,27 @@ class PostService {
         });
     }
 
+    static search(key) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then(conn => {               
+                var qr = `select * from post where post_tags like "%`+key.replace(/['"]+/g, '')+`%"`;
+                connection = conn;
+                connection.query(qr, [],(err, data) => {
+                    DB.release(connection);
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(PostService.mapToPosts(data));
+                    }
+                });
+            })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
 }
 
 module.exports = PostService;

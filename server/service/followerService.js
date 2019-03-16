@@ -6,7 +6,6 @@ class FollowerService {
 
 
     static getFollow(id) {
-        console.log("id.... ", id);
         var connection;
         return new Promise((resolve, reject) => {
             DB.getConnection().then(conn => {
@@ -20,7 +19,6 @@ class FollowerService {
                         if (data && data.length > 0) {
                             followUser = new FollowUser(data[0]);
                         }
-                        console.log("Follow User...........", data)
                         resolve(followUser);
                     }
                 })
@@ -69,6 +67,33 @@ class FollowerService {
         })
     }
 
+    static unFollowUser(userId, followingID) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then(conn => {
+                connection = conn;
+                return DB.beginTransaction(connection);
+            })
+                .then(() => {
+                    connection.query(
+                        `Delete from follow_user where user_id =? and following_id =?`, [userId, followingID], (err, data) => {
+                            if (err) {
+                                DB.rollbackTransaction(connection);
+                                DB.release(connection)
+                                reject(err);
+                            } else if (data) {
+                                DB.commitTransaction(connection).then(() => {
+                                    resolve();
+                                })
+                            }
+                        });
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
     static getFollowers(userId) {
         var connection;
         return new Promise((resolve, reject) => {
@@ -77,14 +102,14 @@ class FollowerService {
                 connection.query(
                     `select u.id,u.first_name,u.email,u.role,u.is_active,u.is_profile,u.create_date,u.update_date,
                     u.created_by,u.updated_by from user u inner join follow_user fu
-                    on fu.user_id = u.id where fu.following_id = 1`, userId , (err, data) => {
+                    on fu.user_id = u.id where fu.following_id = 1`, userId, (err, data) => {
                         DB.release(connection);
                         if (err) {
                             reject(err);
                         } else if (data) {
-                           let users = [];
-                            if(data && data.length >0){
-                                users = data.map( item => {
+                            let users = [];
+                            if (data && data.length > 0) {
+                                users = data.map(item => {
                                     return new User(item);
                                 })
                             }

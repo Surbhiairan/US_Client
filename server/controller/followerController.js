@@ -19,9 +19,21 @@ class FollowerController{
      }
 
      static getFollowers(req,res){
-         console.log("All")
         let userId = req.body['appUser']['id'];
         FollowerService.getFollowers(userId).then( data =>{
+            res.send(data)
+        }).catch(err => {
+            res.status(500);
+            res.send(err);
+        });
+     }
+
+     static unFollowUser(req,res){
+         console.log("Del....")
+        let userId = req.body['appUser']['id'];
+        let followingId = req.body['following_id'];
+
+        FollowerService.unFollowUser(userId,followingId).then( data =>{
             res.send(data)
         }).catch(err => {
             res.status(500);

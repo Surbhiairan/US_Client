@@ -13,8 +13,7 @@ class FeedService {
                 u.first_name,u.email, c.create_date,c.created_by,c.update_date,c.updated_by 
                 from follow_user fu inner join user u on fu.following_id = u.id
                 inner join collection c on c.user_id = fu.following_id
-                inner join fav_collection fc on c.id <> fc.collection_id
-                and fu.user_id = ? and fc.user_id = ? `, [userId,userId], (err, data) => {
+                and fu.user_id = ? and c.id not in (select fv.collection_id from fav_collection fv where fv.user_id = ?)`, [userId,userId], (err, data) => {
                         DB.release(connection);
                         if (err) {
                             reject(err);

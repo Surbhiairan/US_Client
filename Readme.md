@@ -258,3 +258,23 @@ Response - List of Fav Posts
 
 Search API 
 http://localhost:5000/api/search?key="key"
+
+
+Follow a User 
+POST - http://localhost:5000/api/follower
+{
+	"following_id": 2
+}
+
+Un Follow a user 
+Delete - http://localhost:5000/api/follower
+{
+	"following_id": 2
+}
+
+Get All Followers
+
+Delete - http://localhost:5000/api/follower
+{
+	"following_id": 2
+}

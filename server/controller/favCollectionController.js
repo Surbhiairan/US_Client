@@ -8,7 +8,6 @@ class FavCollectionController{
         FavCollectionService.addFavCollection(collectionId,userId).then( data =>{
             res.send(data);
         }).catch( err =>{
-            console.log(err)
             res.status(500);
             res.send(err);
         })
@@ -19,7 +18,6 @@ class FavCollectionController{
         FavCollectionService.getFavCollection(userId).then( data =>{
             res.send(data);
         }).catch( err =>{
-            console.log(err)
             res.status(500);
             res.send(err);
         })
@@ -31,7 +29,6 @@ class FavCollectionController{
         FavCollectionService.delFavCollection(collectionId,userId).then( data =>{
             res.send(data);
         }).catch( err =>{
-            console.log(err)
             res.status(500);
             res.send(err);
         })

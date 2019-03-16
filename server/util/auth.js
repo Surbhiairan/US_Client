@@ -15,7 +15,9 @@ class Auth {
         if (token && token !== null) {
             jwt.verify(token, config.secret, function (err, decodedToken) {
                 req.body['appUser'] = decodedToken;
+                
                 if (err) {
+                    console.log("err....",err);
                     //res.sendStatus(401); 
                     next();
                 } else {

@@ -7,7 +7,6 @@ class PostController{
             res.send(post);
         })
         .catch( err =>{
-            console.log(err)
             res.status(500);
             res.send(err);
         })
@@ -19,7 +18,6 @@ class PostController{
             res.send(post);
         })
         .catch( err =>{
-            console.log(err)
             res.status(500);
             res.send(err);
         })
@@ -31,7 +29,6 @@ class PostController{
             res.send(post);
         })
         .catch( err =>{
-            console.log(err)
             res.status(500);
             res.send(err);
         })
@@ -44,7 +41,6 @@ class PostController{
             res.send(post);
         })
         .catch( err =>{
-            console.log(err)
             res.status(500);
             res.send(err);
         })

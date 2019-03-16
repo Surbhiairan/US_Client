@@ -29,7 +29,6 @@ class FollowerController{
      }
 
      static unFollowUser(req,res){
-         console.log("Del....")
         let userId = req.body['appUser']['id'];
         let followingId = req.body['following_id'];
 

@@ -60,7 +60,6 @@ class FollowerService {
                             });
                     })
                     .catch(err => {
-                        console.log(err)
                         reject(err);
                     })
             }

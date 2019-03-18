@@ -9,6 +9,8 @@ const favPostRouter = require('../routes/favPostRouter');
 const searchRouter = require('../routes/serachRouter');
 const followerRouter = require('../routes/followerRoute'); 
 const feedRouter = require('../routes/feedRoutes');
+const commentRouter = require('../routes/commentRoutes');
+
 router.get('/ping', (req, res) =>
   res.send('pong')
 );
@@ -23,7 +25,7 @@ router.use('/favPost',favPostRouter);
 router.use('/search',searchRouter);
 router.use('/follower',followerRouter);
 router.use('/feed',feedRouter);
-
+router.use('/comments',commentRouter);
 
 
 module.exports = router;

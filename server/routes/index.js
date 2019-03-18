@@ -7,7 +7,8 @@ const postRouter = require('./postRouter');
 const favCollectionRouter = require('./favCollectionRoutes')
 const favPostRouter = require('../routes/favPostRouter');
 const searchRouter = require('../routes/serachRouter');
-
+const followerRouter = require('../routes/followerRoute'); 
+const feedRouter = require('../routes/feedRoutes');
 router.get('/ping', (req, res) =>
   res.send('pong')
 );
@@ -20,6 +21,9 @@ router.use('/post',postRouter);
 router.use('/favcollection',favCollectionRouter);
 router.use('/favPost',favPostRouter);
 router.use('/search',searchRouter);
+router.use('/follower',followerRouter);
+router.use('/feed',feedRouter);
+
 
 
 module.exports = router;

@@ -3,6 +3,8 @@ class UserProfileController{
 
         static addProfile(req,res){
                 let payload = req.body; 
+                payload['user_id'] = req.body['appUser']['id'];
+                delete req.body['appUser'];
                 UserProfileService.addProfile(payload).then( data =>{
                         res.send(data);
                 }).catch(err =>{

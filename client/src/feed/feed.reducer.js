@@ -11,7 +11,7 @@ const reducer = (state = initialState, action) => {
         case feedConstant.FEEDS_LOADING: 
             return { ...state, feedsLoading: true }
         case feedConstant.FEEDS_SUCCESS:
-            return { ...state, feeds: action.payload.data, feedsLoading: false }
+            return { ...state, feeds: action.payload, feedsLoading: false }
         case feedConstant.FEEDS_FAILURE: 
             return { ...state, feeds: [], feedsError: action.payload, feedsLoading: false }
        

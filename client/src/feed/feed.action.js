@@ -2,18 +2,20 @@ import { feedConstant } from './feed.constants';
 import { API_ROOT, URI } from '../config/config';
 
 export const fetchFeeds = () => {
+    let token = JSON.parse(localStorage.getItem('user')).token;
     return (dispatch) => {
         dispatch({ type: feedConstant.FEEDS_LOADING })
-        fetch(URI.GET_FEEDS, {
+        fetch(API_ROOT + URI.COLLECTION, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'token': token
             },
         })
         .then(res => res.json())
         .then(data => {
             console.log(data, "data");
-            if(data.data) {
+            if(data) {
                 dispatch({
                     type: feedConstant.FEEDS_SUCCESS,
                     payload: data

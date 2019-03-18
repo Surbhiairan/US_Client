@@ -12,7 +12,10 @@ class UserProfileController{
         }
 
         static updateProfile(req,res){
+
                 let profile = req.body;
+                profile['user_id'] = req.body['appUser']['id'];
+                delete req.body['appUser'];
                 UserProfileService.updateProfile(profile).then( data =>{
                         res.send(data);
                 }).catch(err =>{

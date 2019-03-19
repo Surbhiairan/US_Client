@@ -1,21 +1,16 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import GridItem from '../../components/Grid/GridItem';
 import { fetchFeeds } from '../feed.action';
 import { followCollection } from '../../follow/follow.action';
-import { Button } from '@material-ui/core';
+import FeedsCollection from './FeedsCollection';
+import FeedsPost from './FeedsPost';
 
 const styles = theme => ({
     card: {
@@ -48,6 +43,17 @@ class Feeds extends React.Component {
         if (feedsLoading) {
             return <CircularProgress className={classes.progress} />;
         }
+        if (Object.entries(feedsData).length === 0 && feedsData.constructor === Object) {
+            return <Typography> You have nothing new to read here, create a collection or search for friends </Typography>
+            //console.log("empty json object")
+        }
+        let posts, collection = null;
+        if(feedsData.posts) {
+           posts =  <FeedsPost feeds={feedsData.posts} history={this.props.history}/> 
+        }
+        if(feedsData.collections) {
+            collection = <FeedsCollection feeds={feedsData.collections} history={this.props.history}/>
+        }
         return (
             <Grid container
                 spacing={16}
@@ -56,41 +62,8 @@ class Feeds extends React.Component {
                 justify="center"
                 xs={12}
             >
-                {feedsData.map((feed) => {
-                    return (
-                        <GridItem xs={12}>
-                            <Card className={classes.card} raised={true}>
-                                <CardActionArea>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2044756332276829&height=90&width=90&ext=1555332916&hash=AeRQyAosB43gGx-p"
-                                        title="Contemplative Reptile"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            {feed.collectionTitle}
-                                        </Typography>
-                                        <Typography component="p">
-                                            {feed.collectionText}
-                                        </Typography>
-                                        <Button variant="contained" onClick={() => this.followCollection(feed.id)}>
-                                            Follow
-                                        </Button>
-                                    </CardContent>
-                                </CardActionArea>
-                                <Divider light />
-                                <CardActions>
-                                    <Typography component="p">
-                                        You and {feed.noOfFollowers} people follow this.
-                                </Typography>
-                                    <Typography>
-                                        {feed.noOfComments} Comments
-                                </Typography>
-                                </CardActions>
-                            </Card>
-                        </GridItem>
-                    )
-                })}
+                {posts}
+                {collection}
             </Grid>
         )
     }

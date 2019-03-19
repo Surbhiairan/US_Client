@@ -5,7 +5,7 @@ export const fetchFeeds = () => {
     let token = JSON.parse(localStorage.getItem('user')).token;
     return (dispatch) => {
         dispatch({ type: feedConstant.FEEDS_LOADING })
-        fetch(API_ROOT + URI.COLLECTION, {
+        fetch(API_ROOT + URI.FEEDS, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

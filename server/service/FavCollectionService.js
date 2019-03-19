@@ -1,5 +1,6 @@
 const DB = require('../util/db');
 const FavCollection = require('../model/favCollection');
+const Collection = require('../model/collection');
 
 class FavCollectionService {
 
@@ -11,18 +12,22 @@ class FavCollectionService {
                 return connection;
             })
                 .then(() => {
-                    connection.query(`select * from fav_collection where user_id = ?`, userId, (err, data) => {
-                        DB.release(connection);
-                        if (err) {
-                            reject(err);
-                        } else {
-                            let favCollection = []
-                            if (data && data.length > 0) {
-                                favCollection = FavCollectionService.mapToFavCollection(data);
+                    connection.query(`select c.id,c.collection_title,c.collection_text,c.collection_image,fc.create_date,fc.update_date,
+                    fc.created_by,fc.updated_by,u.first_name,u.email from fav_collection fc
+                    inner join collection c on fc.collection_id = c.id 
+                    inner join user u on u.id = fc.user_id
+                    where fc.user_id = ?;`, userId, (err, data) => {
+                            DB.release(connection);
+                            if (err) {
+                                reject(err);
+                            } else {
+                                let favCollection = []
+                                if (data && data.length > 0) {
+                                    favCollection = FavCollectionService.mapToFavCollection(data);
+                                }
+                                resolve(favCollection);
                             }
-                            resolve(favCollection);
-                        }
-                    });
+                        });
                 })
                 .catch(err => {
                     reject(err);
@@ -31,8 +36,12 @@ class FavCollectionService {
     }
 
     static mapToFavCollection(data) {
-        let result = data.map( collection => {
-            return new FavCollection(collection)
+        console.log("data...",data);
+        let result = data.map(item => {
+           let coll = new Collection(item);
+           coll['authorName'] = item['first_name'];
+           coll['authorEmail'] = item['email'];
+           return coll;
         });
         return result;
     }
@@ -70,7 +79,7 @@ class FavCollectionService {
         })
     }
 
-    static delFavCollection(collectionId, userId){
+    static delFavCollection(collectionId, userId) {
         var favCollection = {
             'collection_id': collectionId,
             'user_id': userId
@@ -83,7 +92,7 @@ class FavCollectionService {
                 return DB.beginTransaction(connection);
             })
                 .then(() => {
-                    connection.query(`delete  from fav_collection where collection_id = ? and user_id = ?`, [collectionId,userId], (err, data) => {
+                    connection.query(`delete  from fav_collection where collection_id = ? and user_id = ?`, [collectionId, userId], (err, data) => {
                         if (err) {
                             DB.rollbackTransaction(connection);
                             DB.release(connection);

@@ -4,6 +4,7 @@ const UserProfile = require('../model/userProfile');
 class UserProfileService {
 
     static addProfile(profile) {
+        delete profile['appUser'];
         const imagePayload = profile.profile_img;
         const imgName = new Date().getTime() + ".png";
         var insertedId;

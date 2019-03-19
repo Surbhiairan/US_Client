@@ -1,20 +1,16 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import DefaultImage from '../../assets/img/default-image.png'
-import GridItem from '../../components/Grid/GridItem';
 import { fetchFeeds } from '../feed.action';
+import { followCollection } from '../../follow/follow.action';
+import FeedsCollection from './FeedsCollection';
+import FeedsPost from './FeedsPost';
 
 const styles = theme => ({
     card: {
@@ -34,51 +30,40 @@ class Feeds extends React.Component {
         this.props.fetchFeeds();
     }
 
+    followCollection = (id) => {
+        //call follow collection api.
+        let value = {
+            collection_id: id
+        }
+        this.props.followCollection(value, this.props.history)
+    }
+
     render() {
         const { classes, feedsData, feedsLoading, feedsError } = this.props;
-        if(feedsLoading) {
-           return <CircularProgress className={classes.progress} />;
+        if (feedsLoading) {
+            return <CircularProgress className={classes.progress} />;
+        }
+        if (Object.entries(feedsData).length === 0 && feedsData.constructor === Object) {
+            return <Typography> You have nothing new to read here, create a collection or search for friends </Typography>
+            //console.log("empty json object")
+        }
+        let posts, collection = null;
+        if(feedsData.posts) {
+           posts =  <FeedsPost feeds={feedsData.posts} history={this.props.history}/> 
+        }
+        if(feedsData.collections) {
+            collection = <FeedsCollection feeds={feedsData.collections} history={this.props.history}/>
         }
         return (
             <Grid container
-            spacing={16}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            xs={12}
+                spacing={16}
+                direction="column"
+                alignItems="center"
+                justify="center"
+                xs={12}
             >
-                {feedsData.map((feed) => {
-                    return (
-                        <GridItem xs={12}>
-                        <Card className={classes.card} raised={true}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    image={DefaultImage}
-                                    title="Contemplative Reptile"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        {feed.title}
-                                    </Typography>
-                                    <Typography component="p">
-                                        {feed.description}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <Divider light/>
-                            <CardActions>
-                                <Typography component="p">
-                                You and {feed.noOfFollowers} people follow this.
-                                </Typography>
-                                <Typography>
-                                {feed.noOfComments} Comments
-                                </Typography>
-                            </CardActions>
-                        </Card>
-                        </GridItem>
-                    )
-                })}
+                {posts}
+                {collection}
             </Grid>
         )
     }
@@ -88,13 +73,17 @@ const mapStateToProps = (state) => {
     return {
         feedsLoading: state.feeds.feedsLoading,
         feedsData: state.feeds.feeds,
-        feedsError: state.feeds.feedsError
+        feedsError: state.feeds.feedsError,
+        followCollectionList: state.follow.followCollection,
+        followCollectionError: state.follow.followCollectionError,
+        followCollectionLoading: state.follow.followCollectionLoading
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchFeeds: () => dispatch(fetchFeeds())
+        fetchFeeds: () => dispatch(fetchFeeds()),
+        followCollection: (id, history) => dispatch(followCollection(id, history))
     }
 }
 

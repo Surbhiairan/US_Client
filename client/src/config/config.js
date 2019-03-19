@@ -17,4 +17,7 @@ export const URI = {
     DELETE_COLLECTION: 'collection/{0}',
     GET_COLLECTION_POSTS: 'collection/{0}/post',
     FOLLOW_USER: 'core/follower/',
+    GET_ALL_FAV_POST: 'favPost',
+    FOLLOW_COLLECTION: 'favcollection',
+    FEEDS: 'feed'
 }

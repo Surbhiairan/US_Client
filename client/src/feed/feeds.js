@@ -1,4 +1,5 @@
-export const feedsData = [{
+export const feedsData = [
+{
     "image": "",
     "id": 1,
     "title": "This is the title for an Post thats was added to a collection",

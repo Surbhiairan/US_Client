@@ -31,6 +31,8 @@ class CollectionService{
     }
 
     static addCollection(collection){
+        //console.log("collection----", collection)
+        delete collection['appUser'];
         let image = collection ['collection_image'];
         let imageName = new Date().getTime()+".png";
         return new Promise( (resolve,reject) => {
@@ -62,6 +64,7 @@ class CollectionService{
                 })
             })
             .catch( (err) => {
+                console.log(err);
                 reject(err);
             })
         })

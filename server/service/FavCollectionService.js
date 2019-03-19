@@ -13,7 +13,9 @@ class FavCollectionService {
             })
                 .then(() => {
                     connection.query(`select c.id,c.collection_title,c.collection_text,c.collection_image,fc.create_date,fc.update_date,
-                    fc.created_by,fc.updated_by,u.first_name,u.email from fav_collection fc
+                    fc.created_by,fc.updated_by,u.first_name,u.email,
+                    (select count(*) from fav_collection fc where fc.collection_id = c.id) total_fav
+                     from fav_collection fc
                     inner join collection c on fc.collection_id = c.id 
                     inner join user u on u.id = fc.user_id
                     where fc.user_id = ?;`, userId, (err, data) => {
@@ -36,11 +38,11 @@ class FavCollectionService {
     }
 
     static mapToFavCollection(data) {
-        console.log("data...",data);
         let result = data.map(item => {
            let coll = new Collection(item);
            coll['authorName'] = item['first_name'];
            coll['authorEmail'] = item['email'];
+           coll['totalFavorites'] = item['total_fav']
            return coll;
         });
         return result;

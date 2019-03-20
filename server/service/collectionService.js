@@ -13,9 +13,10 @@ class CollectionService {
             })
                 .then(connection => {
                     connection.query(`select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
-                c.create_date,c.update_date,c.created_by,c.updated_by,
+                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,
                 (select count(*) from fav_collection fc where fc.collection_id = c.id) total_fav 
-                from collection c
+                from collection c                 
+                inner join user u on u.id = c.user_id
                 where c.id = ? `, [id], (err, data) => {
                             DB.release(connection);
                             if (err) { reject(err) }
@@ -23,7 +24,10 @@ class CollectionService {
                                 let collection = {}
                                 if (data && data.length > 0) {
                                     collection = new Collection(data[0]);
-                                    collection['totalFavorites'] = data[0]['total_fav']
+                                    collection['totalFavorites'] = data[0]['total_fav'];
+                                    collection['authorName'] = data[0]['first_name'];
+                                    collection['authorEmail'] = data[0]['email'];
+
                                 }
                                 resolve(collection);
                             }
@@ -81,9 +85,10 @@ class CollectionService {
             DB.getConnection().then(conn => {
                 connection = conn;
                 connection.query(`select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
-                c.create_date,c.update_date,c.created_by,c.updated_by,
+                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,
                 (select count(*) from fav_collection fc where fc.collection_id = c.id) total_fav 
                 from collection c
+                inner join user u on u.id = c.user_id
                 where c.user_id = ?`, [userId], (err, data) => {
                         DB.release(connection);
                         if (err) {
@@ -103,6 +108,8 @@ class CollectionService {
             let collection;
             collection = new Collection(item);
             collection['totalFavorites'] = item['total_fav']
+            collection['authorName'] = item['first_name']
+            collection['authorEmail'] = item['email']
             //collection['totalFavorites'] = data[0]['total_fav']
             return collection;
         });
@@ -149,15 +156,9 @@ class CollectionService {
                             }
                             else {
                                 DB.commitTransaction(connection);
-                                connection.query('select * from collection where id = ? ', [collectionId], (err, data) => {
-                                    DB.release(connection);
-                                    if (err) {
-                                        reject(err)
-                                    }
-                                    else {
-                                        resolve(new Collection(data[0]));
-                                    }
-                                });
+                                CollectionService.getCollectionByID(collectionId).then(collection => {
+                                    resolve(collection)
+                                })
                             }
                         });
                 }).catch(err => {
@@ -172,14 +173,18 @@ class CollectionService {
         return new Promise((resolve, reject) => {
             DB.getConnection().then(conn => {
                 connection = conn;
-                connection.query('select * from collection', [], (err, data) => {
-                    DB.release(connection);
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(CollectionService.mapToCollection(data));
-                    }
-                })
+                connection.query(`select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
+                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,
+                (select count(*) from fav_collection fc where fc.collection_id = c.id) total_fav 
+                from collection c
+                inner join user u on u.id = c.user_id`, [], (err, data) => {
+                        DB.release(connection);
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(CollectionService.mapToCollection(data));
+                        }
+                    })
             }).catch(err => {
                 reject(err);
             })
@@ -190,7 +195,11 @@ class CollectionService {
         var connection;
         return new Promise((resolve, reject) => {
             DB.getConnection().then(conn => {
-                var qr = `select * from collection where collection_title like "%` + key.replace(/['"]+/g, '') + `%"`;
+                var qr = `select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
+                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,
+                (select count(*) from fav_collection fc where fc.collection_id = c.id) total_fav 
+                from collection c
+                inner join user u on u.id = c.user_id where collection_title like "%` + key.replace(/['"]+/g, '') + `%"`;
                 connection = conn;
                 connection.query(qr, [], (err, data) => {
                     DB.release(connection);

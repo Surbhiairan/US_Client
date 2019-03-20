@@ -35,9 +35,9 @@ class PostsList extends React.Component {
         } = this.props;
 
 
-        if(posts.length>0){
+        if(posts.length>0) {
             return (
-                <Grid container direction={"row"} justify="center">
+                <Grid justify="center">
                 {posts.map(d => {
                   return (
                     d.postType === 2 

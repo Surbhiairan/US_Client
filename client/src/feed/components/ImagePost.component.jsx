@@ -53,7 +53,9 @@ class ImageComponent extends React.Component {
                     <Typography>
                     {post.noOfComments} Comments
                     </Typography>
-                    
+                    <Button variant="contained">
+                            Favorite
+                        </Button>
                 </CardActions>
             </Card>
             </GridItem>

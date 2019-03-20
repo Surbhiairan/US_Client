@@ -26,7 +26,8 @@ const styles = theme => ({
         textAlign: 'center'
     },
     gridContainer: {
-        justifyContent: 'center'
+        justifyContent: 'center',
+        textAlign: 'center'
     }
 });
 

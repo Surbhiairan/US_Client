@@ -16,15 +16,15 @@ const styles = theme => ({
         flexGrow: 1,
     },
     paper: {
-      padding: theme.spacing.unit * 2,
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
     },
     button: {
-      margin: theme.spacing.unit,
+        margin: theme.spacing.unit,
     },
     input: {
-      display: 'none',
+        display: 'none',
     },
     progress: {
         margin: theme.spacing.unit * 2,
@@ -40,7 +40,7 @@ class CollectionDetail extends React.Component {
     }
 
     render() {
-        const { 
+        const {
             classes,
             collectionDetail,
             collectionDetailLoading,
@@ -48,63 +48,63 @@ class CollectionDetail extends React.Component {
 
             posts,
             postsLoading,
-           // postsError,
+            // postsError,
 
         } = this.props;
 
-            return (
-                
-                <div className={classes.root}>
-                {collectionDetailLoading ? <CircularProgress className={classes.progress} />: null}
-                
-                {collectionDetail ? 
+        return (
 
-                <Grid container spacing={24}>
-                  <Grid item xs={12}>
-                    <img 
-                    alt=''
-                    style={{width: "100%",height: "200px",}} 
-                    src = {collectionDetail.collectionImage}/>
-                  </Grid>
+            <div className={classes.root}>
+                {collectionDetailLoading ? <CircularProgress className={classes.progress} /> : null}
 
-                  <Grid item xs={3}>
-                    <h2>{collectionDetail.collectionTitle}</h2> 
-                    <p>{collectionDetail.collectionText}</p>
-                  </Grid>
-                  <Grid item xs={6}>
-                        <Link to={`/createPost`}>
-                            <Button variant="contained" className={classes.button}>
-                                Create Post
+                {collectionDetail ?
+
+                    <Grid container spacing={24}>
+                        <Grid item xs={12}>
+                            <img
+                                alt=''
+                                style={{ width: "100%", height: "200px", }}
+                                src={collectionDetail.collectionImage} />
+                        </Grid>
+
+                        <Grid item xs={3}>
+                            <h2>{collectionDetail.collectionTitle}</h2>
+                            <p>{collectionDetail.collectionText}</p>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Link to={`/createPost`}>
+                                <Button variant="contained" className={classes.button}>
+                                    Create Post
                             </Button>
-                        </Link>
-                
-                        <Link to={`/editCollection/${collectionDetail.id}`}>
-                            <Button variant="contained" className={classes.button}>
-                                Edit Collection
-                            </Button>
-                        </Link>
-                    
-                    {postsLoading ? <CircularProgress className={classes.progress} /> : null}
-                    {posts ? 
-                        <Paper className={classes.paper}>
-                            <PostsList posts = {posts}/>
-                        </Paper>
-                        : null}
-                  </Grid>
+                            </Link>
 
-                  <Grid item xs={3}>
-                    <Paper className={classes.paper}>Whose Following?</Paper>
-                    {collectionDetail.no_of_followers===0 ? <p>No one is following this collection yet.</p> : 
-                    null}
-                  </Grid>
-                </Grid>
-                : null}
-                {collectionDetailError ? <div>Refresh</div>:null}
+                            <Link to={`/editCollection/${collectionDetail.id}`}>
+                                <Button variant="contained" className={classes.button}>
+                                    Edit Collection
+                            </Button>
+                            </Link>
+
+                            {postsLoading ? <CircularProgress className={classes.progress} /> : null}
+                            {posts ?
+                                //<Paper className={classes.paper}>
+                                <PostsList posts={posts} />
+                                //x</Paper>
+                                : null}
+                        </Grid>
+
+                        <Grid item xs={3}>
+                            <Paper className={classes.paper}>Whose Following?</Paper>
+                            {collectionDetail.no_of_followers === 0 ? <p>No one is following this collection yet.</p> :
+                                null}
+                        </Grid>
+                    </Grid>
+                    : null}
+                {collectionDetailError ? <div>Refresh</div> : null}
             </div>
-            )
+        )
     }
 }
-  
+
 const mapStateToProps = (state) => {
     return {
         collectionDetail: state.collection.collectionDetail,
@@ -113,7 +113,7 @@ const mapStateToProps = (state) => {
 
         posts: state.collection.posts,
         postsLoading: state.collection.postsLoading,
-        postsError: state.collection.postsError,        
+        postsError: state.collection.postsError,
     }
 }
 
@@ -124,4 +124,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps)) (CollectionDetail);
+export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(CollectionDetail);

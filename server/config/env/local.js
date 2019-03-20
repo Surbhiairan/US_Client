@@ -13,6 +13,11 @@ module.exports = {
       imageUrl : "https://s3.amazonaws.com/",
       bucketName : "postcurve"
     },
+    emailGun : {
+      'API_KEY' : '27ebc1d1e7703185ac096fe9003e2966-de7062c6-bee4baf4',
+      'DOMAIN' : 'sandboxe504238a8eab4f49a1750d1dce96609f.mailgun.org',
+      'from' : 'pandeyaniket546@gmail.com',      
+    },
     secret:"This is a post curve app",
     logging: {
       logToFile: process.env.LOGFILEPATH ? true : false,

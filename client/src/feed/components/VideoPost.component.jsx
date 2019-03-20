@@ -41,7 +41,9 @@ class VideoComponent extends React.Component {
                         <Typography component="p">
                             {post.no_of_comments} comments
                         </Typography>
-                        
+                        <Button variant="contained">
+                            Favorite
+                        </Button>
                     </CardContent>
                 </Card>
             </GridItem>

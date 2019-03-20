@@ -1,16 +1,10 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider'
-import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import VideoComponent from '../components/VideoPost.component';
+import ImageComponent from '../components/ImagePost.component';
 
-import GridItem from '../../components/Grid/GridItem';
-import PostsList from '../../collection/views/PostsList';
+import { Grid } from '@material-ui/core';
+
 
 const styles = theme => ({
     card: {
@@ -27,13 +21,32 @@ const styles = theme => ({
 class FeedsPost extends React.Component {
 
     render() {
-        const { classes, feeds } = this.props;
-        return (
-            <div>
-                <PostsList posts = {feeds}/>
-              
-            </div>
-        )
+        const { feeds } = this.props;
+        if(feeds.length>0) {
+            return (
+                <Grid justify="center">
+                {feeds.map(d => {
+                  return (
+                    d.postType === 2 
+                      ? 
+                      <VideoComponent post={d} postLink={d.postVideoUrl}></VideoComponent> 
+                      : 
+                    (d.postType === 1 
+                      ?
+                      <ImageComponent post={d}></ImageComponent>
+                      :
+                      null
+                      )
+                  )
+                })}
+              </Grid>
+            )
+        } 
+        else {
+            return (
+                <div>You have no posts yet</div>
+            )
+        }
     }
 }
 

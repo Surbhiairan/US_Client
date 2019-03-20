@@ -1,29 +1,39 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { Videocam, Image} from '@material-ui/icons';
+import { withStyles} from '@material-ui/core'
+
+const styles = () => ({
+    flexContainer: {
+        display: 'flex'
+    }
+})
 
 class CreatePost extends React.Component {
+
     render() {
+        const { classes } = this.props;
         return (
             <Grid>
                 <Typography align="center" variant="h5">
                     Select Post Type
                 </Typography>
-                <Link to={`/createPost/video`}>
-                    Video
-                </Link>
-                <Link to={`/createPost/image`}>
-                    Image
-                </Link>
-                <Link to={`/createPost/link`}>
-                    Link
-                </Link>
-                <Link to={`/createPost/quote`}>
-                    Quote
-                </Link>
+                <Grid style={{flexDirection: 'column'}}>
+                    <Videocam/>
+                    <Link to={`/createPost/video`}>
+                        Video
+                    </Link>
+                </Grid>
+                <Grid style={{flexDirection: 'column'}}>
+                    <Image/>
+                    <Link to={`/createPost/image`}>
+                        Image
+                    </Link>
+                </Grid>
             </Grid>
         )
     }
 }
 
-export default CreatePost
+export default withStyles(styles)(CreatePost)

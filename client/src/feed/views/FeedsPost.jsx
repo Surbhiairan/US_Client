@@ -24,7 +24,7 @@ class FeedsPost extends React.Component {
         const { feeds } = this.props;
         if(feeds.length>0) {
             return (
-                <Grid justify="center">
+                <Grid >
                 {feeds.map(d => {
                   return (
                     d.postType === 2 

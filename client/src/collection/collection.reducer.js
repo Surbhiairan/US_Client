@@ -20,6 +20,10 @@ const initialState = {
     deleteCollection: [],
     deleteCollectionLoading: false,
     deleteCollectionError: null,
+
+    collectionFollowers: [],
+    collectionFollowersLoading: false,
+    collectionFollowersError: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -58,6 +62,13 @@ const reducer = (state = initialState, action) => {
             return { ...state, deleteCollection: action.payload, deleteCollectionLoading: false }
         case collection.DELETE_COLLECTION_FAILURE: 
             return { ...state, deleteCollection: [], deleteCollectionError: action.payload, deleteCollectionLoading: false }
+
+        case collection.GET_COLLECTION_FOLLOWERS_LOADING: 
+            return { ...state, collectionFollowersLoading: true }
+        case collection.GET_COLLECTION_FOLLOWERS_SUCCESS:
+            return { ...state, collectionFollowers: action.payload, collectionFollowersLoading: false }
+        case collection.GET_COLLECTION_FOLLOWERS_FAILURE: 
+            return { ...state, collectionFollowers: [], collectionFollowersError: action.payload, collectionFollowersLoading: false }
 
         default:
             return state;

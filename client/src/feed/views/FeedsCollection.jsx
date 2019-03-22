@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -51,9 +50,9 @@ class FeedsCollection extends React.Component {
             <div>
                 {feeds.map((feed) => {
                     return (
-                        <GridItem xs={12}>
+                        <GridItem xs={12} style={{padding: '15px'}}>
                             <Card className={classes.card} raised={true}>
-                                <CardActionArea>
+                                {/* <CardActionArea> */}
                                     <CardMedia
                                         className={classes.media}
                                         image={feed.collectionImage}
@@ -70,13 +69,24 @@ class FeedsCollection extends React.Component {
                                             followCollectionList.length > 0 
                                             ?
                                             followCollectionList.map((collection) => {
-                                                if (collection.collectionId === feed.id) {
-                                                    return (
-                                                        <Button variant="contained" onClick={() => this.unFollowCollection(feed.id, history)}>
-                                                            Un-Follow
-                                                        </Button>
-                                                    )
-                                                }
+                                                // if (collection.id === feed.id) {
+                                                //     return (
+                                                //         <Button variant="contained" onClick={() => this.unFollowCollection(feed.id, history)}>
+                                                //             Un-Follow
+                                                //         </Button>
+                                                //     )
+                                                // } else {
+                                                //     return (
+                                                //         <Button variant="contained" onClick={() => this.followCollection(feed.id)}>
+                                                //             Follow
+                                                //         </Button>
+                                                //     )
+                                                // }
+                                                return (
+                                                    <Button variant="contained" onClick={() => this.followCollection(feed.id)}>
+                                                       {collection.id === feed.id ? 'Un-Follow' : 'Follow'} 
+                                                    </Button>
+                                                )
                                             })
                                             :
                                             <Button variant="contained" onClick={() => this.followCollection(feed.id)}>
@@ -84,7 +94,7 @@ class FeedsCollection extends React.Component {
                                             </Button>
                                         }
                                     </CardContent>
-                                </CardActionArea>
+                                {/* </CardActionArea> */}
                                 <Divider light />
                                 <CardActions>
                                     <Typography component="p">

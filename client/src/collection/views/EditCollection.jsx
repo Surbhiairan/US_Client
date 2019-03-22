@@ -92,10 +92,11 @@ class EditCollection extends React.Component {
             classes,
             collectionDetail,
             collectionDetailLoading,
+            newCollectionLoading
         } = this.props;
 
         console.log(collectionDetail, "cjjlkadj");
-        if (collectionDetailLoading) {
+        if (collectionDetailLoading || newCollectionLoading) {
             return (
                 <CircularProgress className={classes.progress} />
             )
@@ -175,6 +176,8 @@ const mapStateToProps = (state) => {
         collectionDetail: state.collection.collectionDetail,
         collectionDetailLoading: state.collection.collectionDetailLoading,
         collectionDetailError: state.collection.collectionDetailError,
+
+        newCollectionLoading: state.collection.newCollectionLoading
     }
 }
 

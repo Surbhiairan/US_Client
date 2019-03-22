@@ -6,6 +6,7 @@ import feedReducer from './feed/feed.reducer';
 import post from './post/post.reducer';
 import user from './user/user.reducer';
 import follow from './follow/follow.reducer';
+import search from './search/search.reducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     feeds: feedReducer,
     post: post,
     user: user,
-    follow: follow
+    follow: follow,
+    search: search
 })
 
 export default rootReducer

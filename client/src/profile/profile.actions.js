@@ -45,7 +45,7 @@ export const getMyProfile = (userId, history) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':'JWT '+token
+                'token': token
             },
         })
         .then(res => res.json())
@@ -88,6 +88,7 @@ export const editProfile = (values, history) => {
                 type: profile.EDIT_PROFILE_SUCCESS,
                 payload: data
             })
+            history.push('/feeds');
         })
         .catch(err => {
             dispatch({

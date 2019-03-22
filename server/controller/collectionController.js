@@ -56,7 +56,28 @@ class CollectionController{
                 res.send(err);
             })    
     }
+
+    static getcollectionFollowers(req,res){
+        let collectionId = req.params['collectionId'];
+        collectionService.getcollectionFollowers(collectionId).then( (followers) =>{
+            res.send(followers);
+        })
+        .catch(err => {
+            res.status(500);
+            res.send(err);
+        })
+    }
     
+    static deleteCollection(req,res){
+        let collectionId = req.params['collectionId'];
+        collectionService.deleteCollection(collectionId).then( (data) =>{
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500);
+            res.send(err);
+        })
+    }
 }
 
 module.exports = CollectionController;

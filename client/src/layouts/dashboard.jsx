@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Switch, Redirect, Route } from 'react-router-dom';
 
-import { logout } from '../auth/auth.actions';
 import { dashboardRoutes, otherRoutes } from '../routes/dashboard.routes'; 
 import Header from '../components/Header/Header';
 
@@ -64,11 +63,6 @@ class dashboardLayout extends React.Component {
     handleChange = (event, value) => {
         this.setState({ tabValue: value });
     };
-
-    handleSignOut = () => {
-        this.setState({ anchorEl: null });
-        logout();
-    }
 
     render() {
         const { classes, ...rest } = this.props;

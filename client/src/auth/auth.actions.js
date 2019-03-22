@@ -130,21 +130,3 @@ export const googleLogin = (values, history) => {
         })
     }
 }
-
-export const logout = () => {
-    let token = JSON.parse(localStorage.getItem('user')).token;
-    fetch(API_ROOT + URI.LOGOUT, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization':'JWT '+token
-        },
-        body: JSON.stringify({})
-    })
-    .then(data => {
-        console.log("Logout", data)
-    })
-    .catch(err => {
-        console.log("Error", err)
-    })
-}

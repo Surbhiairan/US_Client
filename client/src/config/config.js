@@ -6,7 +6,6 @@ export const URI = {
    
     PROFILE: 'userprofile',
     GET_PROFILE: 'userprofile/{0}',
-    LOGOUT: 'core/logout/',
 
     USER_COLLECTION: 'collection/?user_id={0}',
     COLLECTION: 'collection',

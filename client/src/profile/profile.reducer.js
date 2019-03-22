@@ -26,6 +26,13 @@ const reducer = (state = initialState, action) => {
         case profile.MY_PROFILE_FAILURE: 
             return { ...state, myProfile: [], myProfileError: action.payload, myProfileLoading: false }
 
+        case profile.EDIT_PROFILE_LOADING: 
+            return { ...state, myProfileLoading: true }
+        case profile.EDIT_PROFILE_SUCCESS:
+            return { ...state, myProfile: action.payload, myProfileLoading: false }
+        case profile.EDIT_PROFILE_FAILURE: 
+            return { ...state, myProfile: [], myProfileError: action.payload, myProfileLoading: false }
+
         default:
             return state;
     }

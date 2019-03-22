@@ -8,7 +8,6 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
 
-import { logout } from '../../auth/auth.actions';
 import { dashboardRoutes } from '../../routes/dashboard.routes'; 
 import Search from '../../search/view/Search';
 
@@ -117,8 +116,8 @@ class Header extends React.Component {
     };
 
     handleSignOut = () => {
-        this.setState({ anchorEl: null });
-        logout();
+        localStorage.removeItem('user');
+        this.props.history.push('/login');
     }
 
     activeRoute(routeName) {

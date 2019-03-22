@@ -142,17 +142,19 @@ class UserProfileService {
                     up.create_date,up.update_date,up.created_by,up.updated_by,u.first_name,u.email,u.role
                     from user_profile up inner join user u on up.user_id = u.id 
                     where up.user_id = ?`, [userId], (err, data) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            let userProfile = new UserProfile(data[0]);
-                            userProfile['name'] = data[0].first_name
-                            userProfile['email'] = data[0].email
-                            userProfile['role'] = data[0].role
-                            
-                            resolve(userProfile);
-                        }
-                    });
+                            if (err) {
+                                reject(err);
+                            } else {
+                                let userProfile = {}
+                                if (data && data.length > 0) {
+                                    userProfile = new UserProfile(data[0]);
+                                    userProfile['name'] = data[0].first_name
+                                    userProfile['email'] = data[0].email
+                                    userProfile['role'] = data[0].role
+                                }
+                                resolve(userProfile);
+                            }
+                        });
                 })
                 .catch(err => {
                     reject(err);

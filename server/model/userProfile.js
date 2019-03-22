@@ -2,7 +2,7 @@ class UserProfile{
 
     constructor(obj){
         this.id = obj && obj.id ? obj.id : null;
-        this.userId = obj && obj.user_id ? obj.v : null;
+        this.userId = obj && obj.user_id ? obj.user_id : null;
         this.profileImg = obj && obj.profile_img ? obj.profile_img : null;
         this.bio = obj && obj.bio ? obj.bio : null;
         this.fLink = obj && obj.f_link ? obj.f_link : null;

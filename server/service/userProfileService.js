@@ -138,11 +138,18 @@ class UserProfileService {
                 return connection;
             })
                 .then(connection => {
-                    connection.query('select * from user_profile where user_id =? ', [userId], (err, data) => {
+                    connection.query(`select up.id,up.user_id,up.profile_img,up.bio,up.f_link,up.i_link,up.t_link,up.y_link,
+                    up.create_date,up.update_date,up.created_by,up.updated_by,u.first_name,u.email,u.role
+                    from user_profile up inner join user u on up.user_id = u.id 
+                    where up.user_id = ?`, [userId], (err, data) => {
                         if (err) {
                             reject(err);
                         } else {
                             let userProfile = new UserProfile(data[0]);
+                            userProfile['name'] = data[0].first_name
+                            userProfile['email'] = data[0].email
+                            userProfile['role'] = data[0].role
+                            
                             resolve(userProfile);
                         }
                     });

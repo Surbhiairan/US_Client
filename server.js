@@ -5,6 +5,10 @@ const port = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+//var server = require('http').createServer(app);
+//var io = require('socket.io')(server);
+
+
 const apiRoutes = require('./server/routes');
 app.use(cors());
 app.use(bodyParser.json({'limit' : '100mb'}));
@@ -32,6 +36,8 @@ app.get('/', (req, res) => {
   res.send('root route');
 })
 //Start server
+
+
 app.listen(port, (req, res) => {
 console.log(`server listening on port: ${port}`)
  });

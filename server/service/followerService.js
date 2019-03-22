@@ -100,7 +100,8 @@ class FollowerService {
                 connection = conn;
                 connection.query(
                     `select u.id,u.first_name,u.email,u.role,u.is_active,u.is_profile,u.create_date,u.update_date,
-                    u.created_by,u.updated_by,up.profile_img
+                    u.created_by,u.updated_by,up.profile_img,
+                   (select count(*) from follow_user fuser where fuser.following_id = u.id) total_followers
                     from user u inner join follow_user fu on fu.user_id = u.id
                     inner join user_profile up on up.user_id = u.id
                     where fu.following_id = ?`, userId, (err, data) => {
@@ -113,6 +114,7 @@ class FollowerService {
                                 users = data.map(item => {
                                     let user = new User(item);
                                     user['profileImg'] = item['profile_img']
+                                    user['totalFollowers'] = item['total_followers']
                                     return user;
                                 })
                             }

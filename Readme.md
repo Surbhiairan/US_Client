@@ -278,3 +278,10 @@ Delete - http://localhost:5000/api/follower
 {
 	"following_id": 2
 }
+
+
+Get followers of collectio/id
+Get http://localhost:5000/api/collection/5/followers
+
+delete a collection -- 
+Delete http://localhost:5000/api/collection/5

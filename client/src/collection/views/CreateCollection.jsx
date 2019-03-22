@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { TextField,Button, Grid } from '@material-ui/core';
+import { TextField,Button, Grid, Typography, CircularProgress } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
@@ -14,19 +14,18 @@ import defaultImage from "../../assets/img/default-image.png";
 import { newCollection } from '../collection.action';
 
 const styles = theme => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
     textField: {
+        width: '100%',
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
     },
     gridItem: {
-        textAlign: 'center'
+        //textAlign: 'center'
     },
     gridContainer: {
-        justifyContent: 'center'
+        //justifyContent: 'center'
+        paddingLeft: '20%',
+        paddingRight: '20%'
     }
 });
 
@@ -65,7 +64,12 @@ class CreateCollection extends React.Component {
       }
 
     render() {
-        const { classes } = this.props;
+        const { classes, newCollectionLoading } = this.props;
+        if (newCollectionLoading) {
+            return (
+                <CircularProgress className={classes.progress} />
+            )
+        }
         return (
             <Grid>
                 <ImageUpload
@@ -83,6 +87,7 @@ class CreateCollection extends React.Component {
                 validationSchema={CollectionSchema}
                 render={({ values, handleChange, errors, touched, setFieldValue, handleSubmit }) => (
                     <GridContainer className={classes.gridContainer}>
+                        <Typography> Collection Title</Typography>
                         <GridItem xs={12} className={classes.gridItem}>
                             <TextField
                                 id="collection_title"
@@ -98,6 +103,7 @@ class CreateCollection extends React.Component {
                                 <div style={{ color: "red" }}>{errors.collection_title}</div>
                             ) : null}
                         </GridItem>
+                        <Typography style={{ paddingTop: '2%'}}> Collection Description </Typography>
                         <GridItem xs={12} className={classes.gridItem}>
                             <TextField
                                 id="collection_text"
@@ -110,8 +116,7 @@ class CreateCollection extends React.Component {
                                 variant="outlined"
                                 onChange={handleChange}
                                 multiline={true}
-                                rows={2}
-                                rowsMax={4}
+                                rows={5}
                             />
                             {errors.collection_text && touched.collection_text ? (
                                 <div style={{ color: "red" }}>{errors.collection_text}</div>

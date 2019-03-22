@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { TextField, Button, Grid } from '@material-ui/core';
+import { TextField, Button, Grid, Typography } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
@@ -19,14 +19,16 @@ const styles = theme => ({
         flexWrap: 'wrap',
     },
     textField: {
+        width: '100%',
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
     },
     gridItem: {
-        textAlign: 'center'
+        //textAlign: 'center'
     },
     gridContainer: {
-        justifyContent: 'center'
+        paddingLeft: '20%',
+        paddingRight: '20%'
     }
 });
 
@@ -86,6 +88,9 @@ class EditCollection extends React.Component {
         reader.readAsDataURL(file);
     }
 
+    cancelEdit = () => {
+        this.props.history.push('/mycollections');
+    }
 
     render() {
         const {
@@ -95,7 +100,6 @@ class EditCollection extends React.Component {
             newCollectionLoading
         } = this.props;
 
-        console.log(collectionDetail, "cjjlkadj");
         if (collectionDetailLoading || newCollectionLoading) {
             return (
                 <CircularProgress className={classes.progress} />
@@ -117,7 +121,7 @@ class EditCollection extends React.Component {
                         validationSchema={CollectionSchema}
                         render={({ values, handleChange, errors, touched, handleSubmit }) => (
                             <GridContainer className={classes.gridContainer}>
-
+                                <Typography > Collection Title</Typography>
                                 <GridItem xs={12} className={classes.gridItem}>
                                     <TextField
                                         id="collection_title"
@@ -133,6 +137,7 @@ class EditCollection extends React.Component {
                                         <div style={{ color: "red" }}>{errors.collection_title}</div>
                                     ) : null}
                                 </GridItem>
+                                <Typography style={{paddingTop: '2%'}}> Collection Description </Typography>
                                 <GridItem xs={12} className={classes.gridItem}>
                                     <TextField
                                         id="collection_text"
@@ -144,8 +149,8 @@ class EditCollection extends React.Component {
                                         variant="outlined"
                                         onChange={handleChange}
                                         multiline={true}
-                                        rows={2}
-                                        rowsMax={4}
+                                        rows={5}
+                                        rowsMax={5}
                                         value={values.collection_text}
                                     />
                                     {errors.collection_text && touched.collection_text ? (
@@ -153,11 +158,14 @@ class EditCollection extends React.Component {
                                     ) : null}
                                 </GridItem>
 
-                                <GridItem xs={12} className={classes.gridItem}>
+                                <GridItem xs={12} >
                                     <Button variant="contained" onClick={this.handleDeleteCollection}>
                                         Delete Collection
                                     </Button>
-                                    <Button variant="contained" onClick={handleSubmit}>
+                                    <Button variant="contained" style={{float: 'right'}} onClick={this.cancelEdit}>
+                                        Cancel 
+                                    </Button>
+                                    <Button variant="contained" style={{float: 'right'}} onClick={handleSubmit}>
                                         Save Collection
                                     </Button>
                                 </GridItem>

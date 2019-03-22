@@ -41,15 +41,14 @@ class MyCollection extends React.Component {
 
             return (
             <div>
-                <Link to={`/createCollection`}>
-                    <Button variant="contained" className={classes.button}>
-                        Create New Collection
-                    </Button>
-                </Link>
+                <Button variant="contained" className={classes.button} onClick={this.handleCreateCollection}>
+                    Create New Collection
+                </Button>
                 {myCollectionLoading ? <CircularProgress className={classes.progress} />: null}
                 {myCollection ? 
                 <CollectionsList 
                     collections = {myCollection}
+                    history = {this.props.history}
                 /> : null}
                 {myCollectionError ? <div>Refresh</div>:null}
             </div>

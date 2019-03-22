@@ -5,10 +5,9 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom'
 
 import GridItem from '../../components/Grid/GridItem';
-import { Grid } from '@material-ui/core';
+import { Grid, Divider } from '@material-ui/core';
 
 const styles = theme => ({
     button: {
@@ -23,8 +22,20 @@ const styles = theme => ({
     media: {
       objectFit: 'cover',
     },
+    maxLines: {
+      display: 'block', /* or inline-block */
+      textOverflow: 'ellipsis',
+      wordWrap: 'break-word',
+      overflow: 'hidden',
+      maxHeight: '3.6em',
+      lineHeight: '1.8em'
+    }
 });
 class CollectionsList extends React.Component {
+
+    collectionDetail = (id) => {
+      this.props.history.push('/collection/' + id)
+    }
     
     render() {
         const { 
@@ -37,31 +48,31 @@ class CollectionsList extends React.Component {
                 {collections.map(collection => {
                   return (
                     <GridItem >
-                      <Link to={`/collection/${collection.id}`}>
+                      {/* <Link to={`/collection/${collection.id}`}> */}
                          <Card className={classes.card}>
-                            <CardActionArea>
+                            <CardActionArea onClick={() => this.collectionDetail(collection.id)}>
                             <CardMedia
                               component="img"
-                              alt="Contemplative Reptile"
+                              alt=""
                               className={classes.media}
                               height="140"
                               image={collection.collectionImage}
-                              title="Contemplative Reptile"
                             />
                             <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2">
+                                <Typography gutterBottom variant="h5" component="h2" style={{textTransform: 'capitalize'}}>
                                     {collection.collectionTitle}
                                 </Typography>
-                                <Typography component="p">
+                                <Typography component="p" style={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>
                                     {collection.collectionText}
                                 </Typography>
-                                <Typography component="p">
-                                    {collection.no_of_followers} people follow this collection
+                                <Divider light/>
+                                <Typography component="p" >
+                                    {collection.totalFavorites } people follow this collection
                                 </Typography>
                             </CardContent>
                           </CardActionArea>
                         </Card>
-                      </Link>
+                      {/* </Link> */}
                     </GridItem>
                   );
                 })}

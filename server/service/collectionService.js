@@ -216,6 +216,35 @@ class CollectionService {
         });
     }
 
+    static getcollectionFollowers(collectionId) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query(`select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
+                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email
+                from fav_collection fc inner join collection c on fc.collection_id = c.id
+                inner join user u on u.id = fc.user_id
+                where fc.collection_id = ?;`, [collectionId], (err, data) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            let results = [];
+                            results = data.map(item => {
+                                let collection;
+                                collection = new Collection(item);
+                                collection['followerName'] = item['first_name']
+                                collection['folowerEmail'] = item['email']
+                                //collection['totalFavorites'] = data[0]['total_fav']
+                                return collection;
+                            });
+                            resolve(results);
+                        }
+                    })
+            });
+        })
+    }
+
 
 }
 

@@ -56,6 +56,17 @@ class CollectionController{
                 res.send(err);
             })    
     }
+
+    static getcollectionFollowers(req,res){
+        let collectionId = req.params['collectionId'];
+        collectionService.getcollectionFollowers(collectionId).then( (followers) =>{
+            res.send(followers);
+        })
+        .catch(err => {
+            res.status(500);
+            res.send(err);
+        })
+    }
     
 }
 

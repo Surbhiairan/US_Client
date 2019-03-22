@@ -11,6 +11,6 @@ collectionRouter.get('/:collectionId/post', Auth.isAuthenticated ,PostController
 
 collectionRouter.post('/', Auth.isAuthenticated ,CollectionController.addCollection)
 collectionRouter.patch('/:collectionId', Auth.isAuthenticated ,CollectionController.editCollection)
-
+collectionRouter.get('/:collectionId/followers',CollectionController.getcollectionFollowers)
 
 module.exports = collectionRouter;

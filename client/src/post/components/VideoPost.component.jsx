@@ -1,6 +1,6 @@
 import React from 'react';
 import YouTube from 'react-youtube';
-import { Card, Typography, CardContent, Button } from '@material-ui/core';
+import { Card, Typography, CardContent } from '@material-ui/core';
 
 import GridItem from '../../components/Grid/GridItem';
 

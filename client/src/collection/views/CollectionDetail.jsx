@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 import PostsList from '../views/PostsList';
-import { getCollectionDetail, getPostsList } from '../collection.action';
+import { getCollectionDetail, getPostsList, getCollectionFollowing } from '../collection.action';
 
 const styles = theme => ({
     root: {
@@ -37,6 +37,7 @@ class CollectionDetail extends React.Component {
         console.log(id, "id");
         this.props.getCollectionDetail(id, this.props.history);
         this.props.getPostsList(id, this.props.history);
+        this.props.getCollectionFollowing(id, this.props.history)
     }
 
     render() {
@@ -121,6 +122,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getCollectionDetail: (id, history) => dispatch(getCollectionDetail(id, history)),
         getPostsList: (id, history) => dispatch(getPostsList(id, history)),
+        getCollectionFollowing: (id, history) => dispatch(getCollectionFollowing(id, history))
     }
 }
 

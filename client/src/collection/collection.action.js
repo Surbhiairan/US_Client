@@ -81,6 +81,7 @@ export const editCollection = (values, history) => {
     return (dispatch) => {
         if(token!=null){
         dispatch({ type: collection.NEW_COLLECTION_LOADING })
+       // dispatch({ type: collection.COLLECTION_DETAIL_LOADING })
         fetch(StringFormat(API_ROOT + URI.EDIT_COLLECTION, id), {
             method: 'PATCH',
             headers: {
@@ -215,6 +216,37 @@ export const getPostsList = (id, history) => {
         .catch(err => {
             dispatch({
                 type: collection.POSTS_FAILURE,
+                payload: err
+            })
+        })
+    }else{
+        history.push('/login');
+    }
+    }
+}
+
+export const getCollectionFollowing = (id, history) => {
+    let token = JSON.parse(localStorage.getItem('user')).token;
+    return (dispatch) => {
+        if(token!=null){
+        dispatch({ type: collection.GET_COLLECTION_FOLLOWERS_LOADING })
+        fetch(StringFormat(API_ROOT + URI.GET_COLLECTION_FOLLOWERS, id), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': token
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            dispatch({
+                type: collection.GET_COLLECTION_FOLLOWERS_SUCCESS,
+                payload: data
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: collection.GET_COLLECTION_FOLLOWERS_FAILURE,
                 payload: err
             })
         })

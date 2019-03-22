@@ -84,7 +84,7 @@ class UserProfileService {
             })
                 .then(() => {
                     return new Promise((resolve, reject) => {
-                        connection.query('select * from user_profile where id = ? ', [profile.id], (err, data) => {
+                        connection.query('select * from user_profile where id = ? ', [profile.user_id], (err, data) => {
                             if (err) { reject(err) }
                             else {
                                 userProfile = new UserProfile(data[0]);
@@ -106,14 +106,14 @@ class UserProfileService {
                 f_link=?,i_link=?,t_link=?,y_link=?,create_date=?,update_date=?,created_by=?,updated_by=? where id=?`,
                         [profile.user_id, userProfile.imageURL, profile.bio, profile.f_link, profile.i_link,
                         profile.t_link, profile.y_link, userProfile.createDate, userProfile.update_date,
-                        userProfile.createdBy, userProfile.updated_by, profile.id], (err, data) => {
+                        userProfile.createdBy, userProfile.updated_by, profile.user_id], (err, data) => {
                             if (err) {
                                 DB.rollbackTransaction(connection);
                                 reject(err);
                             }
                             else {
                                 DB.commitTransaction(connection);
-                                connection.query('select * from user_profile where id = ? ', [profile.id], (err, data) => {
+                                connection.query('select * from user_profile where id = ? ', [profile.user_id], (err, data) => {
                                     DB.release(connection);
                                     if (err) {
                                         reject(err)

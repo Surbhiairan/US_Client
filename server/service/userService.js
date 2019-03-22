@@ -4,7 +4,7 @@ const salt = 10;
 const User = require("../model/user");
 const config = require('../config/env');
 const jwt = require('jsonwebtoken');
-
+const EmailGun = require('../util/emailGun');
 
 class userService {
 
@@ -29,7 +29,10 @@ class userService {
                         } else if (data) {
                             DB.commitTransaction(connection);
                             DB.release(connection)
-                            resolve(data);
+                            EmailGun.sendActivationLink(data.insertId,user.email).then( () => {
+                                console.log("Data")
+                                resolve("Email has sent for email verification ");
+                            });
                         }
                     });
             }).catch(err => {

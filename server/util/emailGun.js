@@ -1,32 +1,35 @@
 const EmailTemplate = require('./EmailTemplate');
-const config = require('../config');
-var API_KEY = config.EmailGun.API_KEY;
-var DOMAIN = config.EmailGun.DOMAIN;
+const config = require('../config/env/index');
+var API_KEY = config.emailGun.API_KEY;
+var DOMAIN = config.emailGun.DOMAIN;
 const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 
 class EmailGun{
 
     static sendEmail(content,to){
+        // hard coded temporarily
         to = 'pandeyaniket546@gmail.com';
         const data = {
-            from: config.EmailGun.from,
+            from: config.emailGun.from,
             to: to,
-            subject: 'Test',
+            subject: 'RESET PASSWORD :: POST CURVE',
             html: content
         };
         return new Promise( (resolve,reject) => {
-            mailgun.messages().send(data, (error, body) => {
+            mailgun.messages().send(data, (err, body) => {                
                if(err){
-                resolve(body)
+                console.log("err..........",err);
+                reject(err)
                }else{
-                reject(error)
+                resolve(body)
                }
             });
         });
         
     }
-    static sendActivationLink(userId){
-        
+    static sendActivationLink(id,email){
+        let template = EmailTemplate.getActivateLinkTemplete(id,email);
+        return EmailGun.sendEmail(template,email);
     }
 
 }

@@ -235,6 +235,9 @@ class CollectionService {
                                 collection = new Collection(item);
                                 collection['followerName'] = item['first_name']
                                 collection['folowerEmail'] = item['email']
+                                collection['folowerId'] = collection['userId']
+                                delete collection['userId'];
+                                
                                 //collection['totalFavorites'] = data[0]['total_fav']
                                 return collection;
                             });

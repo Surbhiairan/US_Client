@@ -1,50 +1,52 @@
 const PostService = require('../service/postService');
-class PostController{
+class PostController {
 
-    static addPost(req,res){
+    static addPost(req, res) {
         let post = req.body;
-        PostService.addPost(post).then( post =>{
+        PostService.addPost(post).then(post => {
             res.send(post);
         })
-        .catch( err =>{
-            res.status(500);
-            res.send(err);
-        })
+            .catch(err => {
+                res.status(500);
+                res.send(err);
+            })
     }
 
-    static getPostById(req,res){
+    static getPostById(req, res) {
         let postId = req.params['postId'];
-        PostService.getPostByID(postId).then( post =>{
+        PostService.getPostByID(postId).then(post => {
             res.send(post);
         })
-        .catch( err =>{
-            res.status(500);
-            res.send(err);
-        })
+            .catch(err => {
+                res.status(500);
+                res.send(err);
+            })
     }
 
-    static getAllPostByCollectionId(req,res){
+    static getAllPostByCollectionId(req, res) {
         let collectionId = req.params['collectionId'];
-        PostService.getAllPostByCollectionId(collectionId).then( post =>{
+        PostService.getAllPostByCollectionId(collectionId).then(post => {
             res.send(post);
         })
-        .catch( err =>{
-            res.status(500);
-            res.send(err);
-        })
+            .catch(err => {
+                res.status(500);
+                res.send(err);
+            })
     }
 
-    static editPost(req,res){
+    static editPost(req, res) {
         let postId = req.params['postId'];
-        let post  = req.body;
-        PostService.editPost(postId,post).then( post =>{
+        let post = req.body;
+        PostService.editPost(postId, post).then(post => {
             res.send(post);
         })
-        .catch( err =>{
-            res.status(500);
-            res.send(err);
-        })
+            .catch(err => {
+                res.status(500);
+                res.send(err);
+            })
     }
+
+    
 }
 
 module.exports = PostController;

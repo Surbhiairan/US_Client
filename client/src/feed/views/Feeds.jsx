@@ -39,7 +39,7 @@ class Feeds extends React.Component {
     }
 
     render() {
-        const { classes, feedsData, feedsLoading, feedsError } = this.props;
+        const { classes, feedsData, feedsLoading } = this.props;
         if (feedsLoading) {
             return <CircularProgress className={classes.progress} />;
         }

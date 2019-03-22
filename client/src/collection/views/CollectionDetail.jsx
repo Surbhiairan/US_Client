@@ -29,6 +29,9 @@ const styles = theme => ({
     progress: {
         margin: theme.spacing.unit * 2,
     },
+    grid: {
+        padding: '5%'
+    }
 });
 class CollectionDetail extends React.Component {
 
@@ -37,6 +40,14 @@ class CollectionDetail extends React.Component {
         console.log(id, "id");
         this.props.getCollectionDetail(id, this.props.history);
         this.props.getPostsList(id, this.props.history);
+    }
+
+    createPost = () => {
+        this.props.history.push('/createPost')
+    }
+
+    editCollection = (id) => {
+        this.props.history.push('/editCollection/'+ id)
     }
 
     render() {
@@ -67,22 +78,18 @@ class CollectionDetail extends React.Component {
                                 src={collectionDetail.collectionImage} />
                         </Grid>
 
-                        <Grid item xs={3}>
-                            <h2>{collectionDetail.collectionTitle}</h2>
+                        <Grid item xs={3} style={{paddingLeft: '2%', paddingRight: '2%'}}>
+                            <h2 style={{textTransform: 'capitalize'}}>{collectionDetail.collectionTitle}</h2>
                             <p>{collectionDetail.collectionText}</p>
                         </Grid>
                         <Grid item xs={6}>
-                            <Link to={`/createPost`}>
-                                <Button variant="contained" className={classes.button}>
+                                <Button variant="contained" className={classes.button} onClick={this.createPost}>
                                     Create Post
-                            </Button>
-                            </Link>
+                                </Button>
 
-                            <Link to={`/editCollection/${collectionDetail.id}`}>
-                                <Button variant="contained" className={classes.button}>
+                                <Button variant="contained" className={classes.button} onClick={() => this.editCollection(collectionDetail.id)}>
                                     Edit Collection
                             </Button>
-                            </Link>
 
                             {postsLoading ? <CircularProgress className={classes.progress} /> : null}
                             {posts ?
@@ -92,10 +99,11 @@ class CollectionDetail extends React.Component {
                                 : null}
                         </Grid>
 
-                        <Grid item xs={3}>
-                            <Paper className={classes.paper}>Whose Following?</Paper>
-                            {collectionDetail.no_of_followers === 0 ? <p>No one is following this collection yet.</p> :
-                                null}
+                        <Grid item xs={3} style={{paddingLeft: '2%', paddingRight: '2%'}}>
+                            <Paper className={classes.paper}>
+                                Whose Following? 
+                                {collectionDetail.totalFavorites === 0 ? 'No one is following this collection yet.' : collectionDetail.totalFavorites}
+                            </Paper>
                         </Grid>
                     </Grid>
                     : null}

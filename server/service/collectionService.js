@@ -216,6 +216,100 @@ class CollectionService {
         });
     }
 
+    static getcollectionFollowers(collectionId) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query(`select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
+                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email
+                from fav_collection fc inner join collection c on fc.collection_id = c.id
+                inner join user u on u.id = fc.user_id
+                where fc.collection_id = ?;`, [collectionId], (err, data) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            let results = [];
+                            results = data.map(item => {
+                                let collection;
+                                collection = new Collection(item);
+                                collection['followerName'] = item['first_name']
+                                collection['folowerEmail'] = item['email']
+                                collection['folowerId'] = collection['userId']
+                                delete collection['userId'];
+                                
+                                //collection['totalFavorites'] = data[0]['total_fav']
+                                return collection;
+                            });
+                            resolve(results);
+                        }
+                    })
+            });
+        })
+    }
+
+    static deleteCollection(collectionId){
+        var connection;
+        return new Promise( (resolve,reject) =>{
+            DB.getConnection().then(conn => {
+                connection = conn;
+                DB.beginTransaction(connection);
+            })
+            .then( () => {
+                return new Promise( (r,rj) =>{
+                    // delete from collection;
+                    connection.query('delete from collection where id = ?',[collectionId],(err,data) =>{
+                        if(err) { 
+                            DB.rollbackTransaction(connection);
+                            DB.release(connection);
+                            rj(err);
+                        }else{
+                            r(data);
+                        }
+                    });
+                })
+            })
+            .then( () => {
+                // delete all Posts for collection - id
+                return new Promise( (r,rj) =>{
+                    // delete from post;
+                    connection.query('delete from post where collection_id = ?',[collectionId],(err,data) =>{
+                        if(err) { 
+                            DB.rollbackTransaction(connection);
+                            DB.release(connection);
+                            rj(err);
+                        }else{
+                            r(data);
+                        }
+                    });
+                })
+            })
+            .then( () => {
+                // delete all fav collection - id
+                return new Promise( (r,rj) =>{
+                    // delete from fav_collection;
+                    connection.query('delete from fav_collection where collection_id = ?',[collectionId],(err,data) =>{
+                        if(err) { 
+                            DB.rollbackTransaction(connection);
+                            DB.release(connection);
+                            rj(err);
+                        }else{
+                            r(data);
+                        }
+                    });
+                })
+            })
+            .then( () =>{
+                DB.commitTransaction(connection);
+                DB.release(connection);
+                resolve("Collection deleted successfully")
+            })
+            .catch( err => {
+                reject(err);
+            })
+
+        })
+    }
 
 }
 

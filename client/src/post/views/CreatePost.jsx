@@ -13,7 +13,6 @@ const styles = () => ({
 class CreatePost extends React.Component {
 
     render() {
-        const { classes } = this.props;
         return (
             <Grid>
                 <Typography align="center" variant="h5">

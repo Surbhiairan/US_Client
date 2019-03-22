@@ -1,19 +1,15 @@
 
 class EmailTemplate {
     static getActivateLinkTemplete(userId) {
-        const dynamicURL = "click Here " + userId;
-        return `
-        <html>
-        <head>
-            <style src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> </style>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        </head>
-        <body>
-            <button type="button" class="btn btn-primary">Primary</button>
-            <a herf="${dynamicURL}"> Please click here to activate your Profile</a> or open below URL in your browser.
-        </body>
-        </html>
-        `
+        const dynamicURL = "APPLICATION_PAGE_URL_TO_RESET_PASSWORD_ " + userId;
+        var template = `<html>
+        <head> </head>
+        <body> I this is Body</body>
+        <h1> This is Header 1</h1>
+        <a href="`+dynamicURL+`"> click Here</a>
+    </html>`
+    console.log(".........",template,"...............");
+        return template;
     }
 }
 

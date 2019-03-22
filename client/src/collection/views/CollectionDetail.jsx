@@ -4,12 +4,12 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom'
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import {Link} from 'react-router-dom';
 
 import PostsList from '../views/PostsList';
-import { getCollectionDetail, getPostsList } from '../collection.action';
+import { getCollectionDetail, getPostsList, getCollectionFollowing } from '../collection.action';
+import { Typography, Avatar } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -40,6 +40,7 @@ class CollectionDetail extends React.Component {
         console.log(id, "id");
         this.props.getCollectionDetail(id, this.props.history);
         this.props.getPostsList(id, this.props.history);
+        this.props.getCollectionFollowing(id)
     }
 
     createPost = () => {
@@ -56,6 +57,7 @@ class CollectionDetail extends React.Component {
             collectionDetail,
             collectionDetailLoading,
             collectionDetailError,
+            collectionFollowers,
 
             posts,
             postsLoading,
@@ -93,18 +95,40 @@ class CollectionDetail extends React.Component {
 
                             {postsLoading ? <CircularProgress className={classes.progress} /> : null}
                             {posts ?
-                                //<Paper className={classes.paper}>
                                 <PostsList posts={posts} />
-                                //x</Paper>
                                 : null}
                         </Grid>
-
-                        <Grid item xs={3} style={{paddingLeft: '2%', paddingRight: '2%'}}>
-                            <Paper className={classes.paper}>
-                                Whose Following? 
-                                {collectionDetail.totalFavorites === 0 ? 'No one is following this collection yet.' : collectionDetail.totalFavorites}
-                            </Paper>
-                        </Grid>
+                        { collectionFollowers.length === 0 ? 
+                            (
+                                <Grid xs={2} style={{paddingLeft: '2%', paddingRight: '2%'}}>
+                                    <Typography variant="h5">
+                                        Whose Following? 
+                                    </Typography>
+                                    <Typography>
+                                        No one is following this collection yet.
+                                    </Typography>
+                                </Grid>
+                            )
+                            :
+                            (
+                                <Grid xs={2} style={{paddingLeft: '2%', paddingRight: '2%'}}>
+                                    <Typography variant="h5">
+                                        Following {collectionDetail.totalFavorites}
+                                    </Typography>
+                                    {collectionFollowers.map(follower => {
+                                        return (
+                                            <Link to={`/user/${follower.folowerId}`}>
+                                                <Avatar 
+                                                    src={follower.collectionImage}
+                                                    sizes={{'width': 60,
+                                                        'height': 60}}
+                                                />
+                                            </Link>
+                                        )
+                                    })}
+                                </Grid>
+                            )
+                        }
                     </Grid>
                     : null}
                 {collectionDetailError ? <div>Refresh</div> : null}
@@ -122,6 +146,9 @@ const mapStateToProps = (state) => {
         posts: state.collection.posts,
         postsLoading: state.collection.postsLoading,
         postsError: state.collection.postsError,
+
+        collectionFollowersLoading: state.collection.collectionFollowersLoading,
+        collectionFollowers: state.collection.collectionFollowers
     }
 }
 
@@ -129,6 +156,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getCollectionDetail: (id, history) => dispatch(getCollectionDetail(id, history)),
         getPostsList: (id, history) => dispatch(getPostsList(id, history)),
+        getCollectionFollowing: (id, history) => dispatch(getCollectionFollowing(id, history))
     }
 }
 

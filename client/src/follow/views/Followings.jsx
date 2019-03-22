@@ -7,12 +7,11 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { getFollowedCollections } from '../follow.action';
+import { getFollowedCollections, getFollowedUser, unFollowCollection, unFollowUser } from '../follow.action';
 import GridItem from '../../components/Grid/GridItem';
-import { Grid } from '@material-ui/core';
+import { Grid, Divider, Button, CardActions } from '@material-ui/core';
 
 const styles = theme => ({
     button: {
@@ -29,28 +28,52 @@ const styles = theme => ({
 class Following extends React.Component {
 
     componentDidMount() {
-        this.props.getFollowedCollections()
+        this.props.getFollowedCollections();
+        this.props.getFollowedUser();
+    }
+
+    collectionDetail = (id) => {
+      this.props.history.push('/collection/'+ id);
+    }
+
+    UNFollowCollection = (id) => {
+      let values = {
+        collection_id: id
+      }
+      this.props.unFollowCollection(values, this.props.history)
+    }
+
+    UNFollowUser = (id) => {
+      let values = {
+        following_id: id
+      }
+      this.props.unFollowUser(values, this.props.history)
     }
 
     render() {
         const { 
             classes,
             getFollowCollection,
-            getFollowCollectionLoading
+            getFollowCollectionLoading,
+
+            getUser,
         } = this.props;
 
         if(getFollowCollectionLoading) {
             return <CircularProgress className={classes.progress} />
         }
+      //   if(getFolledUserLoading) {
+      //     return <CircularProgress className={classes.progress} />
+      // }
+
 
         return (
             <Grid container direction={"row"} justify="center">
             {getFollowCollection.map(collection => {
               return (
-                <GridItem >
-                  <Link to={`/collection/${collection.id}`}>
+                <GridItem xs={3}>
                      <Card className={classes.card}>
-                        <CardActionArea>
+                        <CardActionArea onClick={() => this.collectionDetail(collection.id)}>
                         <CardMedia
                           component="img"
                           alt="Contemplative Reptile"
@@ -60,19 +83,63 @@ class Following extends React.Component {
                           title="Contemplative Reptile"
                         />
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography gutterBottom variant="h5" component="h2" style={{textTransform: 'capitalize'}}>
                                 {collection.collectionTitle}
                             </Typography>
-                            <Typography component="p">
+                            <Typography component="p" style={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>
                                 {collection.collectionText}
+                                
                             </Typography>
+                            
+                            <Divider light/>
                             <Typography component="p">
-                                {collection.no_of_followers} people follow this collection
+                                {collection.totalFavorites} people follow this collection
                             </Typography>
                         </CardContent>
                       </CardActionArea>
+                      <CardActions>
+                      <Button variant="contained" onClick={() => this.UNFollowCollection(collection.id)}>
+                              Un-Follow
+                            </Button>
+                      </CardActions>
                     </Card>
-                  </Link>
+                </GridItem>
+              );
+            })}
+            {getUser.map(user => {
+              return (
+                <GridItem xs={3}>
+                     <Card className={classes.card}>
+                        <CardActionArea onClick={() => this.collectionDetail(user.id)}>
+                        <CardMedia
+                          component="img"
+                          alt="Contemplative Reptile"
+                          className={classes.media}
+                          height="140"
+                          image={user.profileImg}
+                          title="Contemplative Reptile"
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2" style={{textTransform: 'capitalize'}}>
+                                {user.firstName}
+                            </Typography>
+                            <Typography component="p" style={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>
+                                {user.bio}
+                                
+                            </Typography>
+                            
+                            <Divider light/>
+                            <Typography component="p">
+                                {user.totalFollowers} people follow this collection
+                            </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                      <CardActions>
+                      <Button variant="contained" onClick={() => this.UNFollowUser(user.id)}>
+                              Un-Follow
+                            </Button>
+                      </CardActions>
+                    </Card>
                 </GridItem>
               );
             })}
@@ -86,13 +153,19 @@ const mapStateToProps = (state) => {
     return {
         getFollowCollection: state.follow.getFollowCollection,
         getFollowCollectionLoading: state.follow.getFollowCollectionLoading,
-
+      
+        getUser: state.follow.getFollowedUser,
+        getFollowedUserLoading: state.follow.getFollowedUserLoading
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getFollowedCollections: () => dispatch(getFollowedCollections())
+        getFollowedCollections: () => dispatch(getFollowedCollections()),
+        getFollowedUser: () => dispatch(getFollowedUser()),
+        unFollowCollection: (id, history) => dispatch(unFollowCollection(id, history)),
+        unFollowUser: (id, history) => dispatch(unFollowUser(id, history))
+
     }
 }
 

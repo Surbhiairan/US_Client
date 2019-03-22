@@ -49,10 +49,7 @@ export const unFollowCollection = (values, history) => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    dispatch({
-                        type: Follow.UN_FOLLOW_COLLECTION_SUCCESS,
-                        payload: data
-                    })
+                    console.log("data----", data)
                     history.push('/feeds');
                 })
                 .catch(err => {
@@ -94,6 +91,66 @@ export const getFollowedCollections = () => {
                 })
         } else {
             // history.push('/login');
+        }
+    }
+}
+
+export const getFollowedUser = () => {
+    let token = JSON.parse(localStorage.getItem('user')).token;
+    return (dispatch) => {
+        if (token != null) {
+            dispatch({ type: Follow.GET_FOLLOW_COLLECTION_LOADING })
+            fetch(API_ROOT + URI.FOLLOW_USER, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    dispatch({
+                        type: Follow.GET_FOLLOWED_USER_SUCCESS,
+                        payload: data
+                    })
+                })
+                .catch(err => {
+                    dispatch({
+                        type: Follow.GET_FOLLOWED_USER_FAILURE,
+                        payload: err
+                    })
+                })
+        } else {
+            // history.push('/login');
+        }
+    }
+}
+
+export const unFollowUser = (values, history) => {
+    let token = JSON.parse(localStorage.getItem('user')).token;
+    return (dispatch) => {
+        if (token != null) {
+            fetch(API_ROOT + URI.FOLLOW_USER, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                },
+                body: JSON.stringify(values)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("data----", data)
+                    history.push('/feeds');
+                })
+                .catch(err => {
+                    dispatch({
+                        type: Follow.UN_FOLLOW_USER_FAILURE,
+                        payload: err
+                    })
+                })
+        } else {
+            history.push('/login');
         }
     }
 }

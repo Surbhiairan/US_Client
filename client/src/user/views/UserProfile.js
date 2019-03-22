@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CollectionsList from '../../collection/views/CollectionsList';
-import { fetchUserDetails, fetchUserCollections, followUser } from '../user.action';
+import { followUser } from '../user.action';
 
 const styles = theme => ({
     root: {
@@ -118,8 +118,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchUserDetails: (id, history) => dispatch(fetchUserDetails(id, history)),
-        fetchUserCollections: (id, history) => dispatch(fetchUserCollections(id, history)),
+        
         followUser: (userDetails, history) => dispatch(followUser(userDetails, history)),
     }
 }

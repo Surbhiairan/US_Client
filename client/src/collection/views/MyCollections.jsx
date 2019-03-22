@@ -4,8 +4,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom'
-
+import { Grid } from '@material-ui/core';
 import CollectionsList from './CollectionsList';
 import { fetchMyCollections } from '../collection.action';
 
@@ -40,7 +39,7 @@ class MyCollection extends React.Component {
         } = this.props;
 
             return (
-            <div>
+            <Grid>
                 <Button variant="contained" className={classes.button} onClick={this.handleCreateCollection}>
                     Create New Collection
                 </Button>
@@ -51,7 +50,7 @@ class MyCollection extends React.Component {
                     history = {this.props.history}
                 /> : null}
                 {myCollectionError ? <div>Refresh</div>:null}
-            </div>
+            </Grid>
             )
     }
 }

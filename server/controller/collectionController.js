@@ -68,6 +68,16 @@ class CollectionController{
         })
     }
     
+    static deleteCollection(req,res){
+        let collectionId = req.params['collectionId'];
+        collectionService.deleteCollection(collectionId).then( (data) =>{
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500);
+            res.send(err);
+        })
+    }
 }
 
 module.exports = CollectionController;

@@ -248,6 +248,68 @@ class CollectionService {
         })
     }
 
+    static deleteCollection(collectionId){
+        var connection;
+        return new Promise( (resolve,reject) =>{
+            DB.getConnection().then(conn => {
+                connection = conn;
+                DB.beginTransaction(connection);
+            })
+            .then( () => {
+                return new Promise( (r,rj) =>{
+                    // delete from collection;
+                    connection.query('delete from collection where id = ?',[collectionId],(err,data) =>{
+                        if(err) { 
+                            DB.rollbackTransaction(connection);
+                            DB.release(connection);
+                            rj(err);
+                        }else{
+                            r(data);
+                        }
+                    });
+                })
+            })
+            .then( () => {
+                // delete all Posts for collection - id
+                return new Promise( (r,rj) =>{
+                    // delete from post;
+                    connection.query('delete from post where collection_id = ?',[collectionId],(err,data) =>{
+                        if(err) { 
+                            DB.rollbackTransaction(connection);
+                            DB.release(connection);
+                            rj(err);
+                        }else{
+                            r(data);
+                        }
+                    });
+                })
+            })
+            .then( () => {
+                // delete all fav collection - id
+                return new Promise( (r,rj) =>{
+                    // delete from fav_collection;
+                    connection.query('delete from fav_collection where collection_id = ?',[collectionId],(err,data) =>{
+                        if(err) { 
+                            DB.rollbackTransaction(connection);
+                            DB.release(connection);
+                            rj(err);
+                        }else{
+                            r(data);
+                        }
+                    });
+                })
+            })
+            .then( () =>{
+                DB.commitTransaction(connection);
+                DB.release(connection);
+                resolve("Collection deleted successfully")
+            })
+            .catch( err => {
+                reject(err);
+            })
+
+        })
+    }
 
 }
 

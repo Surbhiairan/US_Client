@@ -22,6 +22,7 @@
     "jsonwebtoken": "^8.5.0",
     "mailgun-js": "^0.22.0",
     "mysql": "^2.16.0",
-    "nodemon": "1.18.10"
+    "nodemon": "1.18.10",
+    "socket.io": "^2.2.0"
   }
 }

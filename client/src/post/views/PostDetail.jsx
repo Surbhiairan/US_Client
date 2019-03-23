@@ -23,6 +23,17 @@ const styles = theme => ({
     root: {
         flexGrow: 1,
     },
+    card: {
+        maxWidth: 700,
+    },
+    media: {
+        height: 200,
+    },
+    textField: {
+        width: '100%',
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+    },
     paper: {
         padding: theme.spacing.unit * 2,
         textAlign: 'center',
@@ -30,6 +41,7 @@ const styles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
+        float: "right"
     },
     input: {
         display: 'none',
@@ -100,8 +112,8 @@ class PostDetail extends React.Component {
                                         <Typography component="p">
                                             {postDetails.postText}
                                         </Typography>
-                                    </CardContent>
-                                    <GridItem xs={12} className={classes.gridItem}>
+                                    
+                                    <GridItem className={classes.gridItem}>
                                     <TextField
                                         id="post_comment"
                                         label="Comment"
@@ -114,7 +126,7 @@ class PostDetail extends React.Component {
                                         onChange={e => this.handleChangeComment(e)}
                                         multiline={true}
                                         rows={3}
-                                    /></GridItem>
+                                    /></GridItem></CardContent>
                                     <GridItem xs={12} className={classes.gridItem}>
                                         <Button variant="contained" className={classes.button} onClick={()=>this.addComment(postDetails.id)}>
                                             Add Comment

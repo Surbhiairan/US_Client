@@ -17,8 +17,8 @@ const styles = theme => ({
       display: 'none',
     },
     card: {
-        width: 345,
-        margin:5
+        width: 600,
+        margin:5,
     },
     media: {
       objectFit: 'cover',
@@ -48,7 +48,8 @@ class CommentList extends React.Component {
                     <Card className={classes.card}>
                         <CardActionArea>
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2" style={{textTransform: 'capitalize'}}>
+                            <Typography>{comment.authorName}</Typography>
+                            <Typography>
                                 {comment.comment}
                             </Typography>
                         </CardContent>

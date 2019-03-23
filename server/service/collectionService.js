@@ -79,17 +79,18 @@ class CollectionService {
         })
     }
 
-    static getUsersCollection(userId) {
+    static getUsersCollection(userId,appUserId) {
         var connection;
         return new Promise((resolve, reject) => {
             DB.getConnection().then(conn => {
                 connection = conn;
                 connection.query(`select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
                 c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,
-                (select count(*) from fav_collection fc where fc.collection_id = c.id) total_fav 
+                (select count(*) from fav_collection fc where fc.collection_id = c.id) total_fav,
+                (select count(*) from fav_collection fc where fc.collection_id = c.id and fc.user_id = ?) is_Followed
                 from collection c
                 inner join user u on u.id = c.user_id
-                where c.user_id = ?`, [userId], (err, data) => {
+                where c.user_id = ?`, [appUserId,userId], (err, data) => {
                         DB.release(connection);
                         if (err) {
                             reject(err);
@@ -110,6 +111,7 @@ class CollectionService {
             collection['totalFavorites'] = item['total_fav']
             collection['authorName'] = item['first_name']
             collection['authorEmail'] = item['email']
+            collection['isFollowed']  = item['is_Followed'] ? ( item['is_Followed'] > 0 ? true : false) : false;
             //collection['totalFavorites'] = data[0]['total_fav']
             return collection;
         });
@@ -223,7 +225,8 @@ class CollectionService {
             DB.getConnection().then(conn => {
                 connection = conn;
                 connection.query(`select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
-                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,up.profile_img
+                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,up.profile_img,
+                fc.user_id folowerId
                 from fav_collection fc inner join collection c on fc.collection_id = c.id
                 inner join user u on u.id = fc.user_id
                 inner join user_profile up on up.user_id = u.id
@@ -236,8 +239,8 @@ class CollectionService {
                                 let collection;
                                 collection = new Collection(item);
                                 collection['followerName'] = item['first_name']
-                                collection['folowerEmail'] = item['email']
-                                collection['folowerId'] = collection['userId']
+                                collection['followerEmail'] = item['email']
+                                collection['followerId'] = item['folowerId']
                                 collection['profileImg'] = item['profile_img'];
                                 delete collection['userId'];
                                 

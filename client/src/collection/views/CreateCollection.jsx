@@ -124,7 +124,7 @@ class CreateCollection extends React.Component {
                         </GridItem>
                        
                         <GridItem xs={12} className={classes.gridItem}>
-                            <Button variant="contained" onClick={handleSubmit}>
+                            <Button variant="contained" color="primary" onClick={handleSubmit}>
                                 Create Collection
                             </Button>
                         </GridItem>

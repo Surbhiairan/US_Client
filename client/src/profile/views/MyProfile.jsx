@@ -233,7 +233,7 @@ class MyProfile extends React.Component {
                             <Button variant="contained" style={{float: 'right'}} onClick={this.cancelEdit}>
                                 Cancel 
                             </Button>
-                            <Button variant="contained" style={{float: 'right', marginRight: 10}} onClick={handleSubmit}>
+                            <Button color="primary" variant="contained" style={{float: 'right', marginRight: 10}} onClick={handleSubmit}>
                                 Save
                             </Button>
                         </GridItem>

@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 // import { Link } from 'react-router-dom';
 
 // import GridItem from '../../components/Grid/GridItem';
-import { Grid } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import VideoComponent from '../../post/components/VideoPost.component';
 import ImageComponent from '../../post/components/ImagePost.component';
 
@@ -25,6 +25,11 @@ const styles = theme => ({
     media: {
       objectFit: 'cover',
     },
+    paper: {
+      padding: theme.spacing.unit * 2,
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+  },
 });
 class PostsList extends React.Component {
     
@@ -35,8 +40,8 @@ class PostsList extends React.Component {
 
     render() {
         const { 
-            //classes,
             history,
+            classes,
             posts
         } = this.props;
 
@@ -94,7 +99,7 @@ class PostsList extends React.Component {
         } 
         else {
             return (
-                <div>You have no posts yet</div>
+               <Paper className={classes.paper}> You have no posts yet</Paper>
             )
         }
     }

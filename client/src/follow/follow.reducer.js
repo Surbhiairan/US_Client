@@ -7,7 +7,11 @@ const initialState = {
 
     getFollowCollection: [],
     getFollowCollectionError: null,
-    getFollowCollectionLoading: false
+    getFollowCollectionLoading: false,
+
+    getFollowedUser: [],
+    getFollowedUserLoading: false,
+    getFollowedUserError: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -26,7 +30,16 @@ const reducer = (state = initialState, action) => {
         case Follow.GET_FOLLOW_COLLECTION_FAILURE:
             return { ...state, getFollowCollection: [], getFollowCollectionError: action.payload, getFollowCollectionLoading: false}
         
-        default:
+        case Follow.GET_FOLLOWED_USER_LOADING:
+            return { ...state, getFollowedUserLoading: true }
+        case Follow.GET_FOLLOWED_USER_SUCCESS:
+            return { ...state, getFollowedUser: action.payload, getFollowedUserLoading: false }
+        case Follow.GET_FOLLOWED_USER_FAILURE:
+            return { ...state, getFollowedUser: [], getFollowedUserError: action.payload, getFollowedUserLoading: false}
+        
+        case 'RESET_FOLLOW_COLLECTION':
+            return { ...state, followCollection: []}
+            default:
             return state;
     }
 }

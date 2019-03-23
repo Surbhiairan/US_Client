@@ -144,7 +144,7 @@ class Login extends React.Component {
                                 label="Remember Me"
                             />
                         </GridItem>
-                        <Button variant="contained" onClick={handleSubmit}>
+                        <Button variant="contained" onClick={handleSubmit} color="primary">
                                 Login
                         </Button>
 

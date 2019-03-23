@@ -14,7 +14,7 @@ import FeedsPost from './FeedsPost';
 
 const styles = theme => ({
     card: {
-        maxWidth: 700,
+        width: 700,
     },
     media: {
         height: 200,

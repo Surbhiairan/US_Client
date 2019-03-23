@@ -16,7 +16,10 @@ import { followCollection, unFollowCollection } from '../../follow/follow.action
 
 const styles = theme => ({
     card: {
-        maxWidth: 700,
+        //card: {
+            width: 345,
+            margin:5
+        //},
     },
     media: {
         height: 200,
@@ -44,7 +47,7 @@ class FeedsCollection extends React.Component {
     }
 
     render() {
-        const { classes, feeds, followCollectionList, history } = this.props;
+        const { classes, feeds, followCollectionList } = this.props;
 
         return (
             <div>
@@ -89,7 +92,7 @@ class FeedsCollection extends React.Component {
                                                 )
                                             })
                                             :
-                                            <Button variant="contained" onClick={() => this.followCollection(feed.id)}>
+                                            <Button color="primary"variant="contained" onClick={() => this.followCollection(feed.id)}>
                                                 Follow
                                             </Button>
                                         }
@@ -98,11 +101,9 @@ class FeedsCollection extends React.Component {
                                 <Divider light />
                                 <CardActions>
                                     <Typography component="p">
-                                        You and {feed.noOfFollowers} people follow this.
+                                        {feed.totalFavorites} people follow this.
                                     </Typography>
-                                    <Typography>
-                                        {feed.noOfComments} Comments
-                                    </Typography>
+                                    
                                 </CardActions>
                             </Card>
                         </GridItem>

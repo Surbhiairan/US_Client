@@ -43,17 +43,18 @@ class ImageComponent extends React.Component {
                         <Typography component="p">
                             {post.postText}
                         </Typography>
+                        <Typography component="p">
+                    {post.totalFavorites} people follow this.
+                    </Typography>
+                    <Typography>
+                    {post.totalComments} Comments
+                    </Typography>
                     </CardContent>
                 </CardActionArea>
                 <Divider light/>
                 <CardActions>
-                    <Typography component="p">
-                    You and {post.noOfFollowers} people follow this.
-                    </Typography>
-                    <Typography>
-                    {post.noOfComments} Comments
-                    </Typography>
-                    <Button variant="contained">
+                    
+                    <Button variant="contained" color="primary">
                             Favorite
                         </Button>
                 </CardActions>

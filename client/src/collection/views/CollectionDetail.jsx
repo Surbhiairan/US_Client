@@ -69,7 +69,6 @@ class CollectionDetail extends React.Component {
                 {collectionDetailLoading ? <CircularProgress className={classes.progress} /> : null}
 
                 {collectionDetail ?
-
                     <Grid container spacing={24}>
                         <Grid item xs={12}>
                             <img
@@ -94,7 +93,9 @@ class CollectionDetail extends React.Component {
                             {postsLoading ? <CircularProgress className={classes.progress} /> : null}
                             {posts ?
                                 //<Paper className={classes.paper}>
-                                <PostsList posts={posts} />
+                                <PostsList 
+                                    history = {this.props.history}
+                                    posts={posts} />
                                 //x</Paper>
                                 : null}
                         </Grid>
@@ -106,7 +107,7 @@ class CollectionDetail extends React.Component {
                             </Paper>
                         </Grid>
                     </Grid>
-                    : null}
+                : null}
                 {collectionDetailError ? <div>Refresh</div> : null}
             </div>
         )

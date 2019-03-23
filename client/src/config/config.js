@@ -5,7 +5,7 @@ export const URI = {
     LOGIN: 'user/authenticate',
    
     PROFILE: 'userprofile',
-    GET_PROFILE: 'userprofile/{0}',
+    GET_ANOTHER_USER_PROFILE: 'userprofile/{0}',
 
     USER_COLLECTION: 'user/{0}/collection',
     COLLECTION: 'collection',

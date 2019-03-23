@@ -41,7 +41,7 @@ class MyCollection extends React.Component {
 
             return (
             <Grid>
-                <Button variant="contained" className={classes.button} onClick={this.handleCreateCollection}>
+                <Button color="primary" variant="contained" className={classes.button} onClick={this.handleCreateCollection}>
                     Create New Collection
                 </Button>
                 {myCollectionLoading ? <CircularProgress className={classes.progress} />: null}

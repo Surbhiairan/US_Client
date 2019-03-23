@@ -71,7 +71,7 @@ class CollectionDetail extends React.Component {
                 {collectionDetailLoading ? <CircularProgress className={classes.progress} /> : null}
 
                 {collectionDetail ?
-
+                    (
                     <Grid container spacing={24}>
                         <Grid item xs={12}>
                             <img
@@ -85,11 +85,11 @@ class CollectionDetail extends React.Component {
                             <p>{collectionDetail.collectionText}</p>
                         </Grid>
                         <Grid item xs={6}>
-                                <Button variant="contained" className={classes.button} onClick={this.createPost}>
+                                <Button color="primary" variant="contained" className={classes.button} onClick={this.createPost}>
                                     Create Post
                                 </Button>
 
-                                <Button variant="contained" className={classes.button} onClick={() => this.editCollection(collectionDetail.id)}>
+                                <Button color="primary" variant="contained" className={classes.button} onClick={() => this.editCollection(collectionDetail.id)}>
                                     Edit Collection
                             </Button>
 
@@ -129,7 +129,7 @@ class CollectionDetail extends React.Component {
                                 </Grid>
                             )
                         }
-                    </Grid>
+                    </Grid>)
                     : null}
                 {collectionDetailError ? <div>Refresh</div> : null}
             </div>

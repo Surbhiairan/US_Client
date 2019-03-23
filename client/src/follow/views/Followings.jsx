@@ -9,7 +9,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { getFollowedCollections, getFollowedUser, unFollowCollection, unFollowUser } from '../follow.action';
+import { getFollowedCollections, unFollowCollection } from '../follow.action';
+import { getFollowedUser, unFollowUser } from '../../user/user.action';
 import GridItem from '../../components/Grid/GridItem';
 import { Grid, Divider, Button, CardActions } from '@material-ui/core';
 
@@ -34,6 +35,10 @@ class Following extends React.Component {
 
     collectionDetail = (id) => {
       this.props.history.push('/collection/'+ id);
+    }
+
+    userProfile = (id) => {
+      this.props.history.push('/user/'+ id);
     }
 
     UNFollowCollection = (id) => {
@@ -98,7 +103,7 @@ class Following extends React.Component {
                         </CardContent>
                       </CardActionArea>
                       <CardActions>
-                      <Button variant="contained" onClick={() => this.UNFollowCollection(collection.id)}>
+                      <Button color="secondary" variant="contained" onClick={() => this.UNFollowCollection(collection.id)}>
                               Un-Follow
                             </Button>
                       </CardActions>
@@ -110,7 +115,7 @@ class Following extends React.Component {
               return (
                 <GridItem xs={3}>
                      <Card className={classes.card}>
-                        <CardActionArea onClick={() => this.collectionDetail(user.id)}>
+                        <CardActionArea onClick={() => this.userProfile(user.id)}>
                         <CardMedia
                           component="img"
                           alt="Contemplative Reptile"
@@ -135,7 +140,7 @@ class Following extends React.Component {
                         </CardContent>
                       </CardActionArea>
                       <CardActions>
-                      <Button variant="contained" onClick={() => this.UNFollowUser(user.id)}>
+                      <Button color="secondary" variant="contained" onClick={() => this.UNFollowUser(user.id)}>
                               Un-Follow
                             </Button>
                       </CardActions>

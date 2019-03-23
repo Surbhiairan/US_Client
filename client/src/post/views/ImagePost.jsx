@@ -190,7 +190,7 @@ class ImagePost extends React.Component {
                             </GridItem>
                         </GridContainer>
                         <GridContainer className={classes.gridContainer}>
-                            <Button onClick={handleSubmit} color="primary" variant="contained">
+                            <Button  onClick={handleSubmit} color="primary" variant="contained">
                                 Create Post
                             </Button>
                         </GridContainer>

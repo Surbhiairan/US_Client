@@ -159,13 +159,13 @@ class EditCollection extends React.Component {
                                 </GridItem>
 
                                 <GridItem xs={12} >
-                                    <Button variant="contained" onClick={this.handleDeleteCollection}>
+                                    <Button variant="contained" color="secondary" onClick={this.handleDeleteCollection}>
                                         Delete Collection
                                     </Button>
                                     <Button variant="contained" style={{float: 'right'}} onClick={this.cancelEdit}>
                                         Cancel 
                                     </Button>
-                                    <Button variant="contained" style={{float: 'right'}} onClick={handleSubmit}>
+                                    <Button variant="contained" color="primary" style={{float: 'right'}} onClick={handleSubmit}>
                                         Save Collection
                                     </Button>
                                 </GridItem>

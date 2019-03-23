@@ -1,6 +1,6 @@
 import React from 'react';
 import YouTube from 'react-youtube';
-import { Card, Typography, CardContent, Button } from '@material-ui/core';
+import { Card, Typography, CardContent, Button, Divider, CardActions } from '@material-ui/core';
 
 import GridItem from '../../components/Grid/GridItem';
 
@@ -14,23 +14,23 @@ class VideoComponent extends React.Component {
     render() {
         const { postLink, post } = this.props;
         var id = postLink.split('=').pop();
-          const opts = {
+        const opts = {
             height: '302',
             width: '678',
             playerVars: { // https://developers.google.com/youtube/player_parameters
-              autoplay: 1
+                autoplay: 1
             }
-          };
-          //if(!d) return null
+        };
+        //if(!d) return null
         return (
-              <GridItem style={{padding: '15px'}}>
-                  <Card >
+            <GridItem style={{ padding: '15px' }}>
+                <Card >
                     <YouTube
                         videoId={id}
                         opts={opts}
                         onReady={this._onReady}
                     />
-                    
+
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
                             {post.postTitle}
@@ -39,15 +39,22 @@ class VideoComponent extends React.Component {
                             {post.postText}
                         </Typography>
                         <Typography component="p">
-                            {post.no_of_comments} comments
+                            {post.totalFavorites} people follow this.
+                    </Typography>
+                        <Typography component="p">
+                            {post.totalComments} comments
                         </Typography>
-                        <Button variant="contained">
+                    </CardContent>
+                    <Divider light />
+                    <CardActions>
+
+                        <Button variant="contained" color="primary">
                             Favorite
                         </Button>
-                    </CardContent>
+                    </CardActions>
                 </Card>
             </GridItem>
-           
+
         )
     }
 }

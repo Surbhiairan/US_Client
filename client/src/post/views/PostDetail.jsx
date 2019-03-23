@@ -16,7 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import GridItem from '../../components/Grid/GridItem';
 
-import { getPostDetails, getPostComments } from '../post.action';
+import { getPostDetails, getPostComments, addComment } from '../post.action';
 import CommentList from '../components/CommentList';
 
 const styles = theme => ({
@@ -53,12 +53,16 @@ class PostDetail extends React.Component {
         this.props.getPostComments(id, this.props.history);
     }
 
-    handleChangeComment = () => {
-
+    handleChangeComment = (e) => {
+        this.setState({comment : e.target.value})
     }
     
-    addComment = () => {
-
+    addComment = (id) => {
+        let values = {
+            post_id: id,
+            comment: this.state.comment
+        }
+        this.props.addComment(values, this.props.history);
     }
 
     render() {
@@ -107,12 +111,12 @@ class PostDetail extends React.Component {
                                         autoComplete="post_comment"
                                         margin="normal"
                                         variant="outlined"
-                                        // onChange={handleChangeComment}
+                                        onChange={e => this.handleChangeComment(e)}
                                         multiline={true}
                                         rows={3}
                                     /></GridItem>
                                     <GridItem xs={12} className={classes.gridItem}>
-                                        <Button variant="contained" className={classes.button} onClick={this.addComment}>
+                                        <Button variant="contained" className={classes.button} onClick={()=>this.addComment(postDetails.id)}>
                                             Add Comment
                                         </Button>
                                     </GridItem>
@@ -150,6 +154,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getPostDetails: (id, history) => dispatch(getPostDetails(id, history)),
         getPostComments: (id, history) => dispatch(getPostComments(id, history)),
+        addComment: (values, history) => dispatch(addComment(values, history))
     }
 }
 

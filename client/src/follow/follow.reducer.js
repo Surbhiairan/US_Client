@@ -19,7 +19,16 @@ const reducer = (state = initialState, action) => {
         case Follow.FOLLOW_COLLECTION_LOADING:
             return { ...state, followCollectionLoading: true}
         case Follow.FOLLOW_COLLECTION_SUCCESS: 
-            return { ...state, followCollection: action.payload, followCollectionLoading: false }
+            const newItem = action.payload;
+            const newState = state.followCollection.slice();
+      
+            newState.push(newItem);
+            //return newState;
+            return { 
+                ...state, 
+                followCollection: newState, 
+                followCollectionLoading: false 
+            }
         case Follow.FOLLOW_COLLECTION_FAILURE:
             return { ...state, followCollection: [], followCollectionError: action.payload, followCollectionLoading: false }
         

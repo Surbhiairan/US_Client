@@ -119,7 +119,7 @@ class CollectionDetail extends React.Component {
                                         return (
                                             <Link to={`/user/${follower.folowerId}`}>
                                                 <Avatar 
-                                                    src={follower.collectionImage}
+                                                    src={follower.profileImg}
                                                     sizes={{'width': 60,
                                                         'height': 60}}
                                                 />

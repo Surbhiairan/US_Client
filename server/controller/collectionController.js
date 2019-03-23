@@ -15,7 +15,9 @@ class CollectionController{
 
     static getUsersCollection(req,res){
         let userId = req.params['userId'];
-        collectionService.getUsersCollection(userId).then( collections => {
+        let appUserId = req.body['appUser']['id'];
+
+        collectionService.getUsersCollection(userId,appUserId).then( collections => {
             res.send(collections);
         }).catch( err => {
             res.status(500);

@@ -12,7 +12,7 @@ class VideoComponent extends React.Component {
     }
 
     render() {
-        const { postLink, post } = this.props;
+        const { postLink, post, onPostClick } = this.props;
         var id = postLink.split('=').pop();
           const opts = {
             height: '302',
@@ -24,7 +24,7 @@ class VideoComponent extends React.Component {
           //if(!d) return null
         return (
               <GridItem style={{padding: '15px'}}>
-                  <Card >
+                  <Card onClick = {onPostClick}>
                     <YouTube
                         videoId={id}
                         opts={opts}

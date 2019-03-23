@@ -225,7 +225,8 @@ class CollectionService {
             DB.getConnection().then(conn => {
                 connection = conn;
                 connection.query(`select c.id,c.user_id,c.collection_title,c.collection_text,c.collection_image,
-                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,up.profile_img
+                c.create_date,c.update_date,c.created_by,c.updated_by,u.first_name,u.email,up.profile_img,
+                fc.user_id folowerId
                 from fav_collection fc inner join collection c on fc.collection_id = c.id
                 inner join user u on u.id = fc.user_id
                 inner join user_profile up on up.user_id = u.id
@@ -238,8 +239,8 @@ class CollectionService {
                                 let collection;
                                 collection = new Collection(item);
                                 collection['followerName'] = item['first_name']
-                                collection['folowerEmail'] = item['email']
-                                collection['folowerId'] = collection['userId']
+                                collection['followerEmail'] = item['email']
+                                collection['followerId'] = item['folowerId']
                                 collection['profileImg'] = item['profile_img'];
                                 delete collection['userId'];
                                 

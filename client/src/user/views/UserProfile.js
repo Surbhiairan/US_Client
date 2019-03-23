@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-import PictureUpload from '../../components/CustomUpload/PictureUpload';
 import CollectionsList from '../../collection/views/CollectionsList';
 import { followUser, getAnotherUserProfile, fetchUserCollections, getFollowedUser, unFollowUser } from '../user.action';
 import image from '../../assets/img/default-avatar.png';
@@ -53,12 +52,18 @@ class UserProfile extends React.Component {
 
     UNFollowUser = () => {
         const { id } = this.props.match.params;
-        this.props.unFollowUser(id)
+        let values = {
+            following_id: id
+        }
+        this.props.unFollowUser(values)
     }
 
     followThisUser = () => {
         const { id } = this.props.match.params;
-        this.props.followUser(id) 
+        let values = {
+            following_id: id
+        }
+        this.props.followUser(values) 
     }
 
     render() {

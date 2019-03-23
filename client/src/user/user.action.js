@@ -3,20 +3,20 @@ import { Follow } from '../follow/follow.constants';
 import { API_ROOT, URI } from '../config/config';
 import { StringFormat } from '../utils/StringFormat';
 
-export const followUser = (userDetails, history) => {
+export const followUser = (id, history) => {
     let token = JSON.parse(localStorage.getItem('user')).token;
     console.log("token---", token)
     return (dispatch) => {
         if (token != null) {
             dispatch({ type: user.FOLLOW_USER_LOADING })
-            fetch(StringFormat(API_ROOT + URI.FOLLOW_USER, userDetails.id), {
-                method: 'PUT',
+            fetch(API_ROOT + URI.FOLLOW_USER, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'JWT ' + token
+                    'token': token
                 },
                 body: JSON.stringify(
-                    { "follower_id": userDetails.id }
+                    { "follower_id": id }
                 )
             })
                 .then(res => res.json())
@@ -158,10 +158,7 @@ export const unFollowUser = (values, history) => {
                 history.push('/feeds');
             })
             .catch(err => {
-                dispatch({
-                    type: Follow.UN_FOLLOW_USER_FAILURE,
-                    payload: err
-                })
+                
             })
         } else {
             history.push('/login');

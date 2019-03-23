@@ -31,7 +31,7 @@ const styles = theme => ({
 
 class FeedsCollection extends React.Component {
 
-    unFollowCollection = (id, history) => {
+    UNFollowCollection = (id, history) => {
         let value = {
             collection_id: id
         }
@@ -47,7 +47,7 @@ class FeedsCollection extends React.Component {
     }
 
     render() {
-        const { classes, feeds, followCollectionList } = this.props;
+        const { classes, feeds } = this.props;
 
         return (
             <div>
@@ -55,49 +55,28 @@ class FeedsCollection extends React.Component {
                     return (
                         <GridItem xs={12} style={{padding: '15px'}}>
                             <Card className={classes.card} raised={true}>
-                                {/* <CardActionArea> */}
                                     <CardMedia
                                         className={classes.media}
                                         image={feed.collectionImage}
                                         title="Contemplative Reptile"
                                     />
                                     <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
+                                        <Typography gutterBottom variant="h5" component="h2" style={{textTransform: 'capitalize'}}>
                                             {feed.collectionTitle}
                                         </Typography>
                                         <Typography component="p">
                                             {feed.collectionText}
                                         </Typography>
-                                        {
-                                            followCollectionList.length > 0 
-                                            ?
-                                            followCollectionList.map((collection) => {
-                                                // if (collection.id === feed.id) {
-                                                //     return (
-                                                //         <Button variant="contained" onClick={() => this.unFollowCollection(feed.id, history)}>
-                                                //             Un-Follow
-                                                //         </Button>
-                                                //     )
-                                                // } else {
-                                                //     return (
-                                                //         <Button variant="contained" onClick={() => this.followCollection(feed.id)}>
-                                                //             Follow
-                                                //         </Button>
-                                                //     )
-                                                // }
-                                                return (
-                                                    <Button variant="contained" onClick={() => this.followCollection(feed.id)}>
-                                                       {collection.id === feed.id ? 'Un-Follow' : 'Follow'} 
-                                                    </Button>
-                                                )
-                                            })
-                                            :
+                                        {feed.isFollowed ? 
+                                            <Button color="primary"variant="contained" onClick={() => this.UNFollowCollection(feed.id)}>
+                                                Un-Follow
+                                            </Button>
+                                        :
                                             <Button color="primary"variant="contained" onClick={() => this.followCollection(feed.id)}>
                                                 Follow
                                             </Button>
                                         }
                                     </CardContent>
-                                {/* </CardActionArea> */}
                                 <Divider light />
                                 <CardActions>
                                     <Typography component="p">

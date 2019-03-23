@@ -96,3 +96,35 @@ export const getPostDetails = (id, history) => {
     }
     }
 }
+
+export const addComment = (values, history) => {
+    let token = JSON.parse(localStorage.getItem('user')).token;
+    return (dispatch) => {
+        if(token!=null){
+        dispatch({ type: Post.ADD_COMMENT_LOADING })
+        fetch(API_ROOT + URI.ADD_COMMENT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': token
+            },
+            body: JSON.stringify(values)
+        })
+        .then(res => res.json())
+        .then(data => {
+            dispatch({
+                type: Post.ADD_COMMENT_SUCCESS,
+                payload: data
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: Post.ADD_COMMENT_FAILURE,
+                payload: err
+            })
+        })
+    }else{
+        history.push('/login');
+    }
+    }
+}

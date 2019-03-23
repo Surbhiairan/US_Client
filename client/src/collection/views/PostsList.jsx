@@ -28,9 +28,15 @@ const styles = theme => ({
 });
 class PostsList extends React.Component {
     
+    handlePostClick = (post , history) => {
+        console.log(post.id, "postlist");
+        history.push('/post/' + post.id);
+    }
+
     render() {
         const { 
             //classes,
+            history,
             posts
         } = this.props;
 
@@ -42,11 +48,14 @@ class PostsList extends React.Component {
                   return (
                     d.postType === 2 
                       ? 
-                      <VideoComponent post={d} postLink={d.postVideoUrl}></VideoComponent> 
+                      <VideoComponent post={d} postLink={d.postVideoUrl}
+                        onPostClick={()=>this.handlePostClick(d, history)}
+                      ></VideoComponent> 
                       : 
                     (d.postType === 1 
                       ?
-                      <ImageComponent post={d}></ImageComponent>
+                      <ImageComponent post={d} 
+                        onPostClick={()=>this.handlePostClick(d, history)}></ImageComponent>
                       :
                       null
                       )

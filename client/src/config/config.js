@@ -14,6 +14,8 @@ export const URI = {
 
     GET_FEEDS: 'https://5c722f0dba65bb0014ebefb0.mockapi.io/getFeeds',
     POST: 'post',
+    POST_COMMENTS: 'post/{0}/comments',
+    POST_DETAIL: 'post/{0}',
 
     COLLECTION_DETAIL: 'collection/{0}',
     EDIT_COLLECTION: 'collection/{0}',

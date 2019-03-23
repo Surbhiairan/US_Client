@@ -17,7 +17,8 @@ const styles = theme => ({
       display: 'none',
     },
     card: {
-        maxWidth: 345,
+        width: 345,
+        margin:5
     },
     media: {
       objectFit: 'cover',
@@ -44,7 +45,7 @@ class CollectionsList extends React.Component {
         } = this.props;
 
             return (
-                <Grid container direction={"row"} justify="center">
+                <Grid container direction={"row"}>
                 {collections.map(collection => {
                   return (
                     <GridItem >

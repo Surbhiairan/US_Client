@@ -7,23 +7,27 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+
+import PictureUpload from '../../components/CustomUpload/PictureUpload';
 import CollectionsList from '../../collection/views/CollectionsList';
-import { fetchUserDetails, fetchUserCollections, followUser } from '../user.action';
+import { followUser, getAnotherUserProfile, fetchUserCollections, getFollowedUser, unFollowUser } from '../user.action';
+import image from '../../assets/img/default-avatar.png';
 
 const styles = theme => ({
     root: {
         flexGrow: 1,
     },
     paper: {
-      padding: theme.spacing.unit * 2,
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
     },
     button: {
-      margin: theme.spacing.unit,
+        margin: theme.spacing.unit,
+        float: 'right'
     },
     input: {
-      display: 'none',
+        display: 'none',
     },
     progress: {
         margin: theme.spacing.unit * 2,
@@ -31,19 +35,34 @@ const styles = theme => ({
 });
 class UserProfile extends React.Component {
 
+    state = {
+        imagePreviewUrl: image
+    }
+
     componentDidMount() {
         const { id } = this.props.match.params;
         console.log(id, "id");
-        this.props.fetchUserDetails(id, this.props.history);
+        this.props.getAnotherUserProfile(id, this.props.history);
         this.props.fetchUserCollections(id, this.props.history);
+        this.props.getFollowedUser();
     }
 
     handleFollowUser = (userDetails) => {
         this.props.followUser(userDetails, this.props.history);
     }
 
+    UNFollowUser = () => {
+        const { id } = this.props.match.params;
+        this.props.unFollowUser(id)
+    }
+
+    followThisUser = () => {
+        const { id } = this.props.match.params;
+        this.props.followUser(id) 
+    }
+
     render() {
-        const { 
+        const {
             classes,
             userDetails,
             userDetailsLoading,
@@ -56,72 +75,113 @@ class UserProfile extends React.Component {
             followUser,
             followUserLoading,
             followUserError,
+
+            getFollowedUser,
         } = this.props;
 
-            return (
-                
-                <div className={classes.root}>
-                {userDetailsLoading ? <CircularProgress className={classes.progress} />: null}
-                
-                {userDetails ? 
+        let followed = false;
 
-                <Grid container spacing={24}>
-                  <Grid item xs={12}>
-                    <img 
-                    alt=''
-                    style={{width: "100%",height: "200px",}} 
-                    src = {userDetails.header_image_url}/>
-                  </Grid>
+        if(getFollowedUser.length > 0) {
+            getFollowedUser.map(user => {
+                if(user.id === this.props.match.param) {
+                    return followed = true
+                }
+            })
+        }
 
-                  <Grid item xs={3}>
-                    <p>{userDetails.about_you}</p> 
-                  </Grid>
-                  <Grid item xs={6}>
-                    {userDetails.is_followed?
-                            <Button variant="contained" className={classes.button} >
-                                Following
-                            </Button>:
-                            <Button variant="contained" className={classes.button} onClick = {()=>this.handleFollowUser(userDetails)}>
-                                Follow User
-                            </Button>
-                    }
-                    
-                    {userCollectionsLoading ? <CircularProgress className={classes.progress} /> : null}
-                    {userCollections ? 
-                        <Paper className={classes.paper}>
-                            <CollectionsList collections = {userCollections}/>
-                        </Paper>
-                        : null}
-                  </Grid>
-                </Grid>
-                : null}
+        return (
+
+            <div className={classes.root}>
+                {userDetailsLoading ? <CircularProgress className={classes.progress} /> : null}
+
+                {userDetails ?
+
+                    <Grid container style={{ paddingLeft: '15%', paddingRight: '15%' }}>
+                        <Grid item xs={12}>
+                            <div className="picture-container">
+                                <div className="picture">
+                                    <img
+                                        src={userDetails.profileImg}
+                                        className="picture-src"
+                                        alt="..."
+                                    />
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} style={{ textAlign: 'center', textTransform: 'capitalize' }}>
+                            <p>{userDetails.name}</p>
+                        </Grid>
+                        <Grid item style={{float: 'right'}}>
+                            {
+                                followed ? 
+                                <Button 
+                                    color="primary" 
+                                    variant="contained" 
+                                    className={classes.button} 
+                                    onClick={() => this.followThisUser()}
+                                >
+                                     Follow 
+                                </Button>
+                                :
+                                <Button 
+                                    color="primary" 
+                                    variant="contained" 
+                                    className={classes.button} 
+                                    onClick= {() => this.UNFollowUser()}
+                                >
+                                    Un-Follow
+                                </Button>
+                            }
+                            
+                        </Grid>
+                        
+                        <Grid item style={{ textAlign: 'center' }}>
+                            <p>{userDetails.bio}</p>
+                        </Grid>
+                        <Grid item xs={6}>
+
+                            {userCollectionsLoading ? <CircularProgress className={classes.progress} /> : null}
+                            {userCollections ?
+                                <Paper className={classes.paper}>
+                                    <CollectionsList collections={userCollections} />
+                                </Paper>
+                                : null}
+                        </Grid>
+                    </Grid>
+                    : null}
             </div>
-            )
+        )
     }
 }
-  
+
 const mapStateToProps = (state) => {
     return {
         userDetails: state.user.userDetails,
         userDetailsLoading: state.user.userDetailsLoading,
-        userDetailsError: state.user.userDetailsError,  
+        userDetailsError: state.user.userDetailsError,
 
         userCollections: state.user.userCollections,
         userCollectionsLoading: state.user.userCollectionsLoading,
-        userCollectionsError: state.user.userCollectionsError,  
+        userCollectionsError: state.user.userCollectionsError,
 
         followUser: state.user.followUser,
         followUserLoading: state.user.followUserLoading,
-        followUserError: state.user.followUserError,  
+        followUserError: state.user.followUserError,
+
+        getFollowedUserLoading: state.follow.getFollowedUserLoading,
+        getFollowedUser: state.follow.getFollowedUser
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchUserDetails: (id, history) => dispatch(fetchUserDetails(id, history)),
+
+        followUser: (id, history) => dispatch(followUser(id, history)),
+        getAnotherUserProfile: (id, history) => dispatch(getAnotherUserProfile(id, history)),
         fetchUserCollections: (id, history) => dispatch(fetchUserCollections(id, history)),
-        followUser: (userDetails, history) => dispatch(followUser(userDetails, history)),
+        getFollowedUser: () => dispatch(getFollowedUser()),
+        unFollowUser: (id) => dispatch(unFollowUser(id))
     }
 }
 
-export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps)) (UserProfile);
+export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(UserProfile);

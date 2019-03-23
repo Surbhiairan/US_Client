@@ -4,11 +4,12 @@ import { StringFormat } from '../utils/StringFormat';
 
 export const fetchMyCollections = (history) => {
     let token = JSON.parse(localStorage.getItem('user')).token;
+    let id = JSON.parse(localStorage.getItem('user')).id
     console.log("token---", token)
     return (dispatch) => {
         if(token!=null){
         dispatch({ type: collection.MY_COLLECTION_LOADING })
-        fetch(API_ROOT + URI.COLLECTION, {
+        fetch(StringFormat(API_ROOT + URI.USER_COLLECTION, id), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -88,7 +88,6 @@ export const editProfile = (values, history) => {
                 type: profile.EDIT_PROFILE_SUCCESS,
                 payload: data
             })
-            history.push('/feeds');
         })
         .catch(err => {
             dispatch({

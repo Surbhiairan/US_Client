@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Tab, Paper, Typography, TextField, Button, FormLabel } from '@material-ui/core';
+import { Grid, Tab, Paper, Typography, TextField, Button, FormLabel } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -15,10 +15,17 @@ import GridItem from '../../components/Grid/GridItem';
 import { editProfile, getMyProfile } from '../profile.actions';
 
 const styles = theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
     root: {
       flexGrow: 1,
       justifyContent: 'center',
       textAlign: 'center'
+    },
+    gridItem: {
+        // textAlign: 'center'
     },
     multiLine: {
         width: '45%'
@@ -27,8 +34,14 @@ const styles = theme => ({
         margin: theme.spacing.unit,
       },
     textField: {
-        flexBasis: 200,
+        width: '100%',
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
       },
+    gridContainer: {
+        paddingLeft: '20%',
+        paddingRight: '20%'
+    }
 });
   
 const ProfileSchema = Yup.object().shape({
@@ -42,6 +55,7 @@ class MyProfile extends React.Component {
         value: 0,
         file: null,
         imagePreviewUrl: image,
+        profileImgChanged: false,
         description: '',
         facebook: '',
         instagram: '',
@@ -60,13 +74,28 @@ class MyProfile extends React.Component {
 
     handleSubmit = (values) => {
         console.log(values,"values in form");
-        let value = {
-            "profile_img": this.state.imagePreviewUrl,
-            "bio": values.about_you,
-            "f_link": values.facebook_link,
-            "i_link": values.instagram_link,
-            "t_link": values.twitter_link,
-            "y_link": values.youTube_link,
+        //if user has not changed profile pic
+        let value = null;
+        if(this.state.profileImgChanged === false){
+            value = {
+                "bio": values.about_you,
+                "f_link": values.facebook_link,
+                "i_link": values.instagram_link,
+                "t_link": values.twitter_link,
+                "y_link": values.youTube_link,
+            }
+        }
+        //if user changed profile pic
+        else {
+            value = {
+                "profile_img": this.state.imagePreviewUrl,
+                "bio": values.about_you,
+                "f_link": values.facebook_link,
+                "i_link": values.instagram_link,
+                "t_link": values.twitter_link,
+                "y_link": values.youTube_link,
+            }
+            this.setState({profileImgChanged:false})
         }
         this.props.editProfile(value, this.props.history);
     }
@@ -82,10 +111,15 @@ class MyProfile extends React.Component {
         reader.onloadend = () => {
           this.setState({
             file: file,
-            imagePreviewUrl: reader.result
+            imagePreviewUrl: reader.result,
+            profileImgChanged: true
           });
         };
         reader.readAsDataURL(file);
+    }
+
+    cancelEdit = () => {
+        this.props.history.push('/feeds');
     }
 
     render() {
@@ -103,29 +137,25 @@ class MyProfile extends React.Component {
         }
         else {
         return (
-            <div>
+            <Grid>
                 <PictureUpload
                     imagePreviewUrl= {this.state.imagePreviewUrl}
                     changeProfileImage= {this.handleProfileChange}
                 />
-                <div>
-                        <Formik 
-                            initialValues = {{
-                                about_you: myProfile.bio,
-                                facebook_link: myProfile.fLink,
-                                instagram_link: myProfile.iLink,
-                                twitter_link: myProfile.tLink,
-                                youTube_link: myProfile.yLink,
-                            }}
-                            validationSchema={ProfileSchema}
-                            onSubmit={(values) => this.handleSubmit(values)}
-                            
-                            render={({values, handleChange, errors, touched, setFieldValue, handleSubmit}) => (
-                        <GridContainer className={classes.gridContainer}>
-                            <GridItem xs={12} className={classes.gridItem}>
-                            <FormLabel style={{lineHeight: 4}}>
-                                Bio
-                            </FormLabel>
+                <Formik 
+                    initialValues = {{
+                        about_you: myProfile.bio,
+                        facebook_link: myProfile.fLink,
+                        instagram_link: myProfile.iLink,
+                        twitter_link: myProfile.tLink,
+                        youTube_link: myProfile.yLink,
+                    }}
+                    validationSchema={ProfileSchema}
+                    onSubmit={(values) => this.handleSubmit(values)}
+                    render={({values, handleChange, errors, touched, setFieldValue, handleSubmit}) => (
+                    <GridContainer className={classes.gridContainer}>
+                        <Typography>Bio</Typography>
+                        <GridItem xs={12} className={classes.gridItem}>
                             <TextField
                                 id="about_you"
                                 className={classes.textField}
@@ -135,15 +165,16 @@ class MyProfile extends React.Component {
                                 variant="outlined"
                                 onChange={handleChange}
                                 value={values.about_you}
+                                multiline={true}
+                                rows={5}
+                                rowsMax={5}
                             />
                             {errors.about_you && touched.about_you ? (
                                 <div style={{ color: "red" }}>{errors.title}</div>
                             ) : null} 
-                            </GridItem>
-                            <GridItem xs={12} className={classes.gridItem}>
-                            <FormLabel style={{lineHeight: 4}}>
-                                Facebook
-                            </FormLabel>
+                        </GridItem>
+                        <Typography style={{paddingTop: '2%'}}>Facebook</Typography>
+                        <GridItem xs={12} className={classes.gridItem}>
                             <TextField
                                 id="facebook_link"
                                 className={classes.textField}
@@ -154,11 +185,10 @@ class MyProfile extends React.Component {
                                 onChange={handleChange}
                                 value={values.facebook_link}
                             />
-                            </GridItem>
-                            <GridItem xs={12} className={classes.gridItem}>
-                            <FormLabel style={{lineHeight: 4}}>
-                                Instagram
-                            </FormLabel>
+                        </GridItem>
+
+                        <Typography style={{paddingTop: '2%'}}>Instagram</Typography>
+                        <GridItem xs={12} className={classes.gridItem}>
                             <TextField
                                 id="instagram_link"
                                 className={classes.textField}
@@ -169,11 +199,10 @@ class MyProfile extends React.Component {
                                 onChange={handleChange}
                                 value={values.instagram_link}
                             />
-                            </GridItem>
-                            <GridItem xs={12} className={classes.gridItem}>
-                            <FormLabel style={{lineHeight: 4}}>
-                                Twitter
-                            </FormLabel>
+                        </GridItem>
+
+                        <Typography style={{paddingTop: '2%'}}>Twitter</Typography>
+                        <GridItem xs={12} className={classes.gridItem}>
                             <TextField
                                 id="twitter_link"
                                 className={classes.textField}
@@ -184,12 +213,10 @@ class MyProfile extends React.Component {
                                 onChange={handleChange}
                                 value={values.twitter_link}
                             />
-                            </GridItem>
+                        </GridItem>
 
-                            <GridItem xs={12} className={classes.gridItem}>
-                            <FormLabel style={{lineHeight: 4}}>
-                                Youtube
-                            </FormLabel>
+                        <Typography style={{paddingTop: '2%'}}>YouTube</Typography>
+                        <GridItem xs={12} className={classes.gridItem}>
                             <TextField
                                 id="youTube_link"
                                 className={classes.textField}
@@ -200,19 +227,21 @@ class MyProfile extends React.Component {
                                 onChange={handleChange}
                                 value={values.youTube_link}
                             />
-                            </GridItem>
+                        </GridItem>
 
-                            <GridItem xs={12} className={classes.gridItem}>
-                            <Button variant="contained" onClick={handleSubmit}>
+                        <GridItem xs={12}>
+                            <Button variant="contained" style={{float: 'right'}} onClick={this.cancelEdit}>
+                                Cancel 
+                            </Button>
+                            <Button color="primary" variant="contained" style={{float: 'right', marginRight: 10}} onClick={handleSubmit}>
                                 Save
                             </Button>
                         </GridItem>
                         </GridContainer>
-                        )}
-                        />
-                        </div>
-                    </div>
-                )
+                )}
+                />
+            </Grid>
+            )
         }
 }
 }

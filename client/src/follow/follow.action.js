@@ -49,10 +49,7 @@ export const unFollowCollection = (values, history) => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    dispatch({
-                        type: Follow.UN_FOLLOW_COLLECTION_SUCCESS,
-                        payload: data
-                    })
+                    console.log("data----", data)
                     history.push('/feeds');
                 })
                 .catch(err => {
@@ -97,3 +94,4 @@ export const getFollowedCollections = () => {
         }
     }
 }
+

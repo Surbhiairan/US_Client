@@ -37,6 +37,17 @@ const reducer = (state = initialState, action) => {
         case Post.POST_DETAIL_FAILURE: 
             return { ...state, postDetails: [], postDetailsError: action.payload, postDetailsLoading: false }
 
+        case Post.ADD_COMMENT_LOADING: 
+            return { ...state, postCommentsLoading: true }
+        case Post.ADD_COMMENT_SUCCESS:
+            return { 
+                ...state, 
+                postComments: state.postComments.concat(action.payload),
+                postCommentsLoading: false 
+            }
+        case Post.ADD_COMMENT_FAILURE: 
+            return { ...state, postComments: [], postCommentsError: action.payload, postCommentsLoading: false }
+
         default:
             return state;
     }

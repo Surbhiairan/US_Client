@@ -4,7 +4,9 @@ import VideoComponent from '../components/VideoPost.component';
 import ImageComponent from '../components/ImagePost.component';
 
 import { Grid } from '@material-ui/core';
-
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { addFavoritePost } from '../../post/post.action';
 
 const styles = theme => ({
     card: {
@@ -20,8 +22,17 @@ const styles = theme => ({
 
 class FeedsPost extends React.Component {
 
+    favoritePost = (id, history) => {
+        //call follow collection api.
+        let value = {
+            post_id: id
+        }
+        console.log(value,"jdflkdj");
+        this.props.addFavoritePost(value, history)
+    }
+
     render() {
-        const { feeds } = this.props;
+        const { feeds, history } = this.props;
         if(feeds.length>0) {
             return (
                 <Grid >
@@ -29,11 +40,18 @@ class FeedsPost extends React.Component {
                   return (
                     d.postType === 2 
                       ? 
-                      <VideoComponent post={d} postLink={d.postVideoUrl}></VideoComponent> 
+                      <VideoComponent 
+                        post={d} 
+                        postLink={d.postVideoUrl}
+                        favoritePost={()=>this.favoritePost(d.id, history)}
+                        ></VideoComponent> 
                       : 
                     (d.postType === 1 
                       ?
-                      <ImageComponent post={d}></ImageComponent>
+                      <ImageComponent 
+                        post={d}
+                        favoritePost={()=>this.favoritePost(d.id, history)}
+                        ></ImageComponent>
                       :
                       null
                       )
@@ -50,4 +68,18 @@ class FeedsPost extends React.Component {
     }
 }
 
-export default withStyles(styles)(FeedsPost)
+const mapStateToProps = (state) => {
+    return {
+        followCollectionList: state.follow.followCollection,
+        followCollectionError: state.follow.followCollectionError,
+        followCollectionLoading: state.follow.followCollectionLoading
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addFavoritePost: (id, history) => dispatch(addFavoritePost(id, history)),
+    }
+}
+
+export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(FeedsPost);

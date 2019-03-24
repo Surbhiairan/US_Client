@@ -17,6 +17,7 @@ export const URI = {
     POST_COMMENTS: 'post/{0}/comments',
     ADD_COMMENT: 'comments',
     POST_DETAIL: 'post/{0}',
+    ADD_FAV_POST: 'favPost',
 
     COLLECTION_DETAIL: 'collection/{0}',
     EDIT_COLLECTION: 'collection/{0}',

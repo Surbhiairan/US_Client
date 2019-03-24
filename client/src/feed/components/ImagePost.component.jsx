@@ -25,8 +25,11 @@ const styles = theme => ({
 
 
 class ImageComponent extends React.Component {
+
+    
+
     render () {
-        const { classes, post } = this.props;
+        const { classes, post, favoritePost } = this.props;
         return (
             <GridItem xs={12}>
             <Card className={classes.card} raised={true}>
@@ -53,10 +56,19 @@ class ImageComponent extends React.Component {
                 </CardActionArea>
                 <Divider light/>
                 <CardActions>
-                    
-                    <Button variant="contained" color="primary">
+                    {post.isFavorited ?
+                        <Button variant="contained" color="primary" 
+                            onClick = {favoritePost}>
+                            UnFavorite
+                        </Button>
+                    :
+                        <Button variant="contained" color="primary" 
+                            onClick = {favoritePost}>
                             Favorite
                         </Button>
+                    }
+                        
+
                 </CardActions>
             </Card>
             </GridItem>

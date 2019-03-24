@@ -66,6 +66,28 @@ const reducer = (state = initialState, action) => {
                 }
             }
        
+            case feedConstant.FEEDS_AFTER_FAV_POST_SUCCESS: 
+            return {
+                ...state, 
+                feeds: {
+                    ...state.feeds,
+                    posts: 
+                        state.feeds.posts.map((item, index) => {
+                            console.log("post id----", action.payload[0].post_id)
+                            console.log("Item id----", item.id)
+
+                            if(item.id === action.payload[0].post_id) {
+                                return {
+                                    ...item,
+                                    isFavorited: true
+                                }
+                            }
+                            return item;
+                        })
+                    }
+                //...state.feeds,
+                
+            }
         default:
             return state;
     }

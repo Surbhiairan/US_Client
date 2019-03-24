@@ -12,7 +12,7 @@ class VideoComponent extends React.Component {
     }
 
     render() {
-        const { postLink, post } = this.props;
+        const { postLink, post, favoritePost } = this.props;
         var id = postLink.split('=').pop();
         const opts = {
             height: '302',
@@ -48,7 +48,9 @@ class VideoComponent extends React.Component {
                     <Divider light />
                     <CardActions>
 
-                        <Button variant="contained" color="primary">
+                        <Button variant="contained" color="primary"
+                            onClick = {favoritePost}
+                        >
                             Favorite
                         </Button>
                     </CardActions>

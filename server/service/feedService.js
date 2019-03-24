@@ -52,7 +52,7 @@ class FeedService {
                 inner join collection c on p.collection_id = c.id
                 inner join fav_collection fc on fc.collection_id = c.id
                 inner join user u on fc.user_id = u.id
-                where u.id = ?;`, [userId], (err, data) => {
+                where u.id = ? and p.id not in (select post_id from fav_post where user_id = ?) ;`, [userId,userId], (err, data) => {
                         DB.release(connection);
                         if (err) {
                             reject(err);

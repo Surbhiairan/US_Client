@@ -45,4 +45,20 @@ prepare stmt from @query;
 EXECUTE stmt;
 
 
+SELECT count(*)
+INTO @exist_column
+FROM information_schema.columns
+WHERE COLUMN_NAME = 'source'
+      AND TABLE_NAME = 'user'
+      AND TABLE_SCHEMA = Database();
+
+set @query = IF(
+    @exist_column < 1, -- column does not exist
+    'alter table user add column source char(2) Default null after is_active', -- insert column first
+    'select \'Column Exists\' status' -- else just do meaningless select
+);
+prepare stmt from @query;
+EXECUTE stmt;
+
+
 

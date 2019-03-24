@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Alert } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
@@ -93,6 +95,7 @@ class EditCollection extends React.Component {
     }
 
     render() {
+        const userId = JSON.parse(localStorage.getItem('user')).id
         const {
             classes,
             collectionDetail,
@@ -106,75 +109,86 @@ class EditCollection extends React.Component {
             )
         }
         else {
-            return (
-                <Grid>
-                    <ImageUpload
-                        handleImageChange={this.handleImageChange}
-                        imagePreviewUrl={this.state.imagePreviewUrl}
-                    />
-                    <Formik
-                        initialValues={{
-                            collection_title: collectionDetail.collectionTitle,
-                            collection_text: collectionDetail.collectionText,
-                        }}
-                        onSubmit={(values) => this.handleSubmit(values)}
-                        validationSchema={CollectionSchema}
-                        render={({ values, handleChange, errors, touched, handleSubmit }) => (
-                            <GridContainer className={classes.gridContainer}>
-                                <Typography > Collection Title</Typography>
-                                <GridItem xs={12} className={classes.gridItem}>
-                                    <TextField
-                                        id="collection_title"
-                                        className={classes.textField}
-                                        type="text"
-                                        name="collection_title"
-                                        margin="normal"
-                                        variant="outlined"
-                                        onChange={handleChange}
-                                        value={values.collection_title}
-                                    />
-                                    {errors.collection_title && touched.collection_title ? (
-                                        <div style={{ color: "red" }}>{errors.collection_title}</div>
-                                    ) : null}
-                                </GridItem>
-                                <Typography style={{paddingTop: '2%'}}> Collection Description </Typography>
-                                <GridItem xs={12} className={classes.gridItem}>
-                                    <TextField
-                                        id="collection_text"
-                                        className={classes.textField}
-                                        type="text"
-                                        name="collection_text"
-                                        autoComplete="content"
-                                        margin="normal"
-                                        variant="outlined"
-                                        onChange={handleChange}
-                                        multiline={true}
-                                        rows={5}
-                                        rowsMax={5}
-                                        value={values.collection_text}
-                                    />
-                                    {errors.collection_text && touched.collection_text ? (
-                                        <div style={{ color: "red" }}>{errors.collection_text}</div>
-                                    ) : null}
-                                </GridItem>
-
-                                <GridItem xs={12} >
-                                    <Button variant="contained" color="secondary" onClick={this.handleDeleteCollection}>
-                                        Delete Collection
-                                    </Button>
-                                    <Button variant="contained" style={{float: 'right'}} onClick={this.cancelEdit}>
-                                        Cancel 
-                                    </Button>
-                                    <Button variant="contained" color="primary" style={{float: 'right'}} onClick={handleSubmit}>
-                                        Save Collection
-                                    </Button>
-                                </GridItem>
-                            </GridContainer>
-                        )}
-                    />
-                </Grid>
-
-            )
+            if(collectionDetail.userId === userId) {
+                return (
+                    <Grid>
+                        <ImageUpload
+                            handleImageChange={this.handleImageChange}
+                            imagePreviewUrl={this.state.imagePreviewUrl}
+                        />
+                        <Formik
+                            initialValues={{
+                                collection_title: collectionDetail.collectionTitle,
+                                collection_text: collectionDetail.collectionText,
+                            }}
+                            onSubmit={(values) => this.handleSubmit(values)}
+                            validationSchema={CollectionSchema}
+                            render={({ values, handleChange, errors, touched, handleSubmit }) => (
+                                <GridContainer className={classes.gridContainer}>
+                                    <Typography > Collection Title</Typography>
+                                    <GridItem xs={12} className={classes.gridItem}>
+                                        <TextField
+                                            id="collection_title"
+                                            className={classes.textField}
+                                            type="text"
+                                            name="collection_title"
+                                            margin="normal"
+                                            variant="outlined"
+                                            onChange={handleChange}
+                                            value={values.collection_title}
+                                        />
+                                        {errors.collection_title && touched.collection_title ? (
+                                            <div style={{ color: "red" }}>{errors.collection_title}</div>
+                                        ) : null}
+                                    </GridItem>
+                                    <Typography style={{paddingTop: '2%'}}> Collection Description </Typography>
+                                    <GridItem xs={12} className={classes.gridItem}>
+                                        <TextField
+                                            id="collection_text"
+                                            className={classes.textField}
+                                            type="text"
+                                            name="collection_text"
+                                            autoComplete="content"
+                                            margin="normal"
+                                            variant="outlined"
+                                            onChange={handleChange}
+                                            multiline={true}
+                                            rows={5}
+                                            rowsMax={5}
+                                            value={values.collection_text}
+                                        />
+                                        {errors.collection_text && touched.collection_text ? (
+                                            <div style={{ color: "red" }}>{errors.collection_text}</div>
+                                        ) : null}
+                                    </GridItem>
+    
+                                    <GridItem xs={12} >
+                                        <Button variant="contained" color="secondary" onClick={this.handleDeleteCollection}>
+                                            Delete Collection
+                                        </Button>
+                                        <Button variant="contained" style={{float: 'right'}} onClick={this.cancelEdit}>
+                                            Cancel 
+                                        </Button>
+                                        <Button variant="contained" color="primary" style={{float: 'right'}} onClick={handleSubmit}>
+                                            Save Collection
+                                        </Button>
+                                    </GridItem>
+                                </GridContainer>
+                            )}
+                        />
+                    </Grid>
+    
+                )
+            } else {
+                return (
+                    <Alert color="primary">
+                        <Link to={`/mycollections`}>
+                        You do not have access to edit this collection.
+                        </Link>
+                    </Alert>
+                )
+            }
+            
         }
     }
 }

@@ -37,6 +37,33 @@ const reducer = (state = initialState, action) => {
         case user.FOLLOW_USER_FAILURE:
             return { ...state, followUser: [], followUserError: action.payload, followUserLoading: false }
 
+        case user.USER_COLLECTION_AFTER_FOLLOW_SUCCESS: 
+            return { 
+                ...state,
+                userCollections: state.userCollections.map((item, index) => {
+                    if(item.id === action.payload[0].collection_id) {
+                        return {
+                            ...item,
+                            isFollowed: true
+                        }
+                    }
+                    return item;
+                })
+            }
+
+            case user.USER_COLLECTION_AFTER_UNFOLLOW_SUCCESS: 
+            return { 
+                ...state,
+                userCollections: state.userCollections.map((item, index) => {
+                    if(item.id === action.payload.collection_id) {
+                        return {
+                            ...item,
+                            isFollowed: false
+                        }
+                    }
+                    return item;
+                })
+            }
         default:
             return state;
     }

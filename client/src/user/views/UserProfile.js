@@ -4,13 +4,12 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom'
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Divider, CardActions} from '@material-ui/core'
 
-import CollectionsList from '../../collection/views/CollectionsList';
 import { followUser, getAnotherUserProfile, fetchUserCollections, getFollowedUser, unFollowUser } from '../user.action';
 import image from '../../assets/img/default-avatar.png';
+import { followCollection, unFollowCollection } from '../../follow/follow.action';
 
 const styles = theme => ({
     root: {
@@ -50,6 +49,20 @@ class UserProfile extends React.Component {
         this.props.followUser(userDetails, this.props.history);
     }
 
+    followCollection = (id) => {
+        let values = {
+            collection_id: id
+        }
+        this.props.followCollection(values)
+    }
+
+    UNFollowCollection = (id) => {
+        let values = {
+            collection_id: id
+        }
+        this.props.unFollowCollection(values)
+    }
+
     UNFollowUser = () => {
         const { id } = this.props.match.params;
         let values = {
@@ -71,11 +84,9 @@ class UserProfile extends React.Component {
             classes,
             userDetails,
             userDetailsLoading,
-            userDetailsError,
 
             userCollections,
             userCollectionsLoading,
-            userCollectionsError,
 
             followUser,
             followUserLoading,
@@ -143,14 +154,51 @@ class UserProfile extends React.Component {
                         <Grid item style={{ textAlign: 'center' }}>
                             <p>{userDetails.bio}</p>
                         </Grid>
-                        <Grid item xs={6}>
-
+                        <Grid container direction={"row"} >
                             {userCollectionsLoading ? <CircularProgress className={classes.progress} /> : null}
-                            {userCollections ?
-                                <Paper className={classes.paper}>
-                                    <CollectionsList collections={userCollections} />
-                                </Paper>
-                                : null}
+                            { userCollections.map(collection => {
+                                    return (
+                                      <Grid item xs={4} style={{paddingLeft: '2%', paddingRight: '2%'}}>
+                                           <Card className={classes.card}>
+                                              <CardActionArea onClick={() => this.collectionDetail(collection.id)}>
+                                              <CardMedia
+                                                component="img"
+                                                alt=""
+                                                className={classes.media}
+                                                height="140"
+                                                image={collection.collectionImage}
+                                              />
+                                              <CardContent>
+                                                  <Typography gutterBottom variant="h5" component="h2" style={{textTransform: 'capitalize'}}>
+                                                      {collection.collectionTitle}
+                                                  </Typography>
+                                                  <Typography component="p" style={{textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>
+                                                      {collection.collectionText}
+                                                  </Typography>
+                                                  <Divider light/>
+                                                  <Typography component="p" >
+                                                      {collection.totalFavorites } people follow this collection
+                                                  </Typography>
+                                              </CardContent>
+                                            </CardActionArea>
+                                            <CardActions>
+                                                {
+                                                    collection.isFollowed ? 
+                                                    <Button color="secondary" variant="contained" onClick={() => this.UNFollowCollection(collection.id)}>
+                                                        Un-Follow
+                                                    </Button>
+                                                    :
+                                                    <Button color="secondary" variant="contained" onClick={() => this.followCollection(collection.id)}>
+                                                        Follow
+                                                    </Button>
+                                                }
+                                                
+                                            </CardActions>
+                                          </Card>
+                                      </Grid>
+                                    );
+                                  })
+                                }
                         </Grid>
                     </Grid>
                     : null}
@@ -185,7 +233,9 @@ const mapDispatchToProps = (dispatch) => {
         getAnotherUserProfile: (id, history) => dispatch(getAnotherUserProfile(id, history)),
         fetchUserCollections: (id, history) => dispatch(fetchUserCollections(id, history)),
         getFollowedUser: () => dispatch(getFollowedUser()),
-        unFollowUser: (id) => dispatch(unFollowUser(id))
+        unFollowUser: (id) => dispatch(unFollowUser(id)),
+        followCollection: (id) => dispatch(followCollection(id)),
+        unFollowCollection: (id) => dispatch(unFollowCollection(id))
     }
 }
 

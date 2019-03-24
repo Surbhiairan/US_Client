@@ -1,5 +1,6 @@
 import { Follow } from './follow.constants';
-import { feedConstant } from '../feed/feed.constants'
+import { feedConstant } from '../feed/feed.constants';
+import { user } from '../user/user.constant';
 import { API_ROOT, URI } from '../config/config';
 
 export const followCollection = (values, history) => {
@@ -35,6 +36,10 @@ export const followCollection = (values, history) => {
                         type: feedConstant.FEEDS_AFTER_FOLLOW_SUCCESS,
                         payload: followedCollection
                     })
+                    dispatch({
+                        type: user.USER_COLLECTION_AFTER_FOLLOW_SUCCESS,
+                        payload: followedCollection
+                    })
                     //history.push('/feeds');
                 })
                 .catch(err => {
@@ -68,7 +73,11 @@ export const unFollowCollection = (values, history) => {
                         type: feedConstant.FEEDS_AFTER_UNFOLLOW_SUCCESS,
                         payload: values
                     })
-                    history.push('/feeds');
+                    dispatch({
+                        type: user.USER_COLLECTION_AFTER_UNFOLLOW_SUCCESS,
+                        payload: values
+                    })
+                    //history.push('/feeds');
                 })
                 .catch(err => {
                     

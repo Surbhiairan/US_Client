@@ -29,7 +29,7 @@ const reducer = (state = initialState, action) => {
                 feeds: {
                     ...state.feeds,
                     collections: 
-                        state.feeds.collections.map((item, index) => {
+                        state.feeds.collections && state.feeds.collections.map((item, index) => {
                             console.log("collection id----", action.payload[0].collection_id)
                             console.log("Item id----", item.id)
 
@@ -51,7 +51,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 feeds: {
                     ...state.feeds,
-                    collections: state.feeds.collections.map((item, index) => {
+                    collections: state.feeds.collections && state.feeds.collections.map((item, index) => {
                         console.log("collection id----", action.payload.collection_id)
                         console.log("Item id----", item.id)
 

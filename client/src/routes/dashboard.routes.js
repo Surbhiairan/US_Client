@@ -10,6 +10,7 @@ import VideoPost from '../post/views/VideoPost';
 import ImagePost from '../post/views/ImagePost';
 import QuotePost from '../post/views/QuotePost';
 import LinkPost from '../post/views/LinkPost';
+import PostDetail from '../post/views/PostDetail';
 
 import Following from '../follow/views/Followings';
 //import EditProfile from '../profile/views/EditProfile';
@@ -67,7 +68,11 @@ export const otherRoutes = [
         component: QuotePost,
         name: 'Quote Post'
     },
-    {  path: '/collection/:id', 
+    {   path: '/post/:id', 
+        component : PostDetail, 
+        name: 'Post Detail'
+    },
+    {   path: '/collection/:id', 
         component : CollectionDetail, 
         name: 'Collection Detail'
     },

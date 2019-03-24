@@ -25,10 +25,10 @@ const styles = theme => ({
 
 class ImageComponent extends React.Component {
     render () {
-        const { classes, post } = this.props;
+        const { classes, post, onPostClick } = this.props;
         return (
             <GridItem xs={12}>
-            <Card className={classes.card} raised={true}>
+            <Card onClick = {onPostClick} className={classes.card} raised={true}>
                 <CardActionArea>
                     <CardMedia
                         className={classes.media}

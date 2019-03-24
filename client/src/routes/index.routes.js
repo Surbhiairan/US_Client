@@ -17,6 +17,7 @@ var indexRoutes = [
     { path: '/createPost/link', component: DashBoard},
     { path: '/createPost/image', component: DashBoard},
     { path: '/createPost/quote', component: DashBoard},
+    { path: '/post/:id', component: DashBoard},
     { path: '/editProfile', component: DashBoard},
     { path: '/myprofile', component: DashBoard},
     { path: '/user/:id', component: DashBoard},

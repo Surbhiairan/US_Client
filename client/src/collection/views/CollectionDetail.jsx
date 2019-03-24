@@ -95,7 +95,9 @@ class CollectionDetail extends React.Component {
 
                             {postsLoading ? <CircularProgress className={classes.progress} /> : null}
                             {posts ?
-                                <PostsList posts={posts} />
+                                <PostsList                                     
+                                    history = {this.props.history}
+                                    posts={posts} />
                                 : null}
                         </Grid>
                         { collectionFollowers.length === 0 ? 
@@ -119,7 +121,7 @@ class CollectionDetail extends React.Component {
                                         return (
                                             <Link to={`/user/${follower.folowerId}`}>
                                                 <Avatar 
-                                                    src={follower.collectionImage}
+                                                    src={follower.profileImg}
                                                     sizes={{'width': 60,
                                                         'height': 60}}
                                                 />

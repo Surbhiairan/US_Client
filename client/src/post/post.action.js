@@ -176,3 +176,33 @@ export const addFavoritePost = (values, history) => {
         }
     }
 }
+
+export const addUnfavoritePost = (values, history) => {
+    let token = JSON.parse(localStorage.getItem('user')).token;
+    return (dispatch) => {
+        if (token != null) {
+            fetch(API_ROOT + URI.ADD_FAV_POST, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                },
+                body: JSON.stringify(values)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data, "data in unfav");
+                    dispatch({
+                        type: feedConstant.FEEDS_AFTER_UNFAV_POST_SUCCESS,
+                        payload: values
+                    })
+                    //history.push('/feeds');
+                })
+                .catch(err => {
+                   console.log(err);
+                })
+        } else {
+            history.push('/login');
+        }
+    }
+}

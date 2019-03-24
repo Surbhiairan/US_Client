@@ -88,6 +88,29 @@ const reducer = (state = initialState, action) => {
                 //...state.feeds,
                 
             }
+
+            case feedConstant.FEEDS_AFTER_UNFAV_POST_SUCCESS: 
+            return {
+                ...state, 
+                feeds: {
+                    ...state.feeds,
+                    posts: 
+                        state.feeds.posts.map((item, index) => {
+                            console.log("post id----", action.payload.post_id)
+                            console.log("Item id----", item.id)
+
+                            if(item.id === action.payload.post_id) {
+                                return {
+                                    ...item,
+                                    isFavorited: false
+                                }
+                            }
+                            return item;
+                        })
+                    }
+                //...state.feeds,
+                
+            }
         default:
             return state;
     }

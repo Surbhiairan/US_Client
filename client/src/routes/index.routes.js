@@ -11,6 +11,7 @@ var indexRoutes = [
     { path: '/following', component: DashBoard},
     { path: '/createCollection', component: DashBoard},
     { path: '/collection/:id', component: DashBoard},
+    { path: '/myCollection/:id', component: DashBoard},
     { path: '/editCollection/:id', component: DashBoard},
     { path: '/createPost', component: DashBoard},
     { path: '/createPost/video', component: DashBoard},

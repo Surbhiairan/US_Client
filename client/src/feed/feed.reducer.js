@@ -29,7 +29,7 @@ const reducer = (state = initialState, action) => {
                 feeds: {
                     ...state.feeds,
                     collections: 
-                        state.feeds.collections.map((item, index) => {
+                        state.feeds.collections && state.feeds.collections.map((item, index) => {
                             console.log("collection id----", action.payload[0].collection_id)
                             console.log("Item id----", item.id)
 
@@ -51,7 +51,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 feeds: {
                     ...state.feeds,
-                    collections: state.feeds.collections.map((item, index) => {
+                    collections: state.feeds.collections && state.feeds.collections.map((item, index) => {
                         console.log("collection id----", action.payload.collection_id)
                         console.log("Item id----", item.id)
 
@@ -80,6 +80,29 @@ const reducer = (state = initialState, action) => {
                                 return {
                                     ...item,
                                     isFavorited: true
+                                }
+                            }
+                            return item;
+                        })
+                    }
+                //...state.feeds,
+                
+            }
+
+            case feedConstant.FEEDS_AFTER_UNFAV_POST_SUCCESS: 
+            return {
+                ...state, 
+                feeds: {
+                    ...state.feeds,
+                    posts: 
+                        state.feeds.posts.map((item, index) => {
+                            console.log("post id----", action.payload.post_id)
+                            console.log("Item id----", item.id)
+
+                            if(item.id === action.payload.post_id) {
+                                return {
+                                    ...item,
+                                    isFavorited: false
                                 }
                             }
                             return item;

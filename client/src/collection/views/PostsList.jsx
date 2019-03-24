@@ -99,7 +99,7 @@ class PostsList extends React.Component {
         } 
         else {
             return (
-               <Paper className={classes.paper}> You have no posts yet</Paper>
+               <Paper className={classes.paper}> There are no posts yet</Paper>
             )
         }
     }

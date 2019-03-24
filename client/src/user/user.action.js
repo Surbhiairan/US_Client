@@ -90,19 +90,19 @@ export const fetchUserCollections = (id, history) => {
                     'token': token
                 },
             })
-                .then(res => res.json())
-                .then(data => {
-                    dispatch({
-                        type: user.USER_COLLECTIONS_SUCCESS,
-                        payload: data
-                    })
+            .then(res => res.json())
+            .then(data => {
+                dispatch({
+                    type: user.USER_COLLECTIONS_SUCCESS,
+                    payload: data
                 })
-                .catch(err => {
-                    dispatch({
-                        type: user.USER_COLLECTIONS_FAILURE,
-                        payload: err
-                    })
+            })
+            .catch(err => {
+                dispatch({
+                    type: user.USER_COLLECTIONS_FAILURE,
+                    payload: err
                 })
+            })
         } else {
             history.push('/login');
         }

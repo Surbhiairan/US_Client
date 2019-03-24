@@ -4,6 +4,7 @@ import MyCollections from '../collection/views/MyCollections';
 import CreateCollection from '../collection/views/CreateCollection';
 import CollectionDetail from '../collection/views/CollectionDetail';
 import EditCollection from '../collection/views/EditCollection';
+import UserCollectionDetail from '../user/views/UserCollectionDetail';
 
 import CreatePost from '../post/views/CreatePost';
 import VideoPost from '../post/views/VideoPost';
@@ -73,7 +74,7 @@ export const otherRoutes = [
         name: 'Post Detail'
     },
     {   path: '/collection/:id', 
-        component : CollectionDetail, 
+        component : UserCollectionDetail, 
         name: 'Collection Detail'
     },
     {  path: '/editCollection/:id', 
@@ -88,6 +89,11 @@ export const otherRoutes = [
         component : UserProfile, 
         name: 'User Profile'
     },
+    {
+        path: '/myCollection/:id',
+        component: CollectionDetail,
+        name: 'My Collection Detail'
+    }
 
 ]
 

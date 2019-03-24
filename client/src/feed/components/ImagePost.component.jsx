@@ -29,7 +29,7 @@ class ImageComponent extends React.Component {
     
 
     render () {
-        const { classes, post, favoritePost } = this.props;
+        const { classes, post, favoritePost, unfavoritePost } = this.props;
         return (
             <GridItem xs={12}>
             <Card className={classes.card} raised={true}>
@@ -58,7 +58,7 @@ class ImageComponent extends React.Component {
                 <CardActions>
                     {post.isFavorited ?
                         <Button variant="contained" color="primary" 
-                            onClick = {favoritePost}>
+                            onClick = {unfavoritePost}>
                             UnFavorite
                         </Button>
                     :

@@ -35,7 +35,7 @@ const styles = theme => ({
 class CollectionsList extends React.Component {
 
     collectionDetail = (id) => {
-      this.props.history.push('/collection/' + id)
+      this.props.history.push('/myCollection/' + id)
     }
     
     render() {

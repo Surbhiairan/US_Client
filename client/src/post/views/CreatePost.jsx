@@ -18,13 +18,13 @@ class CreatePost extends React.Component {
                 <Typography align="center" variant="h5">
                     Select Post Type
                 </Typography>
-                <Grid style={{flexDirection: 'column'}}>
+                <Grid style={{flexDirection: 'column', textAlign: 'center'}}>
                     <Videocam/>
                     <Link to={`/createPost/video`}>
                         Video
                     </Link>
                 </Grid>
-                <Grid style={{flexDirection: 'column'}}>
+                <Grid style={{flexDirection: 'column', textAlign: 'center'}}>
                     <Image/>
                     <Link to={`/createPost/image`}>
                         Image

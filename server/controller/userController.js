@@ -73,6 +73,16 @@ class userController{
         });
     }
 
+    static revokeRights(req,res){
+        let userId = req.body['user_id']
+        userService.revokeRights(userId).then( user =>{
+            res.send(user);
+        }).catch( err =>{
+            res.status(500);
+            res.send(err);
+        });
+    }
+
 
 }
 

@@ -11,7 +11,7 @@ const followerRouter = require('../routes/followerRoute');
 const feedRouter = require('../routes/feedRoutes');
 const commentRouter = require('../routes/commentRoutes');
 const socialAuthRouter = require('../routes/socialAuthRouter');
-
+const subscriberRouter = require('../routes/subscribeRoutes');
 router.get('/ping', (req, res) =>
   res.send('pong')
 );
@@ -28,6 +28,7 @@ router.use('/follower',followerRouter);
 router.use('/feed',feedRouter);
 router.use('/comments',commentRouter);
 router.use('/socialAuth',socialAuthRouter);
+router.use('/subscribe',subscriberRouter);
 
 
 module.exports = router;

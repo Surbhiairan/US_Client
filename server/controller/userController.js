@@ -83,6 +83,17 @@ class userController{
         });
     }
 
+    static adminApprove(req,res){
+        let userId = req.body['user_id']
+        userService.adminApprove(userId).then( user =>{
+            res.send(user);
+        }).catch( err =>{
+            res.status(500);
+            res.send(err);
+        });
+    }
+    
+
 
 }
 

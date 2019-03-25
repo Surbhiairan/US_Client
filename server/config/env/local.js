@@ -18,6 +18,10 @@ module.exports = {
       'DOMAIN' : 'sandboxe504238a8eab4f49a1750d1dce96609f.mailgun.org',
       'from' : 'pandeyaniket546@gmail.com',      
     },
+    webPush : {
+      publicVapidKey : "BMETZJpEm8onr-zpGe-ux7HXOjn9erWuCf8cWmabvJ4t2TQv97hGM7fgokjLqMAZmglnwqU5dMxaE94K6hnOGZg",
+      privateVapidKey : "z2aZovPk3CIIYm_TyOcxI0KFPXzL9axAKTMGMWFEjpQ"
+    },
     secret:"This is a post curve app",
     logging: {
       logToFile: process.env.LOGFILEPATH ? true : false,

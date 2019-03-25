@@ -29,7 +29,7 @@ class userService {
                         } else if (data) {
                             DB.commitTransaction(connection);
                             DB.release(connection)
-                            EmailGun.sendActivationLink(data.insertId,user.email).then( () => {
+                            EmailGun.sendActivationLink(data.insertId, user.email).then(() => {
                                 console.log("Data")
                                 resolve("Email has sent for email verification ");
                             });
@@ -145,11 +145,11 @@ class userService {
     static search(key) {
         var connection;
         return new Promise((resolve, reject) => {
-            DB.getConnection().then(conn => {               
-                var qr = `select * from user where first_name like "%`+key.replace(/['"]+/g, '')+`%"`;
-                console.log("qr...",qr);
+            DB.getConnection().then(conn => {
+                var qr = `select * from user where first_name like "%` + key.replace(/['"]+/g, '') + `%"`;
+                console.log("qr...", qr);
                 connection = conn;
-                connection.query(qr, [],(err, data) => {
+                connection.query(qr, [], (err, data) => {
                     DB.release(connection);
                     if (err) {
                         reject(err);
@@ -162,6 +162,37 @@ class userService {
                     reject(err);
                 });
         });
+    }
+    static getAllUser() {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query(`select u.id,u.first_name,u.email,u.role,u.is_active,up.profile_img,
+                (select count(*) from collection c where c.user_id = u.id) total_collection,
+                (select count(*) from follow_user fu where fu.following_id = u.id) total_followers
+                from user u inner join user_profile up on u.id = up.user_id;`, [], (err, data) => {
+                    DB.release(connection);
+                    if(err){
+                        reject(err);
+                    }else{
+                        let user;
+                        if(data && data.length > 0){
+                            user =  data.map( item =>{
+                                let u = new User(item);
+                                u['total_collection'] = item['total_collection'];
+                                u['total_followers'] = item['total_followers'];
+                                return u;
+                            })
+                        }
+                        resolve(user);
+                    }
+                })
+            })
+                .catch(err => {
+                    reject(err);
+                })
+        })
     }
 }
 

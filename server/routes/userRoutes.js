@@ -6,6 +6,8 @@ const Auth = require('../util/auth');
 
 
 userRouter.post('/', userController.addUser)
+userRouter.get('/', Auth.isAdminAuthenticated,userController.getAllUser)
+
 userRouter.post('/authenticate', userController.authUser)
 userRouter.post('/resetPassword', userController.resetPass)
 userRouter.post('/:userId/activateUser', userController.activateUser)

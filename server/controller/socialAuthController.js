@@ -35,6 +35,7 @@ class SocialAuthController {
             payload['i_link'] = "";
             payload['t_link'] = "";
             payload['y_link'] = "";
+            payload['source'] = ob['source'];
         } else if (ob.source == "fb") {
             payload['first_name'] = ob['name'];
             payload['email'] = ob['email'];
@@ -48,6 +49,7 @@ class SocialAuthController {
             payload['i_link'] = "";
             payload['t_link'] = "";
             payload['y_link'] = "";
+            payload['source'] = ob['source'];
         }
         return payload;
     }
@@ -64,13 +66,13 @@ class SocialAuthController {
             res.status(401);
         } else {
             payload = SocialAuthController.BuildPayload(payload)
-            res.status(200).send(payload);
-            // SocialAuthService.login(payload).then(data => {
-            //     res.send(data);
-            // }).catch(err => {
-            //     res.status(500);
-            //     res.send(err);
-            // })
+            //res.status(200).send(payload);
+            SocialAuthService.login(payload).then(data => {
+                res.send(data);
+            }).catch(err => {
+                res.status(500);
+                res.send(err);
+            })
         }
     }
 }

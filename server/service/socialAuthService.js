@@ -1,4 +1,6 @@
 const DB = require('../util/db');
+const User = require('../model/user');
+const userService = require('../service/userService');
 
 class SocialAuthService {
 
@@ -10,6 +12,7 @@ class SocialAuthService {
         payload['role'] = obj['role'];
         payload['is_active'] = obj['is_active']
         payload['is_profile'] = obj['is_profile']
+        payload['source'] = obj['source']        
         return payload;
     }
 
@@ -24,53 +27,95 @@ class SocialAuthService {
         return payload;
     }
 
+    static checkUser(email, source) {
+        return new Promise((resolve, reject) => {
+            var connection;
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query('select * from user where email =? and source = ?', [email, source], (err, data) => {
+                    DB.release(connection);
+                    if (err) {
+                        reject(err);
+                    } else {
+                        let user = null;
+                        if (data && data.length > 0) {
+                            user = new User(data[0]);
+                        }
+                        resolve(user);
+                    }
+                });
+            })
+        })
+    }
+
     static login(payload) {
         var connection;
         var userPayload = SocialAuthService.getUserPayload(payload);
         var userProfilePayload = SocialAuthService.getUserProfilePayload(payload);
+        var isAvail = false;
 
         return new Promise((resolve, reject) => {
             DB.getConnection().then(conn => {
                 connection = conn;
-                return DB.beginTransaction();
+                return DB.beginTransaction(connection);
             })
                 .then(() => {
                     // Insert for User
+
                     userPayload = DB.addAttributesForNew(userPayload);
                     return new Promise((r, rj) => {
-                        connection.query(
-                            `INSERT INTO User SET ?`, userPayload, (err, data) => {
-                                if (err) {
-                                    DB.rollbackTransaction(connection);
-                                    DB.release(connection)
-                                    rj(err);
-                                } else if (data) {                                    
-                                    r(data.insertId);                                   
-                                }
-                            });
+                        SocialAuthService.checkUser(userPayload['email'], userPayload["source"]).then(user => {
+                            if (user) {
+                                isAvail = true;
+                                r(user);
+                            } else {
+                                connection.query(
+                                    `INSERT INTO User SET ?`, userPayload, (err, data) => {
+                                        if (err) {
+                                            DB.rollbackTransaction(connection);
+                                            DB.release(connection)
+                                            rj(err);
+                                        } else if (data) {
+                                            userPayload['id'] = data.insertId;
+                                            r(data.insertId);
+                                        }
+                                    });
+                            }
+                        })
                     })
                 })
-                .then((userId) => {
+                .then((data) => {
                     // Insert for User Profile
-                    userProfilePayload['user_id'] = userId;
+                    userProfilePayload['user_id'] = data;
                     return new Promise((r, rj) => {
-                        connection.query(
-                            `INSERT INTO user_profile SET ?`, userProfilePayload, (err, data) => {
-                                if (err) {
-                                    DB.rollbackTransaction(connection);
-                                    DB.release(connection)
-                                    reject(err);
-                                } else if (data) {
-                                    let insertedId = data.insertId;
-                                    r(insertedId)                                    
-                                }
-                            });
+                        if (isAvail) {
+                            r(data);
+                        } else {
+                            connection.query(
+                                `INSERT INTO user_profile SET ?`, userProfilePayload, (err, data) => {
+                                    if (err) {
+                                        DB.rollbackTransaction(connection);
+                                        DB.release(connection)
+                                        reject(err);
+                                    } else if (data) {
+                                        let insertedId = data.insertId;
+                                        r(insertedId)
+                                    }
+                                });
+                        }
                     });
-                    
+
                 })
-                .then(() =>{
+                .then((data) => {
                     DB.commitTransaction(connection);
                     DB.release(connection);
+                    let token;
+                    if (isAvail) {
+                        token = userService.getJWTToken(data);
+                    } else {
+                        token = userService.getJWTToken(userPayload);
+                    }
+                    resolve({ token: token });
                 })
                 .catch(err => {
                     reject(err);

@@ -172,27 +172,51 @@ class userService {
                 (select count(*) from collection c where c.user_id = u.id) total_collection,
                 (select count(*) from follow_user fu where fu.following_id = u.id) total_followers
                 from user u inner join user_profile up on u.id = up.user_id;`, [], (err, data) => {
-                    DB.release(connection);
-                    if(err){
-                        reject(err);
-                    }else{
-                        let user;
-                        if(data && data.length > 0){
-                            user =  data.map( item =>{
-                                let u = new User(item);
-                                u['total_collection'] = item['total_collection'];
-                                u['total_followers'] = item['total_followers'];
-                                return u;
-                            })
+                        DB.release(connection);
+                        if (err) {
+                            reject(err);
+                        } else {
+                            let user;
+                            if (data && data.length > 0) {
+                                user = data.map(item => {
+                                    let u = new User(item);
+                                    u['total_collection'] = item['total_collection'];
+                                    u['total_followers'] = item['total_followers'];
+                                    return u;
+                                })
+                            }
+                            resolve(user);
                         }
-                        resolve(user);
-                    }
-                })
+                    })
             })
                 .catch(err => {
                     reject(err);
                 })
         })
+    }
+
+    static revokeRights(userId) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then(conn => {
+                connection = conn;
+                DB.beginTransaction(connection);
+            })
+                .then(() => {
+                    connection.query(`update User set is_admin_approved = 0 where id = ?`,[userId],(err,data) => {
+                        if(err){
+                            reject(err)
+                        }else{
+                            DB.commitTransaction(connection);
+                            DB.release(connection);
+                            resolve();
+                        }
+                    })
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        });
     }
 }
 

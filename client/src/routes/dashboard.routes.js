@@ -18,6 +18,17 @@ import Following from '../follow/views/Followings';
 import MyProfile from '../profile/views/MyProfile';
 import UserProfile from '../user/views/UserProfile';
 
+import ViewUser from '../admin/views/ViewUsers';
+
+export const adminRoutes = [
+    {
+        path: '/admin/users',
+        component: ViewUser,
+        name: 'Users'
+    }
+
+]
+
 export const dashboardRoutes = [
     { 
         path: '/feeds', 
@@ -44,6 +55,7 @@ export const dashboardRoutes = [
 ];
 
 export const otherRoutes = [
+   
     { 
         path: '/createcollection', 
         component : CreateCollection, 

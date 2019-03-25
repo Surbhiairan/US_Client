@@ -2,9 +2,13 @@ import Registration from '../auth/views/Registration';
 import Login from '../auth/views/Login';
 import CreateProfile from '../profile/views/CreateProfile';
 import EmailConfirmation from '../auth/views/EmailConfirmation';
+import AdminLogin from '../admin/views/AdminLogin';
 import DashBoard from '../layouts/dashboard';
+import AdminDashBoard from '../layouts/adminDashboard';
 
 var indexRoutes = [
+    { path: '/admin/users', component: AdminDashBoard},
+    
     { path: '/', component: DashBoard},
     { path: '/feeds', component: DashBoard},
     { path: '/mycollections', component: DashBoard},
@@ -23,6 +27,7 @@ var indexRoutes = [
     { path: '/myprofile', component: DashBoard},
     { path: '/user/:id', component: DashBoard},
 
+    { path: '/admin', component: AdminLogin},
     { path: '/register', component: Registration},
     { path: '/login', component: Login},
     { path: '/profile', component: CreateProfile },

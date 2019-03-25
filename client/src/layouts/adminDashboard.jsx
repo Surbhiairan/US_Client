@@ -67,6 +67,33 @@ class adminDashboardLayout extends React.Component {
     render() {
         const { classes, ...rest } = this.props;
 
+        let user = JSON.parse(localStorage.getItem('user'));
+        let token = null;
+        let role = null;
+        if(user) {
+            token = JSON.parse(localStorage.getItem('user')).token;
+            role = JSON.parse(localStorage.getItem('user')).role
+        }
+        const PrivateRoute = ({ component: Component, ...rest }) => {
+            //console.log("satte----", this.state);
+            return (
+            <Route
+              {...rest}
+              render={props =>
+               token && role === 'admin' ? (
+                  <Component {...props} />
+                ) : (
+                    <Redirect
+                      to={
+                        '/login'
+                      }
+                    />
+                  )
+              }
+            />
+          );
+            }
+
         return (
             <div>
                 <AdminHeader {...rest} location={this.props.location}/>
@@ -83,7 +110,7 @@ class adminDashboardLayout extends React.Component {
                                 );
                             }
                             return (
-                                <Route
+                                <PrivateRoute
                                     path={prop.path}
                                     component={prop.component}
                                     key={key}

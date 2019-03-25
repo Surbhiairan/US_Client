@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputBase, CircularProgress } from '@material-ui/core';
+import { InputBase, CircularProgress, Menu, MenuItem } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
@@ -69,15 +69,24 @@ const Suggestions = (props) => {
                 options.push(posts[i]);
             }
         }
+        const isMenuOpen = Boolean(props.anchorEl);
         const suggestion = options.map(option => (
-                <ul>
-                    <li key={option.id}>
+                <Menu
+                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                //transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                //anchorPosition={{top: '50px', left: 48 }}
+                    //style={{top: '50px'}}
+                    anchorEl= {props.anchorEl}
+                    open={isMenuOpen}
+                    onClose= {props.handleSearchClose}
+                >
+                    <MenuItem key={option.id}>
                     {option.collectionTitle || option.firstName || option.postTitle} 
-                </li>
-                </ul>
+                    </MenuItem>
+                </Menu>
                 
         ))
-        return <ul>{suggestion}</ul>
+        return <Menu>{suggestion}</Menu>
     } else {
         return null
     }
@@ -93,7 +102,8 @@ class Search extends React.Component {
     handleInputChange = (e) => {
         console.log("this is been called")
         this.setState({
-            query: e.target.value
+            query: e.target.value,
+            anchorEl: e.currentTarget
           }, () => {
             if (this.state.query && this.state.query.length > 2) {
                 this.props.getSearchResults(this.state.query);
@@ -117,7 +127,34 @@ class Search extends React.Component {
                     ref={input => this.search = input}
                     onChange={this.handleInputChange}
                 />
-                { searchResultsLoading ? <CircularProgress /> : <Suggestions results={searchResults}/>}
+                <pre 
+                    aria-hidden="true" 
+                    style={
+                        { 
+                            position: "absolute", 
+                            visibility: "hidden", 
+                            whiteSpace: 'pre', 
+                            fontSize: '16px',
+                            fontStyle: 'normal',
+                            fontVariant: 'normal',
+                            fontWeight: '400',
+                            wordSpacing: '0px',
+                            textIndent: '0px',
+                            textRendering: 'auto',
+                            textTransform: 'none'
+                        }
+                    }  
+                >
+                </pre>
+                { searchResultsLoading ? 
+                <CircularProgress /> 
+                : 
+                <Suggestions 
+                    anchorEl={this.state.anchorEl} 
+                    results={searchResults}
+                    handleSearchClose={() => this.setState({ anchorEl: null})}
+                    />
+                    }
             </div>
         )
     }

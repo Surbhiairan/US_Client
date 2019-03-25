@@ -1,5 +1,6 @@
 const DB = require('../util/db');
 const Comment = require('../model/comment');
+const NotificationService = require('../service/notificationService');
 
 class commentService {
 
@@ -59,9 +60,11 @@ class commentService {
                             } else {
                                 insertedId = data.insertId;
                                 DB.commitTransaction(connection).then(() => {
-                                    commentService.getCommentById(insertedId).then(comment => {
-                                        resolve(comment);
-                                    })
+                                    NotificationService.addCommentNotification(comment['post_id'],comment['user_id']).then(() =>{
+                                        commentService.getCommentById(insertedId).then(comment => {
+                                            resolve(comment);
+                                        })
+                                    })                                    
                                 })
                             }
                         });

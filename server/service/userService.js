@@ -204,10 +204,10 @@ class userService {
                 DB.beginTransaction(connection);
             })
                 .then(() => {
-                    connection.query(`update User set is_active = 0 where id = ?`,[userId],(err,data) => {
-                        if(err){
+                    connection.query(`update User set is_active = 0 where id = ?`, [userId], (err, data) => {
+                        if (err) {
                             reject(err)
-                        }else{
+                        } else {
                             DB.commitTransaction(connection);
                             DB.release(connection);
                             resolve();
@@ -228,10 +228,10 @@ class userService {
                 DB.beginTransaction(connection);
             })
                 .then(() => {
-                    connection.query(`update User set is_admin_approved = 0 where id = ?`,[userId],(err,data) => {
-                        if(err){
+                    connection.query(`update User set is_admin_approved = 0 where id = ?`, [userId], (err, data) => {
+                        if (err) {
                             reject(err)
-                        }else{
+                        } else {
                             DB.commitTransaction(connection);
                             DB.release(connection);
                             resolve();
@@ -243,7 +243,25 @@ class userService {
                 })
         });
     }
-    
+
+    static getUserById(userId) {
+        return new Promise((resolve, reject) => {
+            var connection;
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query('select * from user where id = ?', [userId], (err, data) => {
+                    DB.release(connection);
+                    if (err) {
+                        reject(err)
+                    }
+                    else {
+                        let user = new User(data[0]);
+                        resolve(user);
+                    }
+                });
+            })
+        });
+    }
 }
 
 module.exports = userService;

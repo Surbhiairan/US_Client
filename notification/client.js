@@ -2,11 +2,10 @@ const publicVapidKey = "BMETZJpEm8onr-zpGe-ux7HXOjn9erWuCf8cWmabvJ4t2TQv97hGM7fg
 
 if ('serviceWorker' in navigator) {
     setInterval(function(){
-        console.log("calling...")
         send().catch(err => {
             console.log(err);
         })
-    },60000)
+    },30000)
     
 }
 
@@ -16,19 +15,16 @@ async function send() {
     const register = await navigator.serviceWorker.register('/worker.js', {
         scope: '/'
     });
-    console.log('Service worker registered..');
-    // registering push
     const subsription = await register.pushManager.subscribe({
         userVisibleOnly : true,
         applicationServerKey : urlBase64ToUint8Array(publicVapidKey)
     });
-    console.log("Push registered.....");
-    //Send push notification
     await fetch('/api/subscribe',{
         method : 'POST',
         body : JSON.stringify(subsription),
         headers : {
-            'content-type' : 'application/json'
+            'content-type' : 'application/json',
+            'token' : 'eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoic3VyYmhpIiwiZW1haWwiOiJzdXJiaGlhaXJhbjEwQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlzQWN0aXZlIjp0cnVlLCJpc1Byb2ZpbGUiOnRydWV9.ut3V679FOgXYHL0d96vFIOGFijiYbvQgcDmdFoq9Qqs'
         }
     })
 }

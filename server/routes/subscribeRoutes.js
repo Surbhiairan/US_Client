@@ -4,7 +4,7 @@ const subscribeController = require('../controller/subscribeController');
 const Auth = require('../util/auth');
 
 
-subscribeRouter.post('/',subscribeController.subscribe)
+subscribeRouter.post('/',Auth.isAuthenticated, subscribeController.subscribe)
 
 
 module.exports = subscribeRouter;

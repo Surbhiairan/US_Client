@@ -64,6 +64,15 @@ class userController{
         });
     }
 
+    static getAllUser(req,res){
+        userService.getAllUser().then( user =>{
+            res.send(user);
+        }).catch( err =>{
+            res.status(500);
+            res.send(err);
+        });
+    }
+
 
 }
 

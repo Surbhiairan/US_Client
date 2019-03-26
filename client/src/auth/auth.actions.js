@@ -80,7 +80,7 @@ export const login = (values, history) => {
 export const facebookLogin = (values, history) => {
     return (dispatch) => {
         dispatch({ type: auth.LOGIN_LOADING })
-        fetch(API_ROOT + URI.F_LOGIN, {
+        fetch(API_ROOT + URI.SOCIAL_LOGIN, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,11 +89,23 @@ export const facebookLogin = (values, history) => {
         })
         .then(res => res.json())
         .then(data => {
-            dispatch({
-                type: auth.LOGIN_SUCCESS,
-                payload: data
-            })
-            history.push('/profile');
+            if(data.id) {
+                dispatch({
+                    type: auth.LOGIN_SUCCESS,
+                    payload: data
+                })
+                localStorage.setItem('user',JSON.stringify(data))
+                if(data.isProfile === true){
+                    history.push('/feeds');
+                }
+                else history.push('/profile');
+            } else {
+                dispatch({
+                    type: auth.LOGIN_FAILURE,
+                    payload: data.message
+                })
+                alert(data.message)
+            }
         })
         .catch(err => {
             dispatch({
@@ -107,7 +119,7 @@ export const facebookLogin = (values, history) => {
 export const googleLogin = (values, history) => {
     return (dispatch) => {
         dispatch({ type: auth.LOGIN_LOADING })
-        fetch(API_ROOT + URI.G_LOGIN, {
+        fetch(API_ROOT + URI.SOCIAL_LOGIN, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -116,11 +128,23 @@ export const googleLogin = (values, history) => {
         })
         .then(res => res.json())
         .then(data => {
-            dispatch({
-                type: auth.LOGIN_SUCCESS,
-                payload: data
-            })
-            history.push('/profile');
+            if(data.id) {
+                dispatch({
+                    type: auth.LOGIN_SUCCESS,
+                    payload: data
+                })
+                localStorage.setItem('user',JSON.stringify(data))
+                if(data.isProfile === true){
+                    history.push('/feeds');
+                }
+                else history.push('/profile');
+            } else {
+                dispatch({
+                    type: auth.LOGIN_FAILURE,
+                    payload: data.message
+                })
+                alert(data.message)
+            }
         })
         .catch(err => {
             dispatch({

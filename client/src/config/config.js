@@ -3,7 +3,7 @@ export const API_ROOT = 'http://localhost:5000/api/';
 export const URI = {
     REGISTRATION: 'user',
     LOGIN: 'user/authenticate',
-   
+    SOCIAL_LOGIN: 'socialAuth',
     PROFILE: 'userprofile',
     GET_ANOTHER_USER_PROFILE: 'userprofile/{0}',
 
@@ -29,5 +29,7 @@ export const URI = {
     FOLLOW_COLLECTION: 'favcollection',
     FEEDS: 'feed',
 
-    SEARCH: 'search?key='
+    SEARCH: 'search?key=',
+
+    GET_USERS: 'user'
 }

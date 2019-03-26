@@ -66,7 +66,30 @@ class dashboardLayout extends React.Component {
 
     render() {
         const { classes, ...rest } = this.props;
-
+        let user = JSON.parse(localStorage.getItem('user'));
+        let token = null;
+        if(user) {
+            token = JSON.parse(localStorage.getItem('user')).token
+        }
+        const PrivateRoute = ({ component: Component, ...rest }) => {
+            //console.log("satte----", this.state);
+            return (
+            <Route
+              {...rest}
+              render={props =>
+               token ? (
+                  <Component {...props} />
+                ) : (
+                    <Redirect
+                      to={
+                        '/login'
+                      }
+                    />
+                  )
+              }
+            />
+          );
+            }
         return (
             <div>
                 <Header {...rest} location={this.props.location}/>
@@ -83,7 +106,7 @@ class dashboardLayout extends React.Component {
                                 );
                             }
                             return (
-                                <Route
+                                <PrivateRoute
                                     path={prop.path}
                                     component={prop.component}
                                     key={key}

@@ -1,7 +1,7 @@
 const DB = require('../util/db');
 const FavCollection = require('../model/favCollection');
 const Collection = require('../model/collection');
-
+const NotificationService = require('../service/notificationService');
 class FavCollectionService {
 
     static getFavCollection(userId) {
@@ -68,9 +68,11 @@ class FavCollectionService {
                             reject(err);
                         } else {
                             DB.commitTransaction(connection).then(() => {
-                                FavCollectionService.getFavCollection(userId).then(collection => {
-                                    resolve(collection);
-                                })
+                                NotificationService.addFollowCollectionNotification(collectionId,userId).then(() => {
+                                    FavCollectionService.getFavCollection(userId).then(collection => {
+                                        resolve(collection);
+                                    })
+                                });                                
                             })
                         }
                     });

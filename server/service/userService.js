@@ -168,7 +168,7 @@ class userService {
         return new Promise((resolve, reject) => {
             DB.getConnection().then(conn => {
                 connection = conn;
-                connection.query(`select u.id,u.first_name,u.email,u.role,u.is_active,up.profile_img,
+                connection.query(`select u.id,u.first_name,u.email,u.role,u.is_active,u.is_admin_approved,up.profile_img,
                 (select count(*) from collection c where c.user_id = u.id) total_collection,
                 (select count(*) from follow_user fu where fu.following_id = u.id) total_followers
                 from user u inner join user_profile up on u.id = up.user_id;`, [], (err, data) => {
@@ -180,8 +180,9 @@ class userService {
                             if (data && data.length > 0) {
                                 user = data.map(item => {
                                     let u = new User(item);
-                                    u['total_collection'] = item['total_collection'];
-                                    u['total_followers'] = item['total_followers'];
+                                    u['totalCollection'] = item['total_collection'];
+                                    u['totalFollowers'] = item['total_followers'];
+                                    u['isAdminApproved'] = item['is_admin_approved'] == 1 ? true : false
                                     return u;
                                 })
                             }
@@ -203,10 +204,10 @@ class userService {
                 DB.beginTransaction(connection);
             })
                 .then(() => {
-                    connection.query(`update User set is_admin_approved = 0 where id = ?`,[userId],(err,data) => {
-                        if(err){
+                    connection.query(`update User set is_active = 0 where id = ?`, [userId], (err, data) => {
+                        if (err) {
                             reject(err)
-                        }else{
+                        } else {
                             DB.commitTransaction(connection);
                             DB.release(connection);
                             resolve();
@@ -216,6 +217,49 @@ class userService {
                 .catch(err => {
                     reject(err);
                 })
+        });
+    }
+
+    static adminApprove(userId) {
+        var connection;
+        return new Promise((resolve, reject) => {
+            DB.getConnection().then(conn => {
+                connection = conn;
+                DB.beginTransaction(connection);
+            })
+                .then(() => {
+                    connection.query(`update User set is_admin_approved = 0 where id = ?`, [userId], (err, data) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            DB.commitTransaction(connection);
+                            DB.release(connection);
+                            resolve();
+                        }
+                    })
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        });
+    }
+
+    static getUserById(userId) {
+        return new Promise((resolve, reject) => {
+            var connection;
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query('select * from user where id = ?', [userId], (err, data) => {
+                    DB.release(connection);
+                    if (err) {
+                        reject(err)
+                    }
+                    else {
+                        let user = new User(data[0]);
+                        resolve(user);
+                    }
+                });
+            })
         });
     }
 }

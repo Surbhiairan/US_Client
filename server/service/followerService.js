@@ -1,6 +1,7 @@
 const DB = require('../util/db');
 const FollowUser = require('../model/followUser');
 const User = require('../model/user');
+const NotificationService = require('../service/notificationService');
 
 class FollowerService {
 
@@ -51,9 +52,11 @@ class FollowerService {
                                 } else if (data) {
                                     insertedId = data.insertId;
                                     DB.commitTransaction(connection).then(() => {
-                                        FollowerService.getFollow(insertedId).then(data => {
-                                            DB.release(connection)
-                                            resolve(data);
+                                        NotificationService.addFollowNotication(payload['user_id'],payload['following_id']).then(() => {
+                                            FollowerService.getFollow(insertedId).then(data => {
+                                                DB.release(connection)
+                                                resolve(data);
+                                            });
                                         });
                                     })
                                 }

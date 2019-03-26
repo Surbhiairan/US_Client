@@ -69,7 +69,7 @@ WHERE COLUMN_NAME = 'is_admin_approved'
 
 set @query = IF(
     @exist_column < 1, -- column does not exist
-    'alter table user add column is_admin_approved tinyint(1) Default 1 after is_active', -- insert column first
+    'alter table user add column is_admin_approved tinyint(1) Default 0 after is_active', -- insert column first
     'select \'Column Exists\' status' -- else just do meaningless select
 );
 prepare stmt from @query;

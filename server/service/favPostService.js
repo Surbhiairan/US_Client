@@ -1,5 +1,6 @@
 const DB = require('../util/db');
 const FavPost = require('../model/favPost');
+const NotificationService = require('../service/notificationService');
 
 class FavPostService {
 
@@ -57,10 +58,12 @@ class FavPostService {
                             reject(err);
                         } else {
                             DB.commitTransaction(connection).then(() => {
-                                FavPostService.getFavPost(userId).then(Post => {
-                                    resolve(Post);
-                                })
-                            })
+                                NotificationService.addfavoritePostNotification(PostId,userId).then(()=>{
+                                    FavPostService.getFavPost(userId).then(Post => {
+                                        resolve(Post);
+                                    });
+                                });
+                            });
                         }
                     });
                 })

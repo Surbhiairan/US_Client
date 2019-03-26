@@ -65,11 +65,17 @@ class Login extends React.Component {
      const responseFacebook = (response) => {
         console.log("facebook login response",response);
         let values = {
+            "accessToken":response.accessToken,
+            "data_access_expiration_time": response.data_access_expiration_time,
             "email":response.email,
-	        "name":response.name,
-	        "fid":response.id,
-	        "profile_image_url":response.picture.data.url,
-	        "accessToken":response.accessToken,
+            "expiresIn": response.expiresIn,
+            "id": response.id,
+            "name":response.name,
+            "picture": response.picture,
+            "reauthorize_required_in": response.reauthorize_required_in,
+            "signedRequest": response.signedRequest,
+	        "userID":response.userID,
+            "source":"fb",
         };
         //call api here
         this.props.facebookLogin(values, this.props.history);
@@ -78,12 +84,17 @@ class Login extends React.Component {
     const responseGoogle = (response) => {
       console.log("google login response",response);
       let values = {
+        "El":response.El,
+        "Zi":response.Zi,
+        "accessToken":response.accessToken,
+        "googleId":response.googleId,
+        "profileObj": response.profileObj,
+        "tokenId":response.tokenId,
+        "tokenObj": response.tokenObj,
+        "w3": response.w3,
         "email":response.profileObj.email,
         "name":response.profileObj.givenName,
-        "gid":response.googleId,
-        "profile_image_url":response.profileObj.imageUrl,
-        "accessToken":response.accessToken,
-        "idToken":response.tokenId,
+        "source":"gg"
       };
       //call api here
       this.props.googleLogin(values, this.props.history);

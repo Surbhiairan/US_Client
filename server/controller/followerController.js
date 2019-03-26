@@ -40,6 +40,16 @@ class FollowerController{
         });
      }
 
+     static getFollowingUser(req,res){
+        let userId = req.body['appUser']['id'];
+        FollowerService.getFollowingUser(userId).then( data =>{
+            res.send(data)
+        }).catch(err => {
+            res.status(500);
+            res.send(err);
+        });
+     }
+
 
 }
 

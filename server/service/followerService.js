@@ -52,7 +52,7 @@ class FollowerService {
                                 } else if (data) {
                                     insertedId = data.insertId;
                                     DB.commitTransaction(connection).then(() => {
-                                        NotificationService.addFollowNotication(payload['user_id'],payload['following_id']).then(() => {
+                                        NotificationService.addFollowNotication(payload['user_id'], payload['following_id']).then(() => {
                                             FollowerService.getFollow(insertedId).then(data => {
                                                 DB.release(connection)
                                                 resolve(data);
@@ -131,6 +131,37 @@ class FollowerService {
                 })
 
         })
+    }
+
+    static getFollowingUser(userId) {
+        return new Promise((resolve, reject) => {
+            var connection;
+            DB.getConnection().then(conn => {
+                connection = conn;
+                connection.query(`select u.id,u.first_name,u.email,u.role,u.is_active,u.is_admin_approved,u.is_profile from 
+                follow_user fu inner join user u on fu.following_id = u.id
+                where fu.user_id = ?`, [userId], (err, data) => {
+                        DB.release(connection)
+                        if (err) {
+                            reject(err)
+                        } else {
+                            let users = [];
+                            if (data && data.length > 0) {
+                                users = data.map(item => {
+                                    let user = {};
+                                    user = new User(item);
+                                    user['isAdminApproved'] = (item['is_admin_approved'] == 1 ? true : false);
+                                    return user;
+                                });
+                            }
+                            resolve(users);
+                        }
+                    });
+            })
+                .catch(err => {
+
+                })
+        });
     }
 
 }

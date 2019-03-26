@@ -7,6 +7,7 @@ import post from './post/post.reducer';
 import user from './user/user.reducer';
 import follow from './follow/follow.reducer';
 import search from './search/search.reducer';
+import admin from './admin/admin.reducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     post: post,
     user: user,
     follow: follow,
-    search: search
+    search: search,
+    admin: admin
 })
 
 export default rootReducer

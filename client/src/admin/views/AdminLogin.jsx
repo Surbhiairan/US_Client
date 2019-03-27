@@ -40,8 +40,8 @@ class AdminLogin extends React.Component {
 
     handleSubmit = (values) => {
         //Api call here...
-        //this.props.login(values, this.props.history);
-        this.props.history.push('/admin/users');
+        this.props.login(values, this.props.history);
+        //this.props.history.push('/admin/users');
     }
 
     onSuccess = (response) => {

@@ -1,4 +1,4 @@
-const FavPostService = require('../service/FavPostService');
+const FavPostService = require('../service/favPostService');
 
 class FavPostController{
 

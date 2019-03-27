@@ -2,7 +2,7 @@ module.exports = {
     env: 'local',
     port: process.env.PORT || 8080,
     db: {
-      "uri": "mysql://root:root@localhost:3306/gichub",
+      "uri": "mysql://surbhi:root_Root1@localhost:3306/post_curve",
       "connectionLimit": 100,
       "acquireTimeout": 100000,
       "connectTimeout": 100000

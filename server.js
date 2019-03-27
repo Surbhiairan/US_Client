@@ -14,9 +14,9 @@ app.use(cors());
 app.use(bodyParser.json({'limit' : '100mb'}));
 app.use('/api',apiRoutes);
 
-//app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.use(express.static(path.join(__dirname,"notification")));
+//app.use(express.static(path.join(__dirname,"notification")));
 
 
 //production mode

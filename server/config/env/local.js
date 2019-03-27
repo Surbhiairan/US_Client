@@ -2,7 +2,7 @@ module.exports = {
     env: 'local',
     port: process.env.PORT || 8080,
     db: {
-      "uri": "mysql://postcurveUser:postcurve01@43.255.154.50:3306/postCurveDemo",
+      "uri": "mysql://root:root@144.202.12.172:3306/postcurve",
       "connectionLimit": 100,
       "acquireTimeout": 100000,
       "connectTimeout": 100000

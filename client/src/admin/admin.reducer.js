@@ -14,6 +14,25 @@ const reducer = (state = initialState, action) => {
             return { ...state, allUsers: action.payload, allUsersLoading: false }
         case admin.FETCH_USERS_FAILURE: 
             return { ...state, allUsers: [], allUsersError: action.payload, allUsersLoading: false }
+        
+        case admin.REVOKE_USER_LOADING: 
+            return { ...state, allUsersLoading: true }
+        case admin.REVOKE_USER_SUCCESS:
+            return { 
+                ...state, 
+                allUsers: state.allUsers.map((item, index) => {
+                    if(item.id === action.payload.user_id) {
+                            return {
+                                ...item,
+                                isActive: false,
+                              }
+                    }
+                    return item;
+                }),
+                allUsersLoading: false 
+            }
+        case admin.REVOKE_USER_FAILURE: 
+            return { ...state, allUsers: [], allUsersError: action.payload, allUsersLoading: false }
         default:
             return state;
     }

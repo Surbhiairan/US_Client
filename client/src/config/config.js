@@ -31,5 +31,6 @@ export const URI = {
 
     SEARCH: 'search?key=',
 
-    GET_USERS: 'user'
+    GET_USERS: 'user',
+    REVOKE_USER: 'user/revokeRights'
 }

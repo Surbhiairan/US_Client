@@ -1,14 +1,22 @@
 
 class EmailTemplate {
     static getActivateLinkTemplete(userId) {
-        const dynamicURL = "APPLICATION_PAGE_URL_TO_RESET_PASSWORD_ " + userId;
+        const dynamicURL = "www.google.com";
         var template = `<html>
-        <head> </head>
-        <body> I this is Body</body>
-        <h1> This is Header 1</h1>
-        <a href="`+dynamicURL+`"> click Here</a>
-    </html>`
-    console.log(".........",template,"...............");
+                        <head> </head>
+                        <body> Please click below link to activate your account. </body>       
+                        <a href="${dynamicURL}"> click Here</a>
+                    </html>`
+        return template;
+    }
+
+    static getPasswordResetLinkTemplete(userId){
+        const dynamicURL = "www.google.com";
+        var template = `<html>
+                            <head> </head>
+                            <body> Please click below link to Reset password. </body>       
+                            <a href="${dynamicURL}"> click Here</a>
+                        </html>`
         return template;
     }
 }

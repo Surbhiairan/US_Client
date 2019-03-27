@@ -13,19 +13,20 @@ Domain  : sandbox6389b9880a9b48f6a82e58ddc27066ca.mailgun.org
 */
 
 
-var API_KEY = '27ebc1d1e7703185ac096fe9003e2966-de7062c6-bee4baf4';
-var DOMAIN = 'sandboxe504238a8eab4f49a1750d1dce96609f.mailgun.org';
+var API_KEY = '7f05b95ca46b614ab9ebd9db0a5e49a5-e51d0a44-51e61d9a';
+var DOMAIN = 'sandbox519db95c578348ac83baad04b70a4323.mailgun.org';
 var mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 
+const link = "www.google.com";
 const data = {
-    from: 'pandeyaniket546@gmail.com',
-    to: 'pandeyaniket546@gmail.com',
+    from: 'sada.mandal101@gmail.com',
+    to: 'sada.mandal101@gmail.com',
     subject: 'Test',
     html: `<html>
         <head> </head>
         <body> I this is Body</body>
         <h1> This is Header 1</h1>
-        <a href="www.google.com"> click Here</a>
+        <a href="${link}"> click Here</a>
     </html>`
 };
 

@@ -8,6 +8,7 @@ import GoogleLogin from 'react-google-login';
 import TwitterLogin from 'react-twitter-auth';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Link } from 'react-router-dom';
 
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
@@ -178,6 +179,12 @@ class Login extends React.Component {
                           onSuccess={this.onSuccess}
                           requestTokenUrl="http://localhost:3000"
                         />
+                         <Link to={`/register`}>
+                            Register as new User
+                        </Link>
+                        <Link to={`/admin`}>
+                             Login as admin
+                        </Link>
 
                     </GridContainer>
                     

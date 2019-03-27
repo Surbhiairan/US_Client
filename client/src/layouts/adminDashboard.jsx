@@ -79,7 +79,7 @@ class adminDashboardLayout extends React.Component {
             return (
             <Route
               {...rest}
-              render={props =>
+              render={props => 
                token && role === 'admin' ? (
                   <Component {...props} />
                 ) : (

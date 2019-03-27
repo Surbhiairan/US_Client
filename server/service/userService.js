@@ -21,7 +21,7 @@ class userService {
             DB.getConnection().then(conn => {
                 connection = conn;
                 connection.query(
-                    `INSERT INTO User SET ?`, user, (err, data) => {
+                    `INSERT INTO user SET ?`, user, (err, data) => {
                         if (err) {
                             DB.rollbackTransaction(connection);
                             DB.release(connection)
@@ -204,7 +204,7 @@ class userService {
                 DB.beginTransaction(connection);
             })
                 .then(() => {
-                    connection.query(`update User set is_active = 0 where id = ?`, [userId], (err, data) => {
+                    connection.query(`update user set is_active = 0 where id = ?`, [userId], (err, data) => {
                         if (err) {
                             reject(err)
                         } else {
@@ -228,7 +228,7 @@ class userService {
                 DB.beginTransaction(connection);
             })
                 .then(() => {
-                    connection.query(`update User set is_admin_approved = 0 where id = ?`, [userId], (err, data) => {
+                    connection.query(`update user set is_admin_approved = 0 where id = ?`, [userId], (err, data) => {
                         if (err) {
                             reject(err)
                         } else {

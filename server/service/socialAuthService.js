@@ -70,7 +70,7 @@ class SocialAuthService {
                                 r(user);
                             } else {
                                 connection.query(
-                                    `INSERT INTO User SET ?`, userPayload, (err, data) => {
+                                    `INSERT INTO user SET ?`, userPayload, (err, data) => {
                                         if (err) {
                                             DB.rollbackTransaction(connection);
                                             DB.release(connection)

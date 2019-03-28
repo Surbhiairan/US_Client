@@ -91,18 +91,40 @@ class Header extends React.Component {
         mobileMoreAnchorEl: null,
         tabValue: 0,
         query: '',
-        results: []
+        results: [],
+        notifications: null,
+        notificationDisable: true,
+        count: 0,
+        showNotificationPop: null
     };
 
     componentDidUpdate(e) {
         if (e.history.location.pathname !== e.location.pathname) {
           this.setState({open: false});
         }
+        console.log("e----", e)
       }
+
+    componentDidMount() {
+        let notifications = JSON.parse(localStorage.getItem('notifications'))
+        if(notifications) {
+            this.setState({ 
+                notifications: notifications,
+                notificationDisable: false,
+                count: notifications.length
+            })
+        }
+    }
 
     handleProfileMenuOpen = event => {
         //navigate to edit profile page
         this.setState({ anchorEl: event.currentTarget });
+    };
+
+    handleNotificationOpen = event => {
+        //navigate to edit profile page
+        this.setState({ showNotificationPop: event.currentTarget });
+
     };
 
     handleMenuClose = () => {
@@ -110,6 +132,10 @@ class Header extends React.Component {
         this.props.history.push('/myprofile');
        // this.handleMobileMenuClose();
     };
+
+    handleNotificationwClose = () => {
+        this.setState({ showNotificationPop: null})
+    }
 
     handleChange = (event, value) => {
         this.setState({ tabValue: value });
@@ -126,9 +152,11 @@ class Header extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { anchorEl } = this.state;
+        const { anchorEl, showNotificationPop } = this.state;
         const isMenuOpen = Boolean(anchorEl);
+        const isNotificationOpen = Boolean(showNotificationPop);
 
+        let notifications = JSON.parse(localStorage.getItem('notifications'))
         const renderMenu = (
             <Menu
                 anchorEl={anchorEl}
@@ -142,6 +170,22 @@ class Header extends React.Component {
             </Menu>
         );
 
+        const showNotification = (
+            <Menu
+                anchorEl={showNotificationPop}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={isNotificationOpen}
+                onClose={this.handleNotificationwClose}
+            >   
+                {notifications.map((message, index) => (
+                    <MenuItem onClick={this.handleNotificationwClose}>{message}</MenuItem>
+                ) )}
+
+            </Menu>
+        )
+
+        
 
         return (
 
@@ -176,9 +220,14 @@ class Header extends React.Component {
                             </Hidden>
                         </div>
                         <div className={classes.sectionDesktop}>
-                            
-                            <IconButton color="inherit">
-                                <Badge badgeContent={17} color="secondary">
+                            <IconButton 
+                                color="inherit" 
+                                disabled={this.state.notificationDisable} 
+                                aria-owns={ isNotificationOpen ? 'material-appbar' : undefined }
+                                aria-haspopup="true"
+                                onClick={this.handleNotificationOpen}
+                            >
+                                <Badge color="secondary" badgeContent={this.state.count}>
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>
@@ -199,6 +248,7 @@ class Header extends React.Component {
                     </Toolbar>
                 </AppBar>
                 {renderMenu}
+                {showNotification}
             </div>
         )
     }

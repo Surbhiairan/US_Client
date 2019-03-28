@@ -85,7 +85,7 @@ class adminDashboardLayout extends React.Component {
                 ) : (
                     <Redirect
                       to={
-                        '/login'
+                        '/admin'
                       }
                     />
                   )

@@ -109,13 +109,18 @@ class SocialAuthService {
                 .then((data) => {
                     DB.commitTransaction(connection);
                     DB.release(connection);
-                    let token;
+                    let token, user;
                     if (isAvail) {
                         token = userService.getJWTToken(data);
+                        user = data
+                        user['token'] = token;
                     } else {
                         token = userService.getJWTToken(userPayload);
+                        user = new User(userPayload);
+                        user['id'] = data;
+                        user['token'] = token;
                     }
-                    resolve({ token: token });
+                    resolve(user);
                 })
                 .catch(err => {
                     reject(err);

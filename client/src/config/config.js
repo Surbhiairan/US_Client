@@ -1,4 +1,4 @@
-export const API_ROOT = 'http://localhost:5000/api/';
+export const API_ROOT = 'api/';
 
 export const URI = {
     REGISTRATION: 'user',

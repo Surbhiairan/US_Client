@@ -8,6 +8,7 @@ import GoogleLogin from 'react-google-login';
 import TwitterLogin from 'react-twitter-auth';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Link } from 'react-router-dom';
 
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
@@ -179,7 +180,14 @@ class Login extends React.Component {
                           requestTokenUrl="http://localhost:3000"
                         />
 
+                          <Link to={`/register`}>
+                            Register as new User
+                        </Link>
+                        <Link to={`/admin`}>
+                     Login as admin
+                 </Link>
                     </GridContainer>
+                     
                     
                 )}
                 />
@@ -187,11 +195,6 @@ class Login extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -201,4 +204,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps)) (Login)
+export default compose(withStyles(styles), connect(null, mapDispatchToProps)) (Login)

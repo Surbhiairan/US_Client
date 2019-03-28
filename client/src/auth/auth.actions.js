@@ -55,10 +55,15 @@ export const login = (values, history) => {
                     payload: data
                 })
                 localStorage.setItem('user',JSON.stringify(data))
-                if(data.isProfile === true){
-                    history.push('/feeds');
+                if(data.role === 'admin') {
+                    history.push('/admin/users');
+                } else {
+                    if(data.isProfile === true){
+                        history.push('/feeds');
+                    } 
+                    else history.push('/profile');
                 }
-                else history.push('/profile');
+                
             } else {
                 dispatch({
                     type: auth.LOGIN_FAILURE,

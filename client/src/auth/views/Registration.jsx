@@ -53,6 +53,7 @@ class Registration extends React.Component {
                     first_name: '',
                     email: '',
                     password: '',
+                    role: 'user'
                    // tnc: true
                 }}
                 onSubmit={(values) => this.handleSubmit(values)}

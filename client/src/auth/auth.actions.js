@@ -54,7 +54,7 @@ export const login = (values, history) => {
                     type: auth.LOGIN_SUCCESS,
                     payload: data
                 })
-                localStorage.setItem('user',JSON.stringify(data))
+                localStorage.setItem('user',JSON.stringify(data));
                 if(data.role === 'admin') {
                     history.push('/admin/users');
                 } else {
@@ -63,7 +63,6 @@ export const login = (values, history) => {
                     } 
                     else history.push('/profile');
                 }
-                
             } else {
                 dispatch({
                     type: auth.LOGIN_FAILURE,

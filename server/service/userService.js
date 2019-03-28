@@ -21,7 +21,7 @@ class userService {
             DB.getConnection().then(conn => {
                 connection = conn;
                 connection.query(
-                    `INSERT INTO User SET ?`, user, (err, data) => {
+                    `INSERT INTO user SET ?`, user, (err, data) => {
                         if (err) {
                             DB.rollbackTransaction(connection);
                             DB.release(connection)
@@ -31,7 +31,7 @@ class userService {
                             DB.release(connection)
                             EmailGun.sendActivationLink(data.insertId, user.email).then(() => {
                                 console.log("Data")
-                                resolve("Email has sent for email verification ");
+                                resolve("EMAIL_ACTIVATION_LINK_SEND");
                             });
                         }
                     });
@@ -77,6 +77,29 @@ class userService {
         });
     }
 
+    static sendResetPassLink(user){
+        var email = user.email;
+        return new Promise((resolve,reject) =>{
+            var connection;
+            DB.getConnection().then( conn =>{
+                connection = conn;
+                connection.query('select * from user where email = ? ',[email],(err,data) => {
+                    DB.release(connection);
+                    if(err){
+                        reject(err);
+                    }else{                       
+                        if(data && data.length > 0){
+                            EmailGun.sendPasswordResetLink(data[0].id,data[0].email).then( (data) => {
+                                resolve("RESET_PASSWORD_LINK_SEND");
+                            })
+                        }else{
+                            resolve("EMAIl_NOT_EXIST");
+                        }
+                    }
+                })
+            })
+        })
+    }
     static resetPass(user) {
 
         var email = user.email;
@@ -204,7 +227,7 @@ class userService {
                 DB.beginTransaction(connection);
             })
                 .then(() => {
-                    connection.query(`update User set is_active = 0 where id = ?`, [userId], (err, data) => {
+                    connection.query(`update user set is_active = 0 where id = ?`, [userId], (err, data) => {
                         if (err) {
                             reject(err)
                         } else {
@@ -228,7 +251,7 @@ class userService {
                 DB.beginTransaction(connection);
             })
                 .then(() => {
-                    connection.query(`update User set is_admin_approved = 0 where id = ?`, [userId], (err, data) => {
+                    connection.query(`update user set is_admin_approved = 0 where id = ?`, [userId], (err, data) => {
                         if (err) {
                             reject(err)
                         } else {

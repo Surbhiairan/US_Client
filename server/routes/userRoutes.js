@@ -10,6 +10,7 @@ userRouter.get('/', Auth.isAdminAuthenticated,userController.getAllUser)
 
 userRouter.post('/authenticate', userController.authUser)
 userRouter.post('/resetPassword', userController.resetPass)
+userRouter.post('/resetPasswordLink', userController.sendResetPassLink)
 userRouter.post('/:userId/activateUser', userController.activateUser)
 userRouter.get('/:userId/collection', Auth.isAuthenticated, collectionController.getUsersCollection)
 userRouter.post('/revokeRights', userController.revokeRights)

@@ -6,19 +6,18 @@ const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 
 class EmailGun{
 
-    static sendEmail(content,to){
+    static sendEmail(content,to,subject){
         // hard coded temporarily
-        to = 'pandeyaniket546@gmail.com';
+        to = 'sada.mandal101@gmail.com';
         const data = {
             from: config.emailGun.from,
             to: to,
-            subject: 'RESET PASSWORD :: POST CURVE',
+            subject: subject,
             html: content
         };
         return new Promise( (resolve,reject) => {
             mailgun.messages().send(data, (err, body) => {                
                if(err){
-                console.log("err..........",err);
                 reject(err)
                }else{
                 resolve(body)
@@ -28,8 +27,15 @@ class EmailGun{
         
     }
     static sendActivationLink(id,email){
+        const subject = "Account Activation Link :: Post Curve";
         let template = EmailTemplate.getActivateLinkTemplete(id,email);
-        return EmailGun.sendEmail(template,email);
+        return EmailGun.sendEmail(template,email,subject);
+    }
+
+    static sendPasswordResetLink(id,email){
+        const subject = "Password Reset Link :: Post Curve";
+        let template = EmailTemplate.getPasswordResetLinkTemplete(id,email);
+        return EmailGun.sendEmail(template,email,subject);
     }
 
 }

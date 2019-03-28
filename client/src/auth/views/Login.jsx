@@ -179,6 +179,12 @@ class Login extends React.Component {
                           onSuccess={this.onSuccess}
                           requestTokenUrl="http://localhost:3000"
                         />
+                         <Link to={`/register`}>
+                            Register as new User
+                        </Link>
+                        <Link to={`/admin`}>
+                             Login as admin
+                        </Link>
 
                           <Link to={`/register`}>
                             Register as new User

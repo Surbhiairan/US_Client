@@ -2,7 +2,8 @@ module.exports = {
     env: 'local',
     port: process.env.PORT || 8080,
     db: {
-      "uri": "mysql://root@localhost:3306/gichub",
+     // "uri": "mysql://surbhi:root_Root1@localhost:3306/post_curve",
+       "uri": "mysql://root:root@localhost:3306/gichub",
       "connectionLimit": 100,
       "acquireTimeout": 100000,
       "connectTimeout": 100000
@@ -14,9 +15,9 @@ module.exports = {
       bucketName : "postcurve"
     },
     emailGun : {
-      'API_KEY' : '27ebc1d1e7703185ac096fe9003e2966-de7062c6-bee4baf4',
-      'DOMAIN' : 'sandboxe504238a8eab4f49a1750d1dce96609f.mailgun.org',
-      'from' : 'pandeyaniket546@gmail.com',      
+      'API_KEY' : '',
+      'DOMAIN' : '',
+      'from' : 'sada.mandal101@gmail.com',      
     },
     webPush : {
       publicVapidKey : "BMETZJpEm8onr-zpGe-ux7HXOjn9erWuCf8cWmabvJ4t2TQv97hGM7fgokjLqMAZmglnwqU5dMxaE94K6hnOGZg",

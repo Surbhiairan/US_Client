@@ -53,6 +53,16 @@ class userController{
 
     }
 
+    static sendResetPassLink(req,res){
+        let user = req.body;
+        userService.sendResetPassLink(user).then( data =>{
+            res.json(data);
+        }).catch(err =>{
+            res.status(500);
+            res.send(err);
+        });
+
+    }
 
     static activateUser(req,res){
         let userId = req.params['userId'];

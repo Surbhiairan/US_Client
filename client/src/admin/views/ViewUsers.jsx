@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetchAllUsers } from '../admin.action';
+import { fetchAllUsers, revokeUser } from '../admin.action';
 import { Grid, Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -30,7 +30,10 @@ class ViewUsers extends React.Component {
     }
 
     handleRevoke = (id) => {
-
+        let values = {
+            "user_id": id
+        }
+        this.props.revokeUser(values, this.props.history);
     }
 
     render() {
@@ -50,9 +53,9 @@ class ViewUsers extends React.Component {
                         <Table className={classes.table}>
                           <TableHead>
                             <TableRow>
-                              <TableCell>Name</TableCell>
+                              <TableCell align="right">Name</TableCell>
                               <TableCell align="right">Email</TableCell>
-                              <TableCell align="right">Is active</TableCell>
+                              <TableCell align="right">Active</TableCell>
                               <TableCell align="right">Total Collections</TableCell>
                               <TableCell align="right">Total Followers</TableCell>
                               <TableCell align="right">Revoke Access</TableCell>
@@ -63,13 +66,14 @@ class ViewUsers extends React.Component {
                               <TableRow key={row.id}>
                                 <TableCell align="right">{row.firstName}</TableCell>
                                 <TableCell align="right">{row.email}</TableCell>
-                                <TableCell align="right">{row.isActive}</TableCell>
-                                <TableCell align="right">{row.total_collection}</TableCell>
-                                <TableCell align="right">{row.total_followers}</TableCell>
+                                <TableCell align="right">{row.isActive? <p>Yes</p>: <p>No</p>}</TableCell>
+                                <TableCell align="right">{row.totalCollection}</TableCell>
+                                <TableCell align="right">{row.totalFollowers}</TableCell>
                                 <TableCell align="right">
+                                {row.isActive? 
                                 <Button variant="contained" onClick={()=>this.handleRevoke(row.id)} color="primary">
                                     Revoke
-                                </Button>
+                                </Button> :null}
                                 </TableCell>
                               </TableRow>
                             ))}
@@ -95,6 +99,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchAllUsers: (history) => dispatch(fetchAllUsers(history)),
+        revokeUser: (values, history) => dispatch(revokeUser(values, history)),
     }
 }
 

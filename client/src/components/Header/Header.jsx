@@ -133,8 +133,10 @@ class Header extends React.Component {
        // this.handleMobileMenuClose();
     };
 
-    handleNotificationwClose = () => {
-        this.setState({ showNotificationPop: null})
+    handleNotificationClose = () => {
+        localStorage.setItem('notifications', null);
+        this.setState({ showNotificationPop: null, notificationDisable: true, count: 0})
+
     }
 
     handleChange = (event, value) => {
@@ -176,10 +178,10 @@ class Header extends React.Component {
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={isNotificationOpen}
-                onClose={this.handleNotificationwClose}
+                onClose={this.handleNotificationClose}
             >   
-                {notifications.map((message, index) => (
-                    <MenuItem onClick={this.handleNotificationwClose}>{message}</MenuItem>
+                {notifications && notifications.map((message, index) => (
+                    <MenuItem onClick={this.handleNotificationClose}>{message}</MenuItem>
                 ) )}
 
             </Menu>

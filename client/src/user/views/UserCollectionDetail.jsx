@@ -57,7 +57,7 @@ class UserCollectionDetail extends React.Component {
             collectionDetailLoading,
             collectionDetailError,
             collectionFollowers,
-
+            collectionFollowersLoading,
             posts,
             postsLoading,
             // postsError,
@@ -99,6 +99,7 @@ class UserCollectionDetail extends React.Component {
                                     posts={posts} />
                                 : null}
                         </Grid>
+                        {collectionFollowersLoading ? <CircularProgress className={classes.progress} /> : null}
                         { collectionFollowers.length === 0 ? 
                             (
                                 <Grid xs={2} style={{paddingLeft: '2%', paddingRight: '2%'}}>
@@ -117,8 +118,9 @@ class UserCollectionDetail extends React.Component {
                                         Following {collectionDetail.totalFavorites}
                                     </Typography>
                                     {collectionFollowers.map(follower => {
+                                        console.log("follower----", follower)
                                         return (
-                                            <Link to={`/user/${follower.folowerId}`}>
+                                            <Link to={`/user/${follower.followerId}`}>
                                                 <Avatar 
                                                     src={follower.profileImg}
                                                     sizes={{'width': 60,

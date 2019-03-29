@@ -1,8 +1,9 @@
-export const API_ROOT = 'api/';
+export const API_ROOT = 'http://localhost:5000/api/';
 
 export const URI = {
     REGISTRATION: 'user',
     LOGIN: 'user/authenticate',
+    ACTIVATE_USER: 'user/{0}/activateUser',
     SOCIAL_LOGIN: 'socialAuth',
     PROFILE: 'userprofile',
     GET_ANOTHER_USER_PROFILE: 'userprofile/{0}',
@@ -10,7 +11,7 @@ export const URI = {
     USER_COLLECTION: 'user/{0}/collection',
     COLLECTION: 'collection',
     FOLLOW_USER: 'follower',
-
+    MY_FOLLOWERS: 'follower/followingUser',
 
     GET_FEEDS: 'https://5c722f0dba65bb0014ebefb0.mockapi.io/getFeeds',
     POST: 'post',

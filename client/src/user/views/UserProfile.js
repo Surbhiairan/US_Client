@@ -92,14 +92,17 @@ class UserProfile extends React.Component {
             followUserLoading,
             followUserError,
 
-            getFollowedUser,
+            getFollowedUserData,
+
         } = this.props;
 
         let followed = false;
 
-        if(getFollowedUser.length > 0) {
-            getFollowedUser.map(user => {
-                if(user.id === this.props.match.param) {
+        if(getFollowedUserData.length > 0) {
+            getFollowedUserData.map(user => {
+                console.log("param----", this.props.match.params)
+                if(user.id === parseInt(this.props.match.params.id)) {
+                    console.log("param----", this.props.match.params)
                     return followed = true
                 }
             })
@@ -127,18 +130,12 @@ class UserProfile extends React.Component {
                         <Grid item xs={12} style={{ textAlign: 'center', textTransform: 'capitalize' }}>
                             <p>{userDetails.name}</p>
                         </Grid>
+                        <Grid item xs={12} style={{ textAlign: 'center' }}>
+                            <p>{userDetails.bio}</p>
+                        </Grid>
                         <Grid item style={{float: 'right'}}>
                             {
-                                followed ? 
-                                <Button 
-                                    color="primary" 
-                                    variant="contained" 
-                                    className={classes.button} 
-                                    onClick={() => this.followThisUser()}
-                                >
-                                     Follow 
-                                </Button>
-                                :
+                                followed || getFollowedUserData.isFollowed ? 
                                 <Button 
                                     color="primary" 
                                     variant="contained" 
@@ -147,13 +144,20 @@ class UserProfile extends React.Component {
                                 >
                                     Un-Follow
                                 </Button>
+                                :
+                                <Button 
+                                    color="primary" 
+                                    variant="contained" 
+                                    className={classes.button} 
+                                    onClick={() => this.followThisUser()}
+                                >
+                                    Follow 
+                                </Button>
                             }
                             
                         </Grid>
                         
-                        <Grid item style={{ textAlign: 'center' }}>
-                            <p>{userDetails.bio}</p>
-                        </Grid>
+                        
                         <Grid container direction={"row"} >
                             {userCollectionsLoading ? <CircularProgress className={classes.progress} /> : null}
                             { userCollections.map(collection => {
@@ -222,7 +226,7 @@ const mapStateToProps = (state) => {
         followUserError: state.user.followUserError,
 
         getFollowedUserLoading: state.follow.getFollowedUserLoading,
-        getFollowedUser: state.follow.getFollowedUser
+        getFollowedUserData: state.follow.getFollowedUser
     }
 }
 

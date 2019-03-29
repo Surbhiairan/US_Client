@@ -138,8 +138,9 @@ class FollowerService {
             var connection;
             DB.getConnection().then(conn => {
                 connection = conn;
-                connection.query(`select u.id,u.first_name,u.email,u.role,u.is_active,u.is_admin_approved,u.is_profile from 
-                follow_user fu inner join user u on fu.following_id = u.id
+                connection.query(`select u.id,u.first_name,u.email,u.role,u.is_active,u.is_admin_approved,u.is_profile,
+                (select profile_img from user_profile up where up.user_id = u.id) profile_img 
+                from follow_user fu inner join user u on fu.following_id = u.id
                 where fu.user_id = ?`, [userId], (err, data) => {
                         DB.release(connection)
                         if (err) {
@@ -150,6 +151,7 @@ class FollowerService {
                                 users = data.map(item => {
                                     let user = {};
                                     user = new User(item);
+                                    user['profileImg'] = item.profile_img
                                     user['isAdminApproved'] = (item['is_admin_approved'] == 1 ? true : false);
                                     return user;
                                 });

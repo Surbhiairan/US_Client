@@ -40,6 +40,10 @@ export const followCollection = (values, history) => {
                         type: user.USER_COLLECTION_AFTER_FOLLOW_SUCCESS,
                         payload: followedCollection
                     })
+                    dispatch({
+                        type: Follow.FOLLOW_AFTER_FOLLOW_SUCCESS,
+                        payload: followedCollection
+                    })
                     //history.push('/feeds');
                 })
                 .catch(err => {
@@ -75,6 +79,10 @@ export const unFollowCollection = (values, history) => {
                     })
                     dispatch({
                         type: user.USER_COLLECTION_AFTER_UNFOLLOW_SUCCESS,
+                        payload: values
+                    })
+                    dispatch({
+                        type: Follow.FOLLOW_AFTER_UNFOLLOW_SUCCESS,
                         payload: values
                     })
                     //history.push('/feeds');

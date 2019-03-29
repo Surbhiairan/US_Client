@@ -46,6 +46,78 @@ const reducer = (state = initialState, action) => {
         case Follow.GET_FOLLOWED_USER_FAILURE:
             return { ...state, getFollowedUser: [], getFollowedUserError: action.payload, getFollowedUserLoading: false}
         
+        case Follow.FOLLOW_AFTER_FOLLOW_SUCCESS: 
+            return {
+                 ...state,
+                 getFollowCollection: 
+                    state.getFollowCollection.map((item, index) => {
+                        console.log("collection id----", action.payload[0].collection_id)
+                        console.log("Item id----", item.id)
+
+                        if(item.id === action.payload[0].collection_id) {
+                            return {
+                                ...item,
+                                isFollowed: true
+                            }
+                        }
+                        return item;
+                    })
+                }
+
+        case Follow.FOLLOW_AFTER_UNFOLLOW_SUCCESS:
+            return {
+                ...state,
+                getFollowCollection: 
+                    state.getFollowCollection.map((item, index) => {
+                        console.log("collection id----", action.payload.collection_id)
+                        console.log("Item id----", item.id)
+
+                        if(item.id === action.payload.collection_id) {
+                            return {
+                                ...item,
+                                isFollowed: false
+                            }
+                        }
+                        return item;
+                    })
+            }
+
+            case Follow.USER_AFTER_FOLLOW_SUCCESS: 
+            return {
+                 ...state,
+                 getFollowedUser: 
+                    state.getFollowedUser.map((item, index) => {
+                        console.log("collection id----", action.payload.following_id)
+                        console.log("Item id----", item.id)
+
+                        if(item.id === parseInt(action.payload.following_id)) {
+                            return {
+                                ...item,
+                                isFollowed: true
+                            }
+                        }
+                        return item;
+                    })
+                }
+
+        case Follow.USER_AFTER_UNFOLLOW_SUCCESS:
+            return {
+                ...state,
+                getFollowedUser: 
+                    state.getFollowedUser.map((item, index) => {
+                        console.log("collection id----", action.payload.following_id)
+                        console.log("Item id----", item.id)
+
+                        if(item.id === action.payload.following_id) {
+                            return {
+                                ...item,
+                                isFollowed: false
+                            }
+                        }
+                        return item;
+                    })
+            }
+        
         case 'RESET_FOLLOW_COLLECTION':
             return { ...state, followCollection: []}
             default:

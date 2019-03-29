@@ -103,9 +103,15 @@ class Following extends React.Component {
                         </CardContent>
                       </CardActionArea>
                       <CardActions>
-                      <Button color="secondary" variant="contained" onClick={() => this.UNFollowCollection(collection.id)}>
-                              Un-Follow
-                            </Button>
+                      {collection.isFollowed ? 
+                        <Button color="primary"variant="contained" onClick={() => this.UNFollowCollection(collection.id)}>
+                            Un-Follow
+                        </Button>
+                        :
+                        <Button color="primary"variant="contained" onClick={() => this.followCollection(collection.id)}>
+                            Follow
+                        </Button>
+                      }
                       </CardActions>
                     </Card>
                 </GridItem>

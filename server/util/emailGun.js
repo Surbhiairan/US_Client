@@ -8,7 +8,7 @@ class EmailGun{
 
     static sendEmail(content,to,subject){
         // hard coded temporarily
-        to = 'sada.mandal101@gmail.com';
+        to = 'surbhiairan1@gmail.com';
         const data = {
             from: config.emailGun.from,
             to: to,

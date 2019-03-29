@@ -1,5 +1,6 @@
 import { auth } from './auth.constants';
 import { API_ROOT, URI } from '../config/config';
+import { StringFormat } from '../utils/StringFormat';
 
 export const register = (values, history) => {
     return (dispatch) => {
@@ -68,7 +69,7 @@ export const login = (values, history) => {
                     type: auth.LOGIN_FAILURE,
                     payload: data.message
                 })
-                alert(data.message)
+                alert("Please activate your email id.")
             }
             
         })
@@ -157,4 +158,22 @@ export const googleLogin = (values, history) => {
             })
         })
     }
+}
+
+export const activateUser = (id) => {
+        fetch(StringFormat(API_ROOT + URI.ACTIVATE_USER, id), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        })
+        .then(res => res.json())
+        .then(data => {
+            
+        })
+        .catch(err => {
+            
+        })
+    
 }

@@ -119,7 +119,7 @@ class CollectionDetail extends React.Component {
                                     </Typography>
                                     {collectionFollowers.map(follower => {
                                         return (
-                                            <Link to={`/user/${follower.folowerId}`}>
+                                            <Link to={`/user/${follower.followerId}`}>
                                                 <Avatar 
                                                     src={follower.profileImg}
                                                     sizes={{'width': 60,

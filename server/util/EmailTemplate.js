@@ -1,7 +1,7 @@
 
 class EmailTemplate {
     static getActivateLinkTemplete(userId) {
-        const dynamicURL = "www.google.com";
+        const dynamicURL = "http://localhost:3000/verifymail?id=" + userId;
         var template = `<html>
                         <head> </head>
                         <body> Please click below link to activate your account. </body>       

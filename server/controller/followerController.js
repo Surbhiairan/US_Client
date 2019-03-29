@@ -10,6 +10,7 @@ class FollowerController{
          'user_id' : userId,
          'following_id' : followingId   
         }
+        console.log("payload---", payload);
         FollowerService.followUser(payload).then( data =>{
             res.send(data)
         }).catch(err => {

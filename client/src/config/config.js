@@ -4,6 +4,8 @@ export const URI = {
     REGISTRATION: 'user',
     LOGIN: 'user/authenticate',
     ACTIVATE_USER: 'user/{0}/activateUser',
+    RESET_PASSWORD_LINK: 'user/resetPasswordLink',
+    RESET_PASSWORD: 'user/resetPassword',
     SOCIAL_LOGIN: 'socialAuth',
     PROFILE: 'userprofile',
     GET_ANOTHER_USER_PROFILE: 'userprofile/{0}',

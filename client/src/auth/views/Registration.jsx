@@ -36,6 +36,7 @@ const RegistrationSchema = Yup.object().shape({
         .required("This field is required"),
     password: Yup.string()
         .min(8, "Password should be of min 8 characters")
+        .required("This field is required")
 
 })
 
@@ -140,14 +141,10 @@ class Registration extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-
-}
-
 const mapDispatchToProps = (dispatch) => {
     return {
         register: (values, history) => dispatch(register(values, history))
     }
 }
 
-export default compose (withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(Registration)
+export default compose (withStyles(styles), connect(null, mapDispatchToProps))(Registration)

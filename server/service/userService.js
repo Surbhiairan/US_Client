@@ -102,14 +102,14 @@ class userService {
     }
     static resetPass(user) {
 
-        var email = user.email;
+        var id = user.id;
         var password = bcrypt.hashSync(user.password, salt);
         return new Promise((resolve, reject) => {
             var connection;
             DB.getConnection().then(conn => {
                 connection = conn;
                 connection.query(
-                    `update user set password =? where email = ?`, [password, email], (err, data) => {
+                    `update user set password =? where id = ?`, [password, id], (err, data) => {
                         if (err) {
                             DB.commitTransaction(connection);
                             DB.release(connection)

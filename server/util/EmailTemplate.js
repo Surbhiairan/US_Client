@@ -11,7 +11,7 @@ class EmailTemplate {
     }
 
     static getPasswordResetLinkTemplete(userId){
-        const dynamicURL = "www.google.com";
+        const dynamicURL = "http://localhost:3000/resetpassword?id=" + userId;
         var template = `<html>
                             <head> </head>
                             <body> Please click below link to Reset password. </body>       

@@ -143,6 +143,11 @@ class Login extends React.Component {
               />
             </GridItem>
             <GridItem xs={12} className={classes.gridItem} style={{paddingTop: '2%'}}>
+              <Link to={`/forgotpassword`}>
+                Forgot Password
+              </Link>
+            </GridItem>
+            <GridItem xs={12} className={classes.gridItem} style={{paddingTop: '2%'}}>
               <Button variant="contained" onClick={handleSubmit} color="primary" size="large" >
                 Login
               </Button>

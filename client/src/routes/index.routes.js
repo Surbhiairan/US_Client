@@ -4,6 +4,9 @@ import CreateProfile from '../profile/views/CreateProfile';
 import EmailConfirmation from '../auth/views/EmailConfirmation';
 import EmailActivation from '../auth/views/EmailActivation';
 import AdminLogin from '../admin/views/AdminLogin';
+import ResetPassword from '../auth/views/ResetPassword';
+import ForgotPassword from '../auth/views/ForgotPassword';
+
 import DashBoard from '../layouts/dashboard';
 import AdminDashBoard from '../layouts/adminDashboard';
 
@@ -33,7 +36,10 @@ var indexRoutes = [
     { path: '/login', component: Login},
     { path: '/profile', component: CreateProfile },
     { path: '/mailsent', component: EmailConfirmation },
-    { path: '/verifymail', component: EmailActivation}
+    { path: '/verifymail', component: EmailActivation},
+    { path: '/resetpassword', component: ResetPassword },
+    { path: '/forgotpassword', component: ForgotPassword }
+
 ]
 
 export default indexRoutes;

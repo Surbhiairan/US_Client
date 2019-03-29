@@ -15,8 +15,8 @@ module.exports = {
       bucketName : "postcurve"
     },
     emailGun : {
-      'API_KEY' : 'ca4c8151f467eb6e7041fe23db09c8df-e51d0a44-6d185f75',
-      'DOMAIN' : 'sandboxd4a8eefe458d44b4a61f9c72732922cb.mailgun.org',
+      'API_KEY' : '',
+      'DOMAIN' : '',
       'from' : 'surbhiairan1@gmail.com',      
     },
     webPush : {

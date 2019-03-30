@@ -1,7 +1,7 @@
 
 class EmailTemplate {
     static getActivateLinkTemplete(userId) {
-        const dynamicURL = "http://localhost:3000/verifymail?id=" + userId;
+        const dynamicURL = "http://localhost:5000/verifymail?id=" + userId;
         var template = `<html>
                         <head> </head>
                         <body> Please click below link to activate your account. </body>       
@@ -11,7 +11,7 @@ class EmailTemplate {
     }
 
     static getPasswordResetLinkTemplete(userId){
-        const dynamicURL = "http://localhost:3000/resetpassword?id=" + userId;
+        const dynamicURL = "http://localhost:5000/resetpassword?id=" + userId;
         var template = `<html>
                             <head> </head>
                             <body> Please click below link to Reset password. </body>       

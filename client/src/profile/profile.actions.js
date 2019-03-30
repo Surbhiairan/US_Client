@@ -38,10 +38,11 @@ export const createProfile = (values, history) => {
 
 export const getMyProfile = (userId, history) => {
     let token = JSON.parse(localStorage.getItem('user')).token;
+    console.log("user id", userId);
     return (dispatch) => {
         if(token!=null){
         dispatch({ type: profile.MY_PROFILE_LOADING })
-        fetch(StringFormat(API_ROOT + URI.GET_PROFILE, userId), {
+        fetch(StringFormat(API_ROOT + URI.GET_ANOTHER_USER_PROFILE, userId), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

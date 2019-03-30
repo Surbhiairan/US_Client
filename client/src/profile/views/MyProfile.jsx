@@ -65,6 +65,7 @@ class MyProfile extends React.Component {
 
     componentDidMount = () => {
         let userId = JSON.parse(localStorage.getItem('user')).id;
+        console.log("user id----", userId);
         this.props.getMyProfile(userId, this.props.history);
     }
 

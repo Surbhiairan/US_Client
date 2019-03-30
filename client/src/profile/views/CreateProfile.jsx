@@ -27,6 +27,12 @@ const styles = theme => ({
     textField: {
         flexBasis: 200,
       },
+      button: {
+        margin: theme.spacing.unit,
+      },
+      input: {
+        display: 'none',
+      },
 });
   
 
@@ -80,9 +86,9 @@ class CreateProfile extends React.Component {
                 <Typography variant="h6">
                     Profile setup
                 </Typography>
-                <Link to={`/feeds`}>
+                <Button className={classes.button} onClick={(e) => this.handleCreateProfile(e)} >
                     Skip
-                </Link>
+                </Button>
                 <Tabs
                     value={this.state.value}
                     onChange={this.handleChange}

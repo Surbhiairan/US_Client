@@ -67,10 +67,13 @@ class Following extends React.Component {
         if(getFollowCollectionLoading) {
             return <CircularProgress className={classes.progress} />
         }
-      //   if(getFolledUserLoading) {
-      //     return <CircularProgress className={classes.progress} />
-      // }
-
+        else if (getFollowCollection.length === 0 && getUser.length === 0) {
+          return (
+            <Typography align="center" variant="h4">
+              Please start following user.
+            </Typography>
+          )
+        }
 
         return (
             <Grid container direction={"row"} justify="center">

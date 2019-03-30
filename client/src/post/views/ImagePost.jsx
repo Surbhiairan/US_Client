@@ -73,6 +73,13 @@ class ImagePost extends React.Component {
         if (myCollectionLoading) {
             return null;
         }
+        else if (myCollection.length === 0) {
+            return (
+                <Typography align="center" variant="h4">
+                    Please create collection first.
+                </Typography>
+            )
+        }
         return (
             <Grid>
                 <Typography align="center" variant="h5">

@@ -1,10 +1,12 @@
 import React from 'react';
-import { InputBase, CircularProgress, Menu, MenuItem } from '@material-ui/core';
+import { InputBase, CircularProgress, Menu, MenuItem, Popover } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Link } from 'react-router-dom';
+
 import { getSearchResults } from '../search.action';
 
 
@@ -70,23 +72,45 @@ const Suggestions = (props) => {
             }
         }
         const isMenuOpen = Boolean(props.anchorEl);
-        const suggestion = options.map(option => (
-                <Menu
+        const suggestion = 
+                <Popover
                 anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                //transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                //anchorPosition={{top: '50px', left: 48 }}
-                    //style={{top: '50px'}}
+                transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                anchorPosition={{top: 50, left: 48 }}
+                    style={{top: '50px'}}
                     anchorEl= {props.anchorEl}
                     open={isMenuOpen}
                     onClose= {props.handleSearchClose}
                 >
+                    {options.map(option => (
                     <MenuItem key={option.id}>
-                    {option.collectionTitle || option.firstName || option.postTitle} 
+                        { option.firstName 
+                        ? 
+                        <Link to={`/user/${option.id}`}>
+                            {option.firstName || option.postTitle} 
+                        </Link>
+                        :
+                        option.collectionTitle
+                        ?
+                        <Link to={`/collection/${option.id}`}>
+                            {option.collectionTitle} 
+                        </Link>
+                        :
+                        option.postTitle
+                        ?
+                        <Link to={`/post/${option.id}`}>
+                            {option.postTitle} 
+                        </Link>
+                        :
+                        null
+                    }
+                        
                     </MenuItem>
-                </Menu>
+                    ))}
+                </Popover>
                 
-        ))
-        return <Menu>{suggestion}</Menu>
+        
+        return <div> {suggestion} </div>
     } else {
         return null
     }
@@ -96,7 +120,8 @@ class Search extends React.Component {
 
     state = {
         query: '',
-        results: []
+        results: [],
+        anchorEl: null
     }
 
     handleInputChange = (e) => {
@@ -127,32 +152,13 @@ class Search extends React.Component {
                     ref={input => this.search = input}
                     onChange={this.handleInputChange}
                 />
-                <pre 
-                    aria-hidden="true" 
-                    style={
-                        { 
-                            position: "absolute", 
-                            visibility: "hidden", 
-                            whiteSpace: 'pre', 
-                            fontSize: '16px',
-                            fontStyle: 'normal',
-                            fontVariant: 'normal',
-                            fontWeight: '400',
-                            wordSpacing: '0px',
-                            textIndent: '0px',
-                            textRendering: 'auto',
-                            textTransform: 'none'
-                        }
-                    }  
-                >
-                </pre>
                 { searchResultsLoading ? 
                 <CircularProgress /> 
                 : 
                 <Suggestions 
                     anchorEl={this.state.anchorEl} 
                     results={searchResults}
-                    handleSearchClose={() => this.setState({ anchorEl: null})}
+                   // handleSearchClose={() => this.setState({ anchorEl: null})}
                     />
                     }
             </div>

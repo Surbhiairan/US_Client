@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputBase, CircularProgress, Menu, MenuItem, Popover } from '@material-ui/core';
+import { InputBase, CircularProgress, MenuItem, Popover } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
@@ -8,7 +8,6 @@ import { compose } from 'redux';
 import { Link } from 'react-router-dom';
 
 import { getSearchResults } from '../search.action';
-
 
 const styles = theme => ({
     search: {

@@ -12,22 +12,13 @@ export const register = (values, history) => {
             },
             body: JSON.stringify(values)
         })
-        .then(res => res.json())
-        .then(data => {
-            if(data.insertId) {
-                dispatch({
-                    type: auth.REGISTRATION_SUCCESS,
-                    payload: data
-                })
+        .then(res => {
+            console.log("res----", res)
+            if(res.status === 200) {
                 history.push('/mailsent');
             } else {
-                dispatch({
-                    type: auth.REGISTRATION_FAILURE,
-                    payload: data.message
-                })
                 alert("server error")
             }
-            
         })
         .catch(err => {
             dispatch({

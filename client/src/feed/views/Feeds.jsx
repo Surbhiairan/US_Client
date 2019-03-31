@@ -44,7 +44,7 @@ class Feeds extends React.Component {
             return <CircularProgress className={classes.progress} />;
         }
         if (Object.entries(feedsData).length === 0 && feedsData.constructor === Object) {
-            return <Typography> You have nothing new to read here, create a collection or search for friends </Typography>
+            return <Typography align="center"> You have nothing new to read here, create a collection or search for friends </Typography>
             //console.log("empty json object")
         }
         let posts, collection = null;

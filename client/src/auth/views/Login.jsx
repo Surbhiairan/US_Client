@@ -42,8 +42,12 @@ const RegistrationSchema = Yup.object().shape({
 class Login extends React.Component {
 
   handleSubmit = (values) => {
+    let value = {
+      email: values.email,
+      password: values.password
+    }
     //Api call here...
-    this.props.login(values, this.props.history)
+    this.props.login(value, this.props.history)
   }
 
   onSuccess = (response) => {

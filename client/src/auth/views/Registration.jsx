@@ -43,7 +43,13 @@ const RegistrationSchema = Yup.object().shape({
 class Registration extends React.Component {
 
     handleSubmit = (values) => {
-        this.props.register(values, this.props.history);
+        let value = {
+            email: values.email,
+            password: values.password,
+            role: 'user',
+            first_name: values.first_name
+        }
+        this.props.register(value, this.props.history);
     }
 
     render() {

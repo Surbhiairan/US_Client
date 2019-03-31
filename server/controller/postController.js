@@ -2,6 +2,7 @@ const PostService = require('../service/postService');
 class PostController {
 
     static addPost(req, res) {
+        delete req.body['appUser'];
         let post = req.body;
         PostService.addPost(post).then(post => {
             res.send(post);

@@ -6,14 +6,15 @@ const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 
 class EmailGun{
 
-    static sendEmail(content,to,subject){
+    static sendEmail(dynamicURL,to,subject){
         // hard coded temporarily
         //to = 'surbhiairan1@gmail.com';
         const data = {
             from: config.emailGun.from,
             to: to,
             subject: subject,
-            html: content
+            template: "email_verification",
+	        'h:X-Mailgun-Variables': {redirect: dynamicURL}
         };
         return new Promise( (resolve,reject) => {
             mailgun.messages().send(data, (err, body) => {                
@@ -28,14 +29,16 @@ class EmailGun{
     }
     static sendActivationLink(id,email){
         const subject = "Account Activation Link :: Post Curve";
-        let template = EmailTemplate.getActivateLinkTemplete(id,email);
-        return EmailGun.sendEmail(template,email,subject);
+        const dynamicURL = "http://localhost:5000/verifymail?id=" + userId;
+        //let template = EmailTemplate.getActivateLinkTemplete(id,email);
+        return EmailGun.sendEmail(dynamicURL,email,subject);
     }
 
     static sendPasswordResetLink(id,email){
         const subject = "Password Reset Link :: Post Curve";
-        let template = EmailTemplate.getPasswordResetLinkTemplete(id,email);
-        return EmailGun.sendEmail(template,email,subject);
+        const dynamicURL = "http://localhost:5000/verifymail?id=" + userId;
+        //let template = EmailTemplate.getPasswordResetLinkTemplete(id,email);
+        return EmailGun.sendEmail(dynamicURL,email,subject);
     }
 
 }

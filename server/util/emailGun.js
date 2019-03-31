@@ -14,7 +14,8 @@ class EmailGun{
             to: to,
             subject: subject,
             template: "email_verification",
-	        'h:X-Mailgun-Variables': {redirect: dynamicURL}
+            //'h:X-Mailgun-Variables': {redirect: dynamicURL, name: "Surbhi"},
+            'v:redirect': dynamicURL,
         };
         return new Promise( (resolve,reject) => {
             mailgun.messages().send(data, (err, body) => {                
@@ -29,14 +30,14 @@ class EmailGun{
     }
     static sendActivationLink(id,email){
         const subject = "Account Activation Link :: Post Curve";
-        const dynamicURL = "http://localhost:5000/verifymail?id=" + userId;
+        const dynamicURL = "http://144.202.12.172:5000/verifymail?id=" + id;
         //let template = EmailTemplate.getActivateLinkTemplete(id,email);
         return EmailGun.sendEmail(dynamicURL,email,subject);
     }
 
     static sendPasswordResetLink(id,email){
         const subject = "Password Reset Link :: Post Curve";
-        const dynamicURL = "http://localhost:5000/verifymail?id=" + userId;
+        const dynamicURL = "http://144.202.12.172:5000/resetpassword?id=" + id;
         //let template = EmailTemplate.getPasswordResetLinkTemplete(id,email);
         return EmailGun.sendEmail(dynamicURL,email,subject);
     }
